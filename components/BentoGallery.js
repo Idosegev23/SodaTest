@@ -13,38 +13,44 @@ export default function SymmetricGallery() {
 
   const loadArtworks = async () => {
     try {
-      const storageImages = await getImagesFromStorage('artworks')
+      // נעדיף תמונות מהטבלה מעל Storage (יש להן מידע מלא יותר)
       const artworksFromDB = await getArtworks()
-
-      let allImages = [...storageImages]
-
+      
       if (artworksFromDB && artworksFromDB.length > 0) {
-        const storageIds = storageImages.map(img => img.id)
-        const uniqueArtworks = artworksFromDB.filter(
-          art => !storageIds.includes(art.id) && art.image_url
-        )
-        allImages = [...allImages, ...uniqueArtworks]
-      }
-
-      if (allImages.length === 0) {
-        setArtworks(Array.from({ length: 6 }, (_, i) => ({
-          id: `fallback-${i}`,
-          image_url: `https://picsum.photos/400/400?random=${i}`,
-          user_name: 'אמן דיגיטלי',
-          prompt: `יצירה דיגיטלית ${i + 1}`,
-          created_at: new Date().toISOString()
-        })))
-      } else {
-        // מיון לפי תאריך אם קיים, אחרת לפי id/string
-        const sorted = allImages.sort((a, b) => {
+        // אם יש תמונות בטבלה, נשתמש רק בהן
+        console.log('Using artworks from database:', artworksFromDB.length)
+        const sorted = artworksFromDB.sort((a, b) => {
           if (a.created_at && b.created_at) {
             return new Date(b.created_at) - new Date(a.created_at)
           }
           return (b.id || '').toString().localeCompare((a.id || '').toString())
         })
-
-        // רק 6 האחרונות
         setArtworks(sorted.slice(0, 6))
+      } else {
+        // רק אם אין תמונות בטבלה, נטען מ-Storage
+        console.log('No artworks in database, trying storage...')
+        const storageImages = await getImagesFromStorage('artworks')
+        
+        if (storageImages && storageImages.length > 0) {
+          console.log('Using artworks from storage:', storageImages.length)
+          const sorted = storageImages.sort((a, b) => {
+            if (a.created_at && b.created_at) {
+              return new Date(b.created_at) - new Date(a.created_at)
+            }
+            return (b.id || '').toString().localeCompare((a.id || '').toString())
+          })
+          setArtworks(sorted.slice(0, 6))
+        } else {
+          // אין תמונות בכלל - תמונות דמה
+          console.log('No artworks found, using fallback images')
+          setArtworks(Array.from({ length: 6 }, (_, i) => ({
+            id: `fallback-${i}`,
+            image_url: `https://picsum.photos/400/400?random=${i}`,
+            user_name: 'אמן דיגיטלי',
+            prompt: `יצירה דיגיטלית ${i + 1}`,
+            created_at: new Date().toISOString()
+          })))
+        }
       }
     } catch (error) {
       console.error('Error loading artworks:', error)
