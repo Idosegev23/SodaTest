@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# יוצר יצירות אומנות - פלטפורמת AI לאמנות
 
-## Getting Started
+פלטפורמה לייצור יצירות אומנות בעזרת בינה מלאכותית, המשלבת את האובייקט שלכם בסצנות מותאמות אישית.
 
-First, run the development server:
+## 🎨 תכונות
 
+- ✨ יצירת אומנות אוטומטית עם Google Gemini 2.5 Flash Image
+- 🖼️ גלריה נעה ואינטראקטיבית עם תמונות בזמן אמת
+- 🎯 שילוב מושלם של האובייקט שלכם בכל סצנה
+- 📱 ממשק משתמש מותאם למובייל עם Tailwind CSS
+- ⚡ עיבוד אוטומטי ברקע עם Vercel Cron Jobs
+- 🔗 וובהוקים לעדכונים בזמן אמת
+
+## 🛠️ טכנולוגיות
+
+- **Frontend**: Next.js 14, Tailwind CSS, Framer Motion
+- **Backend**: Supabase (Database + Storage), Google Gemini AI
+- **Deployment**: Vercel עם Cron Jobs
+- **UI Components**: Headless UI, Heroicons
+
+## 🚀 התקנה מקומית
+
+1. **שכפול הפרויקט**:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd lptest
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **התקנת תלויות**:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **הגדרת משתני סביבה**:
+צור קובץ `.env.local` עם הערכים הבאים:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+GEMINI_API_KEY=your_gemini_api_key
+WEBHOOK_URL=your_webhook_url (אופציונלי)
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. **הוספת תמונת האובייקט**:
+- הכנס את התמונה שלך בשם `file.png` לתיקיית `public/`
+- וודא שהתמונה יש לה רקע שקוף (PNG)
 
-## Learn More
+5. **הרצת השרת**:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 📊 מבנה הנתונים
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### טבלת queue
+```sql
+id          UUID PRIMARY KEY
+user_name   TEXT NOT NULL
+user_email  TEXT NOT NULL  
+user_phone  TEXT NOT NULL
+prompt      TEXT NOT NULL
+status      TEXT DEFAULT 'pending' -- pending/processing/done
+created_at  TIMESTAMP WITH TIME ZONE
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### טבלת artworks
+```sql
+id          UUID PRIMARY KEY
+user_name   TEXT NOT NULL
+user_email  TEXT NOT NULL
+user_phone  TEXT NOT NULL
+prompt      TEXT NOT NULL
+image_url   TEXT NOT NULL
+created_at  TIMESTAMP WITH TIME ZONE
+```
 
-## Deploy on Vercel
+## 🔧 הגדרת Supabase
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **יצירת טבלאות**:
+הטבלאות נוצרות אוטומטית עם migration שמופעל בקוד.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. **הגדרת Storage**:
+```sql
+-- יצירת bucket לתמונות
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('artworks', 'artworks', true);
+```
+
+3. **הגדרת מדיניות RLS**:
+המדיניות מוגדרת אוטומטית לאפשר קריאה ציבורית וכתיבה מבוקרת.
+
+## 🚀 פריסה ב-Vercel
+
+1. **חיבור ה-repository ל-Vercel**
+2. **הגדרת משתני סביבה** בממשק Vercel:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `GEMINI_API_KEY`
+   - `WEBHOOK_URL` (אופציונלי)
+   - `NEXT_PUBLIC_SITE_URL` (כתובת האתר הסופית)
+
+3. **Cron Jobs**:
+קובץ `vercel.json` מגדיר Worker שרץ כל 30 שניות לעיבוד התמונות.
+
+## 🎯 איך זה עובד
+
+1. **משתמש מזין פרומפט** בעמוד היצירה
+2. **מילוי פרטי משתמש** במודל
+3. **הוספה לתור** בטבלת queue
+4. **Worker מעבד** את הבקשה:
+   - קורא לבינה המלאכותית של Gemini
+   - מוסיף את האובייקט לסצנה
+   - שומר את התמונה ב-Supabase Storage
+   - מעדכן את הגלריה
+5. **שליחת וובהוק** עם פרטי היצירה
+
+## 🛡️ אבטחה ומגבלות
+
+- **פילטר תוכן**: בדיקה אוטומטית של פרומפטים אסורים
+- **RLS מופעל**: הגנה על נתונים ברמת השורה
+- **ולידציה**: בדיקת נתוני משתמש לפני שליחה
+- **מגבלות**: אין אנשים, טקסט, פוליטיקה או תוכן לא הולם
+
+## 📞 תמיכה
+
+לבעיות טכניות או שאלות, פנו לצוות הפיתוח.
+
+## 📄 רישיון
+
+פרויקט זה מוגן בזכויות יוצרים.

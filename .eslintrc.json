@@ -1,0 +1,14 @@
+{
+  "extends": ["next"],
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "globals": {
+    "process": "readonly",
+    "Buffer": "readonly"
+  },
+  "rules": {
+    "no-unused-vars": ["error", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }]
+  }
+}
