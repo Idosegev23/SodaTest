@@ -2,7 +2,11 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 import fs from 'fs'
 import path from 'path'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+const apiKey = process.env.GEMINI_API_KEY
+console.log('Gemini API Key exists:', !!apiKey)
+console.log('Gemini API Key prefix:', apiKey ? apiKey.substring(0, 10) + '...' : 'undefined')
+
+const genAI = new GoogleGenerativeAI(apiKey)
 
 export async function POST(request) {
   try {
@@ -10,6 +14,11 @@ export async function POST(request) {
 
     if (!prompt) {
       return Response.json({ error: 'Prompt is required' }, { status: 400 })
+    }
+
+    if (!apiKey) {
+      console.error('GEMINI_API_KEY is not set!')
+      return Response.json({ error: 'Gemini API key not configured' }, { status: 500 })
     }
 
     const model = genAI.getGenerativeModel({
