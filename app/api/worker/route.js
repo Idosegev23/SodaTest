@@ -66,7 +66,11 @@ export async function GET() {
       console.log('Prompt validation passed, proceeding with image generation...')
       
       // קריאה ל-Gemini API הפנימי
-      const geminiResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/gemini`, {
+      const baseUrl = process.env.VERCEL_URL 
+        ? `https://${process.env.VERCEL_URL}` 
+        : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+      
+      const geminiResponse = await fetch(`${baseUrl}/api/gemini`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
