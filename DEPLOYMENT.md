@@ -20,13 +20,6 @@ git push -u origin main
 ### 3. הגדרת משתני סביבה ב-Vercel
 בעמוד הפרויקט ב-Vercel, עבור ל-Settings > Environment Variables והוסף:
 
-```env
-NEXT_PUBLIC_SUPABASE_URL=https://cpopihhfoiwkqthortvm.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNwb3BpaGhmb2l3a3F0aG9ydHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5MjE2MzgsImV4cCI6MjA3MjQ5NzYzOH0.3m_OBK3aLLBctKzwMJLerdJoQB66Gm9bgKQFynKfMLc
-GEMINI_API_KEY=AIzaSyAOUStmWVHvAr-MOJTdguxewj75joJH09M
-WEBHOOK_URL=https://your-webhook-url.com/webhook
-NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app
-```
 
 **חשוב**: עדכן את `NEXT_PUBLIC_SITE_URL` לכתובת הסופית של האתר.
 

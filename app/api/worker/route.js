@@ -65,21 +65,30 @@ export async function GET() {
       
       console.log('Prompt validation passed, proceeding with image generation...')
       
-      // קריאה ל-Gemini API הפנימי
-      const baseUrl = process.env.VERCEL_URL 
-        ? `https://${process.env.VERCEL_URL}` 
-        : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+      // קריאה ל-Gemini API הפנימי - שימוש בכתובת יחסית לעקיפת Deployment Protection
+      const isProduction = process.env.VERCEL_URL || process.env.NODE_ENV === 'production'
+      const apiUrl = isProduction ? '/api/gemini' : `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/gemini`
       
-      console.log('Making request to Gemini API:', `${baseUrl}/api/gemini`)
+      console.log('Making request to Gemini API:', apiUrl)
       console.log('Request payload:', { prompt: item.prompt })
+      console.log('Is production:', isProduction)
       
-      const geminiResponse = await fetch(`${baseUrl}/api/gemini`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt: item.prompt }),
-      })
+      // בפרודקשן נשתמש בכתובת יחסית, בפיתוח בכתובת מלאה
+      const geminiResponse = isProduction 
+        ? await import('../gemini/route.js').then(module => 
+            module.POST(new Request('http://localhost/api/gemini', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ prompt: item.prompt })
+            }))
+          )
+        : await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prompt: item.prompt }),
+          })
 
       console.log('Gemini API response status:', geminiResponse.status)
       console.log('Gemini API response statusText:', geminiResponse.statusText)
