@@ -70,6 +70,9 @@ export async function GET() {
         ? `https://${process.env.VERCEL_URL}` 
         : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
       
+      console.log('Making request to Gemini API:', `${baseUrl}/api/gemini`)
+      console.log('Request payload:', { prompt: item.prompt })
+      
       const geminiResponse = await fetch(`${baseUrl}/api/gemini`, {
         method: 'POST',
         headers: {
@@ -78,8 +81,13 @@ export async function GET() {
         body: JSON.stringify({ prompt: item.prompt }),
       })
 
+      console.log('Gemini API response status:', geminiResponse.status)
+      console.log('Gemini API response statusText:', geminiResponse.statusText)
+
       if (!geminiResponse.ok) {
-        throw new Error(`Gemini API failed: ${geminiResponse.statusText}`)
+        const errorText = await geminiResponse.text()
+        console.error('Gemini API error response:', errorText)
+        throw new Error(`Gemini API failed: ${geminiResponse.statusText} - ${errorText}`)
       }
 
       // המרת התמונה ל-buffer
