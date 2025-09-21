@@ -133,13 +133,13 @@ export default function PromptForm({ onSubmit, isLoading }) {
         {/* דוגמאות מהירות */}
         <div>
           <p className="text-[var(--color-muted)] text-base mb-6 font-heebo font-light text-center">דוגמאות מהירות להשראה:</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {examplePrompts.map((example, index) => (
               <PremiumButton
                 key={index}
                 variant="secondary"
                 onClick={() => handleExampleClick(example.fullText)}
-                className="text-sm font-heebo font-light px-4 py-3 h-auto"
+                className="text-sm font-heebo font-light tracking-wide h-auto text-center w-full min-h-[48px] py-3"
                 disabled={isLoading}
                 aria-label={`השתמש בדוגמה: ${example.title}`}
               >
@@ -151,9 +151,9 @@ export default function PromptForm({ onSubmit, isLoading }) {
 
         <PremiumButton
           type="submit"
-          variant="secondary"
+          variant="primary"
           disabled={isLoading || !prompt.trim()}
-          className="w-full text-xl font-heebo font-medium py-4"
+          className="w-full text-lg md:text-xl font-heebo font-medium tracking-wide py-4 md:py-5 min-h-[56px]"
           aria-label={isLoading ? 'יוצר יצירת אמנות...' : 'צור יצירת אמנות'}
         >
           {isLoading ? (
