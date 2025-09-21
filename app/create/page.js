@@ -170,8 +170,8 @@ export default function CreatePage() {
             className="h-8 md:h-10 w-auto"
           />
           
-          {/* Status indicator */}
-          <div className="flex items-center gap-2">
+          {/* Status indicator and Purchase Button */}
+          <div className="flex flex-col items-end gap-2">
             <div className={`px-3 py-1 rounded border text-xs font-heebo font-light tracking-wide transition-all ${
               step === 'prompt' ? 'border-[var(--color-gold)]/30 bg-[var(--color-gold)]/10 text-[var(--color-gold)]' :
               step === 'processing' ? 'border-[var(--color-gold)]/50 bg-[var(--color-gold)]/20 text-[var(--color-text)] animate-pulse' :
@@ -184,25 +184,20 @@ export default function CreatePage() {
               {step === 'waiting' && 'בתור'}
               {step === 'completed' && 'הושלם'}
             </div>
+            
+            {/* Purchase Button - Only show during prompt step */}
+            {step === 'prompt' && (
+              <PremiumButton
+                variant="primary"
+                onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
+                className="text-sm font-heebo font-medium tracking-wide"
+                aria-label="רכוש את מכשיר SodaStream Enso"
+              >
+                רכוש עכשיו
+              </PremiumButton>
+            )}
           </div>
         </div>
-        
-        {/* CTA Buttons - Only show during prompt step */}
-        {step === 'prompt' && (
-          <div className="max-w-7xl mx-auto px-6 md:px-8 pb-4 flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <div className="text-[var(--color-gold)] text-sm font-heebo font-light text-center">
-              צור יצירת אמנות עם SodaStream Enso
-            </div>
-            <PremiumButton
-              variant="primary"
-              onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
-              className="text-lg font-heebo font-medium tracking-wide group w-full sm:w-auto"
-              aria-label="רכוש את מכשיר SodaStream Enso"
-            >
-              רכוש עכשיו
-            </PremiumButton>
-          </div>
-        )}
       </nav>
 
       <div className="container mx-auto px-4 md:px-8 pt-32 md:pt-40 pb-12 relative z-10">
