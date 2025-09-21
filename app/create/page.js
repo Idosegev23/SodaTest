@@ -152,50 +152,56 @@ export default function CreatePage() {
         aria-label="ניווט יצירה"
       >
         {/* Logo Section */}
-        <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 grid grid-cols-3 items-center">
           {/* Back Button */}
-          <button
-            onClick={handleBackToGallery}
-            className="flex items-center gap-2 text-[var(--color-chrome)] hover:text-[var(--color-gold)] transition-all duration-300 group focus:outline-none focus:text-[var(--color-gold)]"
-            aria-label="חזור לגלריה הראשית"
-          >
-            <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            <span className="font-heebo font-light tracking-wide text-sm md:text-base">חזור לגלריה</span>
-          </button>
+          <div className="flex justify-start">
+            <button
+              onClick={handleBackToGallery}
+              className="flex items-center gap-2 text-[var(--color-chrome)] hover:text-[var(--color-gold)] transition-all duration-300 group focus:outline-none focus:text-[var(--color-gold)]"
+              aria-label="חזור לגלריה הראשית"
+            >
+              <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              <span className="font-heebo font-light tracking-wide text-sm md:text-base">חזור לגלריה</span>
+            </button>
+          </div>
           
-          {/* Logo */}
-          <img 
-            src="/logo.png" 
-            alt="SodaStream Enso" 
-            className="h-8 md:h-10 w-auto"
-          />
+          {/* Logo - Centered */}
+          <div className="flex justify-center">
+            <img 
+              src="/logo.png" 
+              alt="SodaStream Enso" 
+              className="h-8 md:h-10 w-auto"
+            />
+          </div>
           
-          {/* Status indicator and Purchase Button */}
-          <div className="flex flex-col items-end gap-2">
-            <div className={`px-3 py-1 rounded border text-xs font-heebo font-light tracking-wide transition-all ${
-              step === 'prompt' ? 'border-[var(--color-gold)]/30 bg-[var(--color-gold)]/10 text-[var(--color-gold)]' :
-              step === 'processing' ? 'border-[var(--color-gold)]/50 bg-[var(--color-gold)]/20 text-[var(--color-text)] animate-pulse' :
-              step === 'waiting' ? 'border-[var(--color-chrome)]/30 bg-[var(--color-chrome)]/10 text-[var(--color-chrome)]' :
-              step === 'completed' ? 'border-green-400/30 bg-green-400/10 text-green-200' :
-              'border-[var(--color-chrome)]/30 bg-[var(--color-chrome)]/10 text-[var(--color-chrome)]'
-            }`}>
-              {step === 'prompt' && 'מוכן ליצירה'}
-              {step === 'processing' && 'יוצר...'}
-              {step === 'waiting' && 'בתור'}
-              {step === 'completed' && 'הושלם'}
+          {/* Status and Purchase Button - Right Aligned */}
+          <div className="flex justify-end">
+            <div className="flex flex-col items-end gap-2">
+              <div className={`px-3 py-1 rounded border text-xs font-heebo font-light tracking-wide transition-all ${
+                step === 'prompt' ? 'border-[var(--color-gold)]/30 bg-[var(--color-gold)]/10 text-[var(--color-gold)]' :
+                step === 'processing' ? 'border-[var(--color-gold)]/50 bg-[var(--color-gold)]/20 text-[var(--color-text)] animate-pulse' :
+                step === 'waiting' ? 'border-[var(--color-chrome)]/30 bg-[var(--color-chrome)]/10 text-[var(--color-chrome)]' :
+                step === 'completed' ? 'border-green-400/30 bg-green-400/10 text-green-200' :
+                'border-[var(--color-chrome)]/30 bg-[var(--color-chrome)]/10 text-[var(--color-chrome)]'
+              }`}>
+                {step === 'prompt' && 'מוכן ליצירה'}
+                {step === 'processing' && 'יוצר...'}
+                {step === 'waiting' && 'בתור'}
+                {step === 'completed' && 'הושלם'}
+              </div>
+              
+              {/* Purchase Button - Only show during prompt step */}
+              {step === 'prompt' && (
+                <PremiumButton
+                  variant="primary"
+                  onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
+                  className="text-sm font-heebo font-medium tracking-wide"
+                  aria-label="רכוש את מכשיר SodaStream Enso"
+                >
+                  רכוש עכשיו
+                </PremiumButton>
+              )}
             </div>
-            
-            {/* Purchase Button - Only show during prompt step */}
-            {step === 'prompt' && (
-              <PremiumButton
-                variant="primary"
-                onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
-                className="text-sm font-heebo font-medium tracking-wide"
-                aria-label="רכוש את מכשיר SodaStream Enso"
-              >
-                רכוש עכשיו
-              </PremiumButton>
-            )}
           </div>
         </div>
       </nav>
