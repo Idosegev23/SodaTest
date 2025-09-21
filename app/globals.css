@@ -2,22 +2,117 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design System Colors */
+/* SodaStream Enso Design System - Updated Color Palette */
 :root {
-  --color-bg: #0D0D0D;      /* שחור עמוק רקע ראשי */
-  --color-text: #FFFFFF;    /* טקסט לבן */
-  --color-muted: #E5E5E5;   /* טקסט משני אפור בהיר */
-  --color-chrome: #C0C0C0;  /* כרום */
-  --color-gold: #B8860B;    /* זהב עדין להדגשות */
+  --color-bg: #13294b;      /* כחול כהה - רקע ראשי */
+  --color-text: #D9d8d6;    /* בז' בהיר - טקסט ראשי */
+  --color-muted: #Bbbbbb;   /* אפור בהיר - טקסט משני */
+  --color-chrome: #4a6372; /* כחול-אפור - אלמנטים משניים */
+  --color-gold: #8e7845;    /* זהב חום - הדגשות ראשיות */
+  --color-accent: #7f2629;  /* אדום כהה - אקסנט */
+  --color-gold-muted: rgba(142, 120, 69, 0.1); /* זהב שקוף לרקעים */
+  --color-gold-border: rgba(142, 120, 69, 0.3); /* זהב שקוף לגבולות */
+  --color-accent-muted: rgba(127, 38, 41, 0.1); /* אדום שקוף לרקעים */
+  --color-accent-border: rgba(127, 38, 41, 0.3); /* אדום שקוף לגבולות */
 }
 
 @layer utilities {
+  /* Luxury Gallery Animations */
   .animate-scroll {
     animation: scroll linear infinite;
   }
   
   .animate-fade-in {
     animation: fadeIn 1s ease-out;
+  }
+  
+  /* Premium Gold Frame Effect */
+  .gold-frame {
+    position: relative;
+    border: 3px solid var(--color-gold);
+    box-shadow: 
+      0 0 20px var(--color-gold-border),
+      inset 0 0 20px var(--color-gold-muted);
+  }
+  
+  .gold-frame::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border: 1px solid var(--color-gold-border);
+    border-radius: inherit;
+  }
+  
+  /* Accent Frame Effect */
+  .accent-frame {
+    position: relative;
+    border: 3px solid var(--color-accent);
+    box-shadow: 
+      0 0 20px var(--color-accent-border),
+      inset 0 0 20px var(--color-accent-muted);
+  }
+  
+  /* Museum Gallery Lighting */
+  .gallery-spotlight {
+    position: relative;
+  }
+  
+  .gallery-spotlight::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--color-gold-muted), transparent);
+    blur: 10px;
+    pointer-events: none;
+  }
+  
+  /* Accessibility Improvements */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  /* Focus States */
+  .focus-gold:focus {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+  
+  /* High Contrast Mode Support */
+  @media (prefers-contrast: high) {
+    :root {
+      --color-bg: #000000;
+      --color-text: #FFFFFF;
+      --color-gold: #FFD700;
+      --color-muted: #FFFFFF;
+    }
+  }
+  
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    
+    .animate-marquee,
+    .animate-marquee-reverse {
+      animation-play-state: paused !important;
+    }
   }
   
   @keyframes scroll {
@@ -40,7 +135,7 @@
     }
   }
   
-  /* Marquee Animations - רציף וחלק */
+  /* Marquee Animations - רציף וחלק עם לופ אינסופי */
   @keyframes marquee {
     0% { transform: translateX(0%); }
     100% { transform: translateX(-100%); }
@@ -52,17 +147,31 @@
   }
   
   .animate-marquee {
-    animation: marquee 60s linear infinite;
-    /* מוודא שהאנימציה תמיד פועלת */
+    animation: marquee 80s linear infinite;
     animation-play-state: running;
     will-change: transform;
+    /* מבטיח שהאנימציה תמיד תמשיך */
+    animation-fill-mode: none;
   }
   
   .animate-marquee-reverse {
-    animation: marquee-reverse 60s linear infinite;
-    /* מוודא שהאנימציה תמיד פועלת */
+    animation: marquee-reverse 70s linear infinite;
     animation-play-state: running;
     will-change: transform;
+    /* מבטיח שהאנימציה תמיד תמשיך */
+    animation-fill-mode: none;
+  }
+  
+  /* Seamless loop container */
+  .marquee-container {
+    display: flex;
+    width: 200%; /* Double width for seamless loop */
+  }
+  
+  .marquee-content {
+    display: flex;
+    width: 50%; /* Half of container width */
+    flex-shrink: 0;
   }
 }
 

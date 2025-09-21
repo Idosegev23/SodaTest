@@ -6,7 +6,8 @@ export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading 
   const [formData, setFormData] = useState({
     user_name: '',
     user_email: '',
-    user_phone: ''
+    user_phone: '',
+    consent: false
   })
   const [errors, setErrors] = useState({})
 
@@ -27,6 +28,10 @@ export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading 
       newErrors.user_phone = 'מספר טלפון הוא שדה חובה'
     } else if (!/^0\d{8,9}$/.test(formData.user_phone.replace(/[-\s]/g, ''))) {
       newErrors.user_phone = 'מספר טלפון לא תקין (יש להתחיל ב-0)'
+    }
+    
+    if (!formData.consent) {
+      newErrors.consent = 'יש לאשר את תנאי השימוש ומדיניות הפרטיות'
     }
     
     setErrors(newErrors)
@@ -74,100 +79,174 @@ export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading 
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-right align-middle shadow-xl transition-all">
-                <div className="flex justify-between items-center mb-6">
+              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded bg-[var(--color-bg)] border border-[var(--color-gold-border)] p-8 text-right align-middle shadow-2xl transition-all">
+                <div className="flex justify-between items-center mb-8">
                   <button
                     type="button"
-                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                    className="text-[var(--color-muted)] hover:text-[var(--color-gold)] transition-colors focus:outline-none focus:text-[var(--color-gold)]"
                     onClick={onClose}
+                    aria-label="סגור חלון"
                   >
                     <XMarkIcon className="h-6 w-6" />
                   </button>
-                  <Dialog.Title as="h3" className="text-lg font-bold text-gray-900">
-                    פרטים ליצירת האומנות
+                  <Dialog.Title as="h3" className="text-xl font-playfair font-light text-[var(--color-text)]">
+                    פרטים ליצירת האמנות
                   </Dialog.Title>
                 </div>
+                
+                <div className="mb-6 text-center">
+                  <p className="text-[var(--color-muted)] font-heebo font-light leading-relaxed">
+                    כדי ליצור את יצירת האמנות שלך עם <span className="text-[var(--color-gold)]">SodaStream Enso</span>, נצטרך כמה פרטים בסיסיים
+                  </p>
+                </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label 
+                      htmlFor="user-name"
+                      className="block text-sm font-heebo font-medium text-[var(--color-text)] mb-3"
+                    >
                       שם מלא *
                     </label>
                     <input
+                      id="user-name"
                       type="text"
                       value={formData.user_name}
                       onChange={(e) => handleInputChange('user_name', e.target.value)}
-                      className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                        errors.user_name ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full px-4 py-3 border rounded bg-[var(--color-bg)] text-[var(--color-text)] font-heebo focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)]/50 transition-all ${
+                        errors.user_name ? 'border-red-500' : 'border-[var(--color-gold-border)]'
                       }`}
                       placeholder="הזן את שמך המלא"
                       disabled={isLoading}
+                      aria-describedby={errors.user_name ? "name-error" : undefined}
                     />
                     {errors.user_name && (
-                      <p className="mt-1 text-sm text-red-600">{errors.user_name}</p>
+                      <p id="name-error" className="mt-2 text-sm text-red-400">{errors.user_name}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label 
+                      htmlFor="user-email"
+                      className="block text-sm font-heebo font-medium text-[var(--color-text)] mb-3"
+                    >
                       כתובת אימייל *
                     </label>
                     <input
+                      id="user-email"
                       type="email"
                       value={formData.user_email}
                       onChange={(e) => handleInputChange('user_email', e.target.value)}
-                      className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                        errors.user_email ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full px-4 py-3 border rounded bg-[var(--color-bg)] text-[var(--color-text)] font-heebo focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)]/50 transition-all ${
+                        errors.user_email ? 'border-red-500' : 'border-[var(--color-gold-border)]'
                       }`}
                       placeholder="example@email.com"
                       disabled={isLoading}
+                      aria-describedby={errors.user_email ? "email-error" : undefined}
                     />
                     {errors.user_email && (
-                      <p className="mt-1 text-sm text-red-600">{errors.user_email}</p>
+                      <p id="email-error" className="mt-2 text-sm text-red-400">{errors.user_email}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label 
+                      htmlFor="user-phone"
+                      className="block text-sm font-heebo font-medium text-[var(--color-text)] mb-3"
+                    >
                       מספר טלפון *
                     </label>
                     <input
+                      id="user-phone"
                       type="tel"
                       value={formData.user_phone}
                       onChange={(e) => handleInputChange('user_phone', e.target.value)}
-                      className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                        errors.user_phone ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full px-4 py-3 border rounded bg-[var(--color-bg)] text-[var(--color-text)] font-heebo focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)]/50 transition-all ${
+                        errors.user_phone ? 'border-red-500' : 'border-[var(--color-gold-border)]'
                       }`}
                       placeholder="050-1234567"
                       disabled={isLoading}
+                      aria-describedby={errors.user_phone ? "phone-error" : undefined}
                     />
                     {errors.user_phone && (
-                      <p className="mt-1 text-sm text-red-600">{errors.user_phone}</p>
+                      <p id="phone-error" className="mt-2 text-sm text-red-400">{errors.user_phone}</p>
                     )}
                   </div>
 
-                  <div className="flex space-x-3 pt-4">
+                  {/* Consent Checkbox */}
+                  <div>
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.consent}
+                        onChange={(e) => handleInputChange('consent', e.target.checked)}
+                        className="mt-1 w-4 h-4 text-[var(--color-gold)] bg-[var(--color-bg)] border-[var(--color-gold-border)] rounded focus:ring-[var(--color-gold)] focus:ring-2"
+                        disabled={isLoading}
+                        aria-describedby={errors.consent ? "consent-error" : "consent-help"}
+                      />
+                      <span className="text-sm font-heebo text-[var(--color-muted)] leading-relaxed">
+                        אני מאשר/ת קבלת עדכונים ושיווק מ-SodaStream, ומסכים/ה ל
+                        <a 
+                          href="/terms" 
+                          className="text-[var(--color-gold)] hover:underline focus:underline focus:outline-none"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          תנאי השימוש
+                        </a>
+                        {' '}ול
+                        <a 
+                          href="/privacy" 
+                          className="text-[var(--color-gold)] hover:underline focus:underline focus:outline-none"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          מדיניות הפרטיות
+                        </a>
+                      </span>
+                    </label>
+                    {errors.consent && (
+                      <p id="consent-error" className="mt-2 text-sm text-red-400">{errors.consent}</p>
+                    )}
+                    <p id="consent-help" className="mt-2 text-xs text-[var(--color-muted)]/70 font-heebo">
+                      * נדרש לצורך יצירת האמנות ושליחתה אליך
+                    </p>
+                  </div>
+
+                  <div className="flex gap-4 pt-6">
                     <button
                       type="button"
-                      className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors"
+                      className="flex-1 px-6 py-3 text-sm font-heebo font-medium text-[var(--color-muted)] bg-transparent border border-[var(--color-gold-border)] rounded hover:bg-[var(--color-gold-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)]/50 transition-all"
                       onClick={onClose}
                       disabled={isLoading}
+                      aria-label="ביטול יצירת האמנות"
                     >
                       ביטול
                     </button>
                     <button
                       type="submit"
-                      disabled={isLoading}
-                      className="flex-1 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-pink-600 border border-transparent rounded-lg hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                      disabled={isLoading || !formData.consent}
+                      className="flex-1 px-6 py-3 text-sm font-heebo font-medium text-black bg-[var(--color-gold)] border border-transparent rounded hover:bg-[var(--color-gold)]/90 focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)] focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                      aria-label={isLoading ? 'יוצר יצירת אמנות...' : 'צור יצירת אמנות'}
                     >
-                      {isLoading ? 'יוצר...' : 'צור יצירה'}
+                      {isLoading ? (
+                        <span className="flex items-center justify-center gap-2">
+                          <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+                          יוצר...
+                        </span>
+                      ) : (
+                        'צור יצירה'
+                      )}
                     </button>
                   </div>
                 </form>
 
-                <p className="text-xs text-gray-500 mt-4 text-center">
-                  * הפרטים ישמרו רק לצורך יצירת האומנות ושליחתה אליך
-                </p>
+                <div className="mt-6 text-center">
+                  <p className="text-xs text-[var(--color-muted)]/70 font-heebo leading-relaxed">
+                    הפרטים ישמרו בהתאם למדיניות הפרטיות של SodaStream<br />
+                    ויהיו זמינים לצורך יצירת האמנות ושליחתה אליך
+                  </p>
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

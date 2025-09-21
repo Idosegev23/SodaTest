@@ -61,31 +61,40 @@ export default function PromptForm({ onSubmit, isLoading }) {
   }
 
   const examplePrompts = [
-    'נוף הרים עם אגם כחול ועננים',
+    'חוף ים בשקיעה עם גלים זהובים',
     'יער קסום עם פרפרים צבעוניים',
-    'חוף ים בשקיעה עם גלים קטנים',
-    'גן פרחים עם דבורים וצבעים חמים',
-    'כוכבים בלילה עם ירח מלא'
+    'גן פרחים פורח עם דבורים',
+    'נוף הרים עם אגם כחול ועננים',
+    'כוכבים בלילה עם ירח מלא',
+    'שדה חמניות צהובות ברוח'
   ]
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="w-full max-w-3xl mx-auto">
+      <form onSubmit={handleSubmit} className="space-y-8">
         <div>
-          <label className="block text-lg font-medium text-white mb-4 text-center">
-            תאר את היצירה שאתה רוצה ליצור
+          <label 
+            htmlFor="artwork-prompt"
+            className="block text-xl font-heebo font-light text-[var(--color-text)] mb-6 text-center"
+          >
+            תאר את היצירה שתרצה ליצור
           </label>
           <div className="relative">
             <textarea
+              id="artwork-prompt"
               value={prompt}
               onChange={(e) => handleInputChange(e.target.value)}
-              className="w-full px-4 py-3 text-lg border-2 border-white/20 rounded-xl bg-white/10 backdrop-blur-sm text-white placeholder-white/60 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all resize-none"
-              rows="4"
-              placeholder="לדוגמה: נוף הרים עם אגם כחול בשקיעה, עם עצים ירוקים ופרחים צבעוניים..."
+              className="w-full px-6 py-4 text-lg font-heebo border-2 border-[var(--color-gold-border)] rounded bg-[var(--color-bg)] text-[var(--color-text)] placeholder-[var(--color-muted)]/60 focus:outline-none focus:border-[var(--color-gold)] focus:ring-2 focus:ring-[var(--color-gold)]/30 transition-all resize-none"
+              rows="5"
+              placeholder="לדוגמה: חוף ים בשקיעה עם גלים זהובים, עצים ירוקים ופרחים צבעוניים..."
               disabled={isLoading}
               maxLength={500}
+              aria-describedby="prompt-help prompt-counter"
             />
-            <div className="absolute bottom-3 left-3 text-sm text-white/60">
+            <div 
+              id="prompt-counter"
+              className="absolute bottom-4 left-4 text-sm text-[var(--color-muted)]/60 font-heebo"
+            >
               {prompt.length}/500
             </div>
           </div>
@@ -99,15 +108,16 @@ export default function PromptForm({ onSubmit, isLoading }) {
 
         {/* דוגמאות מהירות */}
         <div>
-          <p className="text-white/80 text-sm mb-3">דוגמאות לקוחה מהירה:</p>
-          <div className="flex flex-wrap gap-2">
+          <p className="text-[var(--color-muted)] text-base mb-4 font-heebo font-light">דוגמאות מהירות:</p>
+          <div className="flex flex-wrap gap-3 justify-center">
             {examplePrompts.map((example, index) => (
               <button
                 key={index}
                 type="button"
                 onClick={() => handleInputChange(example)}
-                className="px-3 py-1 text-sm bg-white/10 text-white/80 rounded-full hover:bg-white/20 transition-colors disabled:opacity-50"
+                className="px-4 py-2 text-sm font-heebo border border-[var(--color-gold-border)] text-[var(--color-muted)] rounded hover:bg-[var(--color-gold-muted)] hover:text-[var(--color-gold)] transition-colors disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)]/30"
                 disabled={isLoading}
+                aria-label={`השתמש בדוגמה: ${example}`}
               >
                 {example}
               </button>
@@ -118,26 +128,33 @@ export default function PromptForm({ onSubmit, isLoading }) {
         <button
           type="submit"
           disabled={isLoading || !prompt.trim()}
-          className="w-full py-4 text-xl font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl shadow-lg hover:shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] transition-all duration-300"
+          className="w-full py-4 text-xl font-heebo font-medium text-black bg-[var(--color-gold)] rounded hover:bg-[var(--color-gold)]/90 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)] focus:ring-offset-2 focus:ring-offset-black"
+          aria-label={isLoading ? 'יוצר יצירת אמנות...' : 'צור יצירת אמנות'}
         >
           {isLoading ? (
-            <div className="flex items-center justify-center space-x-2">
-              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            <div className="flex items-center justify-center gap-3">
+              <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
               <span>יוצר...</span>
             </div>
           ) : (
-            'צור יצירת אומנות'
+            'צור יצירת אמנות'
           )}
         </button>
       </form>
 
-      {/* הנחיות */}
-      <div className="mt-8 p-4 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
-        <h3 className="text-white font-medium mb-2">הנחיות ליצירה:</h3>
-        <ul className="text-white/70 text-sm space-y-1">
+      {/* הנחיות מעודכנות */}
+      <div 
+        id="prompt-help"
+        className="mt-8 p-6 bg-[var(--color-gold-muted)] border border-[var(--color-gold-border)] rounded-lg"
+        role="region"
+        aria-label="הנחיות ליצירת אמנות"
+      >
+        <h3 className="text-[var(--color-text)] font-heebo font-medium mb-4">עצות ליצירה מושלמת:</h3>
+        <ul className="text-[var(--color-muted)] font-heebo font-light text-sm space-y-2">
           <li>• תאר נופים, חפצים, בעלי חיים או סצנות טבע</li>
-          <li>• השתמש בצבעים ורגשות לתיאור המקום</li>
-          <li>• הימנע מאנשים, טקסט או תוכן פוליטי</li>
+          <li>• השתמש בצבעים, תאורה ואווירות מיוחדות</li>
+          <li>• ציין פרטים כמו זמן יום, מזג אוויר או עונה</li>
+          <li>• <strong className="text-[var(--color-gold)]">זכור: מכשיר Enso יופיע תמיד ביצירה</strong></li>
           <li>• ככל שהתיאור יותר מפורט, היצירה תהיה יותר מדויקת</li>
         </ul>
       </div>

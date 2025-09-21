@@ -21,12 +21,19 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "יוצר יצירות אומנות",
-  description: "פלטפורמה לייצור יצירות אומנות ייחודיות עם בינה מלאכותית",
+  title: "SodaStream Enso - צור יצירות אמנות ייחודיות",
+  description: "קמפיין SodaStream Enso - צור יצירות אמנות יוקרתיות עם מכשיר Enso באמצעות בינה מלאכותית מתקדמת. אתר נגיש ומינימליסטי עם אווירת גלריה יוקרתית.",
+  keywords: "SodaStream, Enso, יצירות אמנות, בינה מלאכותית, AI, גלריה דיגיטלית, אמנות יוקרתית",
   openGraph: {
-    title: "יוצר יצירות אומנות",
-    description: "פלטפורמה לייצור יצירות אומנות ייחודיות עם בינה מלאכותית",
+    title: "SodaStream Enso - צור יצירות אמנות ייחודיות",
+    description: "קמפיין SodaStream Enso - צור יצירות אמנות יוקרתיות עם מכשיר Enso באמצעות בינה מלאכותית מתקדמת",
     type: "website",
+    locale: "he_IL",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SodaStream Enso - צור יצירות אמנות ייחודיות",
+    description: "צור יצירות אמנות יוקרתיות עם מכשיר SodaStream Enso",
   },
 };
 

@@ -69,79 +69,166 @@ export default function SymmetricGallery() {
 
   return (
     <>
-      <section className="px-3 py-8 bg-[var(--color-bg)] min-h-screen">
-        <div
-          className="
-            grid gap-2 sm:gap-3 md:gap-4
-            grid-cols-2
-            sm:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]
-            auto-rows-[10rem] sm:auto-rows-[12rem] md:auto-rows-[14rem] lg:auto-rows-[16rem]
-            w-full max-w-7xl mx-auto
-          "
-        >
-          {artworks.map((art, index) => (
-            <figure
-              key={art.id || index}
-              onClick={() => openPopup(art)}
-              className="relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer group"
-            >
-              <img
-                src={art.image_url}
-                alt={art.prompt}
-                className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
-                onError={(e) => {
-                  e.target.src = `https://picsum.photos/400/400?random=${Math.floor(Math.random() * 200)}`
-                }}
-              />
-              {/* Overlay + caption */}
-              <figcaption className="
-                absolute inset-0 flex flex-col justify-end
-                bg-gradient-to-t from-black/80 via-black/40 to-transparent
-                p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500
-              ">
-                <h3 className="text-white text-xs sm:text-sm font-light line-clamp-1">
-                  {art.prompt}
-                </h3>
-                <p className="text-gray-300 text-[10px] sm:text-xs">
-                  {art.user_name}
-                </p>
-              </figcaption>
-            </figure>
-          ))}
+      <section className="px-4 py-8 bg-[var(--color-bg)]">
+        <div className="w-full max-w-7xl mx-auto">
+          {/* Bento Grid - Mobile First with Proper Image Coverage */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 auto-rows-[150px] md:auto-rows-[200px]">
+            {artworks.map((art, index) => {
+              // Create varied layout for visual interest on all devices
+              let gridClass = ""
+              
+              if (index === 0) {
+                // Hero image - large on all devices
+                gridClass = "col-span-2 row-span-2"
+              } else if (index === 1) {
+                // Tall image on mobile, regular on desktop
+                gridClass = "col-span-1 row-span-2 md:row-span-1"
+              } else if (index === 2) {
+                // Regular on mobile, tall on desktop
+                gridClass = "col-span-1 row-span-1 md:row-span-2"
+              } else if (index === 3) {
+                // Wide image
+                gridClass = "col-span-2 row-span-1"
+              } else if (index === 4) {
+                // Square on mobile, wide on desktop
+                gridClass = "col-span-1 row-span-1 md:col-span-2"
+              } else {
+                // Regular grid items
+                gridClass = "col-span-1 row-span-1"
+              }
+              
+              return (
+                <figure
+                  key={art.id || index}
+                  onClick={() => openPopup(art)}
+                  className={`relative overflow-hidden cursor-pointer group border border-[var(--color-gold-border)] hover:border-[var(--color-gold)] transition-all duration-300 ${gridClass}`}
+                  style={{ minHeight: '100%' }}
+                >
+                  {/* Gold frame effect for featured artwork */}
+                  {index === 0 && (
+                    <div className="absolute -inset-1 gold-frame opacity-60"></div>
+                  )}
+                  
+                  <img
+                    src={art.image_url}
+                    alt={art.prompt || 'יצירת אמנות עם SodaStream Enso'}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                    style={{ 
+                      minHeight: '100%',
+                      objectFit: 'cover'
+                    }}
+                    onError={(e) => {
+                      e.target.src = `https://picsum.photos/400/400?random=${Math.floor(Math.random() * 200)}`
+                    }}
+                  />
+                  
+                  {/* Museum-style overlay */}
+                  <figcaption className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                      <h3 className="text-white text-sm md:text-base font-heebo font-light line-clamp-2 mb-2 leading-relaxed">
+                        {art.prompt}
+                      </h3>
+                      <div className="flex justify-between items-center">
+                        <p className="text-[var(--color-gold)] text-xs font-heebo font-light">
+                          {art.user_name || 'אמן אנונימי'}
+                        </p>
+                        {art.created_at && (
+                          <p className="text-[var(--color-muted)]/70 text-xs font-heebo">
+                            {new Date(art.created_at).toLocaleDateString('he-IL')}
+                          </p>
+                        )}
+                      </div>
+                      
+                      {/* Featured artwork indicator */}
+                      {index === 0 && (
+                        <div className="mt-2 text-[var(--color-gold)] text-xs font-heebo font-medium tracking-wide">
+                          ★ יצירה מומלצת
+                        </div>
+                      )}
+                    </div>
+                  </figcaption>
+                  
+                  {/* Gallery spotlight effect */}
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-20 h-8 bg-gradient-to-b from-[var(--color-gold-muted)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
+                </figure>
+              )
+            })}
+          </div>
         </div>
       </section>
 
-      {/* Popup Modal */}
+      {/* Luxury Gallery Popup Modal */}
       {selectedImage && (
         <div 
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           onClick={closePopup}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="artwork-title"
         >
-          <div className="relative max-w-4xl max-h-[90vh] w-full">
+          <div className="relative max-w-5xl max-h-[95vh] w-full">
             <button
               onClick={closePopup}
-              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors z-10"
+              className="absolute -top-12 right-0 text-[var(--color-muted)] hover:text-[var(--color-gold)] transition-colors z-10 focus:outline-none focus:text-[var(--color-gold)]"
+              aria-label="סגור תצוגת יצירה"
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
             
-            <div className="bg-white rounded-xl overflow-hidden shadow-2xl">
-              <img
-                src={selectedImage.image_url}
-                alt={selectedImage.prompt}
-                className="w-full h-auto max-h-[70vh] object-contain"
-                onClick={(e) => e.stopPropagation()}
-              />
-              <div className="p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">{selectedImage.prompt}</h2>
-                <p className="text-gray-600 mb-4">יצר על ידי: {selectedImage.user_name}</p>
-                {selectedImage.created_at && (
-                  <p className="text-sm text-gray-500">
-                    {new Date(selectedImage.created_at).toLocaleDateString('he-IL')}
-                  </p>
-                )}
+            {/* Museum-style display */}
+            <div className="bg-[var(--color-bg)] border border-[var(--color-gold-border)] rounded overflow-hidden shadow-2xl">
+              {/* Gallery lighting */}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-16 bg-gradient-to-b from-[var(--color-gold-muted)] to-transparent blur-lg opacity-60"></div>
+              
+              <div className="relative gold-frame m-4">
+                <img
+                  src={selectedImage.image_url}
+                  alt={selectedImage.prompt || 'יצירת אמנות עם SodaStream Enso'}
+                  className="w-full h-auto max-h-[60vh] object-contain bg-[var(--color-bg)]"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </div>
+              
+              <div className="p-6 md:p-8 bg-[var(--color-gold-muted)] border-t border-[var(--color-gold-border)]">
+                <div className="text-center mb-4">
+                  <h2 
+                    id="artwork-title"
+                    className="text-xl md:text-2xl font-playfair font-light text-[var(--color-text)] mb-2 leading-relaxed"
+                  >
+                    {selectedImage.prompt}
+                  </h2>
+                  <div className="w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
+                </div>
+                
+                <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-right">
+                  <div>
+                    <p className="text-[var(--color-muted)] text-sm font-heebo font-light mb-1">יוצר:</p>
+                    <p className="text-[var(--color-text)] font-heebo font-medium">
+                      {selectedImage.user_name || 'אמן אנונימי'}
+                    </p>
+                  </div>
+                  
+                  {selectedImage.created_at && (
+                    <div>
+                      <p className="text-[var(--color-muted)] text-sm font-heebo font-light mb-1">תאריך:</p>
+                      <p className="text-[var(--color-text)] font-heebo font-medium">
+                        {new Date(selectedImage.created_at).toLocaleDateString('he-IL', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </p>
+                    </div>
+                  )}
+                  
+                  <div>
+                    <p className="text-[var(--color-gold)] text-sm font-heebo font-light">
+                      SodaStream Enso Collection
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -1,107 +1,191 @@
+'use client'
+
 import { useState, useEffect } from 'react'
 import { getArtworks } from '../lib/supabaseClient'
 
 export default function MarqueeGallery() {
   const [artworks, setArtworks] = useState([])
+  const [isPaused, setIsPaused] = useState(false)
 
   useEffect(() => {
-    console.log('MarqueeGallery: Component mounted, loading artworks...')
     loadArtworks()
-    
-    // רענון כל 10 שניות
-    const interval = setInterval(() => {
-      console.log('MarqueeGallery: Refreshing artworks (10s interval)...')
-      loadArtworks()
-    }, 10000)
-    return () => {
-      console.log('MarqueeGallery: Component unmounting, clearing interval')
-      clearInterval(interval)
-    }
   }, [])
 
   const loadArtworks = async () => {
     try {
-      const fetchedArtworks = await getArtworks()
+      const artworksFromDB = await getArtworks()
       
-      console.log('Fetched artworks:', fetchedArtworks)
-      
-      if (!fetchedArtworks || fetchedArtworks.length === 0) {
-        console.log('No artworks found in database, using fallback images')
-        throw new Error('No artworks found')
+      if (artworksFromDB && artworksFromDB.length > 0) {
+        // Sort by creation date and take the most recent ones
+        const sorted = artworksFromDB.sort((a, b) => {
+          if (a.created_at && b.created_at) {
+            return new Date(b.created_at) - new Date(a.created_at)
+          }
+          return (b.id || '').toString().localeCompare((a.id || '').toString())
+        })
+        
+        // Ensure we have enough items for seamless loop (minimum 6 per row)
+        let baseArtworks = sorted.slice(0, Math.max(12, sorted.length))
+        
+        // If we have fewer than 6 items, duplicate them to ensure smooth scrolling
+        while (baseArtworks.length < 18) {
+          baseArtworks = [...baseArtworks, ...baseArtworks]
+        }
+        
+        // Create multiple copies for seamless infinite scrolling
+        const duplicatedArtworks = [...baseArtworks, ...baseArtworks, ...baseArtworks]
+        setArtworks(duplicatedArtworks)
+      } else {
+        // Fallback images if no artworks exist - ensure enough for smooth loop
+        const fallbackImages = Array.from({ length: 18 }, (_, i) => ({
+          id: `fallback-${i}`,
+          image_url: `https://picsum.photos/300/300?random=${i + 100}`,
+          user_name: 'אמן דיגיטלי',
+          prompt: `יצירה דיגיטלית ${(i % 6) + 1}`,
+          created_at: new Date().toISOString()
+        }))
+        // Triple duplication for seamless loop
+        setArtworks([...fallbackImages, ...fallbackImages, ...fallbackImages])
       }
-      
-      // נוודא שיש מספיק תמונות לאפקט אינסופי - לפחות 20
-      let allArtworks = [...fetchedArtworks]
-      while (allArtworks.length < 20) {
-        allArtworks = [...allArtworks, ...fetchedArtworks]
-      }
-      
-      console.log('Setting artworks:', allArtworks.slice(0, 20))
-      setArtworks(allArtworks.slice(0, 20))
     } catch (error) {
-      console.error('Error loading artworks:', error)
-      // תמונות fallback במקרה של שגיאה - מספיק לאפקט אינסופי
-      console.log('Using fallback placeholder images')
-      setArtworks(Array.from({ length: 20 }, (_, i) => ({
-        id: `fallback-${i}`,
-        image_url: `https://picsum.photos/400/300?random=${i}`,
-        user_name: 'אמן דיגיטלי',
-        prompt: 'יצירת אמנות מרהיבה'
-      })))
+      console.error('Error loading artworks for marquee:', error)
+      // Error fallback with enough items for smooth scrolling
+      const errorImages = Array.from({ length: 18 }, (_, i) => ({
+        id: `error-${i}`,
+        image_url: `https://picsum.photos/300/300?random=${i + 200}`,
+        user_name: 'Fallback Artist',
+        prompt: `Fallback Art ${(i % 6) + 1}`,
+        created_at: new Date().toISOString()
+      }))
+      setArtworks([...errorImages, ...errorImages, ...errorImages])
     }
   }
 
-  // חלוקת היצירות לשתי שורות
-  const firstRow = (artworks || []).slice(0, 10)
-  const secondRow = (artworks || []).slice(10, 20)
+  const togglePause = () => {
+    setIsPaused(!isPaused)
+  }
 
-  console.log('MarqueeGallery: Rendering with', artworks?.length || 0, 'artworks')
-  console.log('MarqueeGallery: firstRow length:', firstRow.length, 'secondRow length:', secondRow.length)
+  // Split artworks into 3 rows
+  const row1 = artworks.filter((_, index) => index % 3 === 0)
+  const row2 = artworks.filter((_, index) => index % 3 === 1)
+  const row3 = artworks.filter((_, index) => index % 3 === 2)
 
-  if (!artworks || artworks.length === 0) {
-    console.log('MarqueeGallery: No artworks to display, showing fallback')
+  const MarqueeRow = ({ artworks, direction = 'left', speed = '80s' }) => {
+    // Ensure we have enough items for smooth infinite scroll
+    const displayArtworks = artworks.length < 6 
+      ? [...artworks, ...artworks, ...artworks].slice(0, 12)
+      : artworks.slice(0, 12)
+    
     return (
-      <section className="bg-[var(--color-bg)] py-12 overflow-hidden space-y-8">
-        <div className="flex justify-center items-center h-32">
-          <div className="text-[var(--color-muted)]/50 text-sm">טוען גלריה...</div>
+      <div className="overflow-hidden py-2 relative">
+        <div 
+          className={`flex gap-4 ${direction === 'left' ? 'animate-marquee' : 'animate-marquee-reverse'}`}
+          style={{ 
+            animationDuration: speed,
+            animationPlayState: isPaused ? 'paused' : 'running',
+            width: 'calc(200% + 1rem)' // Extra width for seamless loop
+          }}
+        >
+          {/* First set */}
+          {displayArtworks.map((artwork, index) => (
+            <div 
+              key={`first-${artwork.id}-${index}`}
+              className="flex-shrink-0 w-48 md:w-56 lg:w-64 group cursor-pointer"
+            >
+              <div className="relative overflow-hidden rounded-lg bg-[var(--color-bg)] border border-[var(--color-gold-border)] hover:border-[var(--color-gold)] transition-all duration-300">
+                <img
+                  src={artwork.image_url}
+                  alt={artwork.prompt || 'יצירת אמנות'}
+                  className="w-full h-48 md:h-56 lg:h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => {
+                    e.target.src = `https://picsum.photos/300/300?random=${Math.floor(Math.random() * 1000)}`
+                  }}
+                />
+                
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                  <h4 className="text-white text-sm font-heebo font-light line-clamp-2 mb-1">
+                    {artwork.prompt}
+                  </h4>
+                  <p className="text-[var(--color-gold)] text-xs font-heebo">
+                    {artwork.user_name}
+                  </p>
+                  {artwork.created_at && (
+                    <p className="text-[var(--color-muted)]/60 text-xs font-heebo mt-1">
+                      {new Date(artwork.created_at).toLocaleDateString('he-IL')}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+          
+          {/* Duplicate set for seamless loop */}
+          {displayArtworks.map((artwork, index) => (
+            <div 
+              key={`second-${artwork.id}-${index}`}
+              className="flex-shrink-0 w-48 md:w-56 lg:w-64 group cursor-pointer"
+            >
+              <div className="relative overflow-hidden rounded-lg bg-[var(--color-bg)] border border-[var(--color-gold-border)] hover:border-[var(--color-gold)] transition-all duration-300">
+                <img
+                  src={artwork.image_url}
+                  alt={artwork.prompt || 'יצירת אמנות'}
+                  className="w-full h-48 md:h-56 lg:h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => {
+                    e.target.src = `https://picsum.photos/300/300?random=${Math.floor(Math.random() * 1000)}`
+                  }}
+                />
+                
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                  <h4 className="text-white text-sm font-heebo font-light line-clamp-2 mb-1">
+                    {artwork.prompt}
+                  </h4>
+                  <p className="text-[var(--color-gold)] text-xs font-heebo">
+                    {artwork.user_name}
+                  </p>
+                  {artwork.created_at && (
+                    <p className="text-[var(--color-muted)]/60 text-xs font-heebo mt-1">
+                      {new Date(artwork.created_at).toLocaleDateString('he-IL')}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
     )
   }
 
   return (
-    <section className="bg-[var(--color-bg)] py-12 overflow-hidden space-y-8">
-      {/* שורה ראשונה - תנועה שמאלה */}
-      <div className="animate-marquee flex gap-6" style={{ width: 'max-content' }}>
-        {/* כפילויות מרובות לאפקט אינסופי חלק */}
-        {[...firstRow, ...firstRow, ...firstRow, ...firstRow].map((artwork, index) => (
-          <img 
-            key={`row1-${artwork.id}-${index}`}
-            src={artwork.image_url} 
-            alt={artwork.prompt}
-            className="h-32 md:h-40 w-auto object-cover rounded-xl shadow-lg flex-shrink-0"
-            onError={(e) => {
-              e.target.src = `https://picsum.photos/400/300?random=${index}`
-            }}
-          />
-        ))}
+    <div className="w-full overflow-hidden bg-[var(--color-bg)] relative">
+      {/* Pause/Play Control for Accessibility */}
+      <div className="flex justify-center mb-6">
+        <button
+          onClick={togglePause}
+          className="px-4 py-2 text-sm font-heebo font-light text-[var(--color-muted)] hover:text-[var(--color-gold)] transition-colors focus:outline-none focus:text-[var(--color-gold)]"
+          aria-label={isPaused ? 'המשך גלילה אוטומטית' : 'עצור גלילה אוטומטית'}
+        >
+          {isPaused ? '▶️ המשך' : '⏸️ עצור'}
+        </button>
       </div>
 
-      {/* שורה שנייה - תנועה ימינה */}
-      <div className="animate-marquee-reverse flex gap-6" style={{ width: 'max-content' }}>
-        {/* כפילויות מרובות לאפקט אינסופי חלק */}
-        {[...secondRow, ...secondRow, ...secondRow, ...secondRow].map((artwork, index) => (
-          <img 
-            key={`row2-${artwork.id}-${index}`}
-            src={artwork.image_url} 
-            alt={artwork.prompt}
-            className="h-32 md:h-40 w-auto object-cover rounded-xl shadow-lg flex-shrink-0"
-            onError={(e) => {
-              e.target.src = `https://picsum.photos/400/300?random=${index + 100}`
-            }}
-          />
-        ))}
+      {/* Three Marquee Rows */}
+      <div className="space-y-4">
+        {/* Row 1 - Left to Right */}
+        <MarqueeRow artworks={row1} direction="left" speed="80s" />
+        
+        {/* Row 2 - Right to Left */}
+        <MarqueeRow artworks={row2} direction="right" speed="70s" />
+        
+        {/* Row 3 - Left to Right */}
+        <MarqueeRow artworks={row3} direction="left" speed="90s" />
       </div>
-    </section>
+
+      {/* Gradient Overlays for Smooth Edges */}
+      <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-[var(--color-bg)] to-transparent pointer-events-none z-10"></div>
+      <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-[var(--color-bg)] to-transparent pointer-events-none z-10"></div>
+    </div>
   )
 }

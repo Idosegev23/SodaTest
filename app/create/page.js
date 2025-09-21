@@ -143,34 +143,45 @@ export default function CreatePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] text-white overflow-hidden">
+    <div className="min-h-screen bg-[var(--color-bg)] text-white overflow-hidden" lang="he">
       <div className="container mx-auto px-4 md:px-8 py-6 md:py-12 relative z-10">
-        {/* Premium header with back button */}
+        {/* Premium header with back button - SodaStream Enso */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12 gap-4">
           <button
             onClick={handleBackToGallery}
-            className="flex items-center gap-2 md:gap-3 text-[var(--color-chrome)] hover:text-[var(--color-gold)] transition-all duration-300 group"
+            className="flex items-center gap-2 md:gap-3 text-[var(--color-chrome)] hover:text-[var(--color-gold)] transition-all duration-300 group focus:outline-none focus:text-[var(--color-gold)]"
+            aria-label="חזור לגלריה הראשית"
           >
             <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            <span className="font-light tracking-wide text-sm md:text-base">GALLERY</span>
+            <span className="font-heebo font-light tracking-wide text-sm md:text-base">חזור לגלריה</span>
           </button>
+          
+          {/* SodaStream Enso Title */}
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-playfair font-light text-[var(--color-text)] tracking-wide">
+              SodaStream Enso
+            </h1>
+            <div className="text-[var(--color-gold)] text-sm font-heebo font-light mt-1">
+              צור יצירת אמנות
+            </div>
+          </div>
           
           {/* Status indicator */}
           <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4">
-            <div className="text-[var(--color-muted)] text-xs md:text-sm font-light tracking-wide">
-              COMMISSION STATUS
+            <div className="text-[var(--color-muted)] text-xs md:text-sm font-heebo font-light tracking-wide">
+              סטטוס יצירה
             </div>
-            <div className={`px-3 py-1 rounded-full border text-xs font-light tracking-wide transition-all ${
+            <div className={`px-3 py-1 rounded border text-xs font-heebo font-light tracking-wide transition-all ${
               step === 'prompt' ? 'border-[var(--color-gold)]/30 bg-[var(--color-gold)]/10 text-[var(--color-gold)]' :
               step === 'processing' ? 'border-[var(--color-gold)]/50 bg-[var(--color-gold)]/20 text-[var(--color-text)] animate-pulse' :
               step === 'waiting' ? 'border-[var(--color-chrome)]/30 bg-[var(--color-chrome)]/10 text-[var(--color-chrome)]' :
               step === 'completed' ? 'border-green-400/30 bg-green-400/10 text-green-200' :
               'border-[var(--color-chrome)]/30 bg-[var(--color-chrome)]/10 text-[var(--color-chrome)]'
             }`}>
-              {step === 'prompt' && 'READY TO CREATE'}
-              {step === 'processing' && 'CREATING...'}
-              {step === 'waiting' && 'IN QUEUE'}
-              {step === 'completed' && 'COMPLETED'}
+              {step === 'prompt' && 'מוכן ליצירה'}
+              {step === 'processing' && 'יוצר...'}
+              {step === 'waiting' && 'בתור'}
+              {step === 'completed' && 'הושלם'}
             </div>
           </div>
         </div>
@@ -178,44 +189,63 @@ export default function CreatePage() {
         <div>
           {step === 'prompt' && (
             <div className="max-w-4xl mx-auto transition-all">
-              {/* אזור תצוגה - Studio Style */}
-              <div className="mb-12 md:mb-16">
-                <div className="text-center mb-6 md:mb-8">
-                  <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-playfair">ARTWORK PREVIEW</h2>
-                  <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
-                </div>
+              {/* הוראות SodaStream Enso */}
+              <div className="mb-12 md:mb-16 text-center">
+                <h2 className="text-2xl md:text-3xl font-playfair font-light text-[var(--color-text)] mb-6 tracking-wide">
+                  צור יצירת אמנות עם SodaStream Enso
+                </h2>
+                <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-8"></div>
                 
-                <div className="relative w-full max-w-3xl mx-auto">
-                  {/* Premium canvas frame */}
-                  <div className="relative h-64 md:h-96 bg-gradient-to-br from-gray-900/80 to-black/90 rounded-lg border border-[var(--color-chrome)]/20 overflow-hidden">
-                    {/* Canvas texture */}
-                    <div className="absolute inset-0 opacity-5 bg-[repeating-linear-gradient(45deg,transparent,transparent_2px,rgba(255,255,255,0.1)_2px,rgba(255,255,255,0.1)_4px)]"></div>
-                    
-                    {/* Gallery lighting */}
-                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 md:w-48 h-8 md:h-12 bg-gradient-to-b from-[var(--color-gold)]/10 to-transparent blur-lg"></div>
-                    
-                    <div className="relative z-10 h-full flex items-center justify-center">
-                      <div className="text-center space-y-3 md:space-y-4 px-4">
-                        <div className="w-16 md:w-24 h-16 md:h-24 mx-auto bg-gradient-to-br from-[var(--color-chrome)]/10 to-[var(--color-chrome)]/5 rounded-lg border border-[var(--color-chrome)]/20 flex items-center justify-center">
-                          <span className="text-lg md:text-xl font-light text-[var(--color-chrome)] tracking-wider font-playfair">ART</span>
-                        </div>
-                        <p className="text-[var(--color-muted)]/70 font-light tracking-wide text-sm md:text-base">Your commissioned artwork will appear here</p>
-                        <p className="text-[var(--color-muted)]/50 text-xs md:text-sm font-light">High resolution • Museum quality • Digital delivery</p>
-                      </div>
+                <div className="bg-[var(--color-gold-muted)] border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 mb-8">
+                  <h3 className="text-lg font-heebo font-medium text-[var(--color-text)] mb-4">
+                    הוראות חשובות
+                  </h3>
+                  <p className="text-[var(--color-text)] font-heebo font-light leading-relaxed mb-4">
+                    תאר את היצירה שתרצה ליצור – <strong className="text-[var(--color-gold)]">מכשיר Enso תמיד יופיע ביצירה כפי שהוא, ללא שינוי.</strong>
+                  </p>
+                  
+                  <div className="grid md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                      <h4 className="text-[var(--color-gold)] font-heebo font-medium mb-2">מה מותר:</h4>
+                      <ul className="text-[var(--color-muted)] font-heebo font-light text-sm space-y-1">
+                        <li>• נופים וטבע</li>
+                        <li>• חפצים וסצנות</li>
+                        <li>• בעלי חיים</li>
+                        <li>• צבעים ואווירות</li>
+                      </ul>
                     </div>
                     
-                    {/* Corner details */}
-                    <div className="absolute top-3 md:top-4 left-3 md:left-4 text-[var(--color-muted)]/40 text-xs font-light tracking-wide">CANVAS</div>
-                    <div className="absolute top-3 md:top-4 right-3 md:right-4 text-[var(--color-muted)]/40 text-xs font-light tracking-wide">4K</div>
+                    <div>
+                      <h4 className="text-red-400 font-heebo font-medium mb-2">מה אסור:</h4>
+                      <ul className="text-[var(--color-muted)] font-heebo font-light text-sm space-y-1">
+                        <li>• אנשים וכל דמות אנושית</li>
+                        <li>• תוכן פוליטי</li>
+                        <li>• טקסטים וכתובות</li>
+                        <li>• תוכן NSFW או אלים</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* טופס פרומפט */}
+              {/* טופס פרומפט מעודכן */}
               <PromptForm 
                 onSubmit={handlePromptSubmit}
                 isLoading={isLoading}
               />
+              
+              {/* כפתורי CTA נוספים */}
+              <div className="mt-12 text-center">
+                <a
+                  href="https://sodastream.co.il/products/enso?variant=42858873749582"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block px-8 py-3 bg-[var(--color-gold)] text-black text-lg font-heebo font-medium tracking-wide rounded-none hover:bg-[var(--color-gold)]/90 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)] focus:ring-offset-2 focus:ring-offset-black"
+                  aria-label="רכוש את מכשיר SodaStream Enso"
+                >
+                  רכוש עכשיו
+                </a>
+              </div>
             </div>
           )}
 
