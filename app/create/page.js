@@ -199,7 +199,7 @@ export default function CreatePage() {
                 </h2>
                 <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-8"></div>
                 
-                <div className="bg-black/20 border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 mb-8">
+                <div className="bg-[var(--color-bg)] border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 mb-8">
                   <h3 className="text-lg font-heebo font-medium text-[var(--color-text)] mb-4">
                     הוראות חשובות
                   </h3>
@@ -253,7 +253,7 @@ export default function CreatePage() {
 
           {step === 'processing' && (
             <div className="max-w-3xl mx-auto text-center transition-all">
-              <div className="bg-black/30 rounded-lg border border-[var(--color-gold)]/20 p-8 md:p-16">
+              <div className="bg-[var(--color-bg)] rounded-lg border border-[var(--color-gold)]/20 p-8 md:p-16">
                 <div className="mb-6 md:mb-8">
                   <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">CREATING ARTWORK</h2>
                   <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
@@ -316,7 +316,7 @@ export default function CreatePage() {
 
           {step === 'waiting' && (
             <div className="max-w-3xl mx-auto text-center transition-all">
-              <div className="bg-black/30 rounded-lg border border-[var(--color-chrome)]/20 p-8 md:p-16">
+              <div className="bg-[var(--color-bg)] rounded-lg border border-[var(--color-chrome)]/20 p-8 md:p-16">
                 <div className="mb-6 md:mb-8">
                   <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">COMMISSION QUEUED</h2>
                   <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-chrome)] to-transparent mx-auto"></div>
@@ -359,7 +359,7 @@ export default function CreatePage() {
 
           {step === 'completed' && completedArtwork && (
             <div className="max-w-5xl mx-auto text-center transition-all">
-              <div className="bg-black/30 rounded-lg border border-green-400/20 p-6 md:p-12">
+              <div className="bg-[var(--color-bg)] rounded-lg border border-green-400/20 p-6 md:p-12">
                 <div className="mb-6 md:mb-8">
                   <h2 className="text-2xl md:text-3xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">COMMISSION COMPLETED</h2>
                   <div className="w-16 md:w-24 h-px bg-gradient-to-r from-transparent via-green-400/50 to-transparent mx-auto"></div>
@@ -424,7 +424,7 @@ export default function CreatePage() {
 
           {step === 'validation_error' && validationError && (
             <div className="max-w-3xl mx-auto text-center transition-all">
-              <div className="bg-black/30 rounded-lg border border-red-400/20 p-8 md:p-16">
+              <div className="bg-[var(--color-bg)] rounded-lg border border-red-400/20 p-8 md:p-16">
                 <div className="mb-6 md:mb-8">
                   <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">CONTENT NOT APPROVED</h2>
                   <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-red-400 to-transparent mx-auto"></div>
