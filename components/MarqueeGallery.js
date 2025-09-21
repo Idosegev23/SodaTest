@@ -235,10 +235,10 @@ export default function MarqueeGallery() {
   }
 
   return (
-    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-      {/* Loading indicator for mobile */}
+    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden min-h-[400px]">
+      {/* Show loading indicator until fully loaded */}
       {!imagesLoaded && (
-        <div className="absolute inset-0 bg-[var(--color-bg)]/80 backdrop-blur-sm flex items-center justify-center z-10">
+        <div className="absolute inset-0 bg-[var(--color-bg)] flex items-center justify-center z-10">
           <div className="text-center">
             <div className="w-8 h-8 border-2 border-[var(--color-gold)] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
             <p className="text-[var(--color-muted)] text-sm font-heebo">טוען גלריה...</p>
@@ -246,26 +246,31 @@ export default function MarqueeGallery() {
         </div>
       )}
       
-      {/* Row 1 - Left to Right - Fast */}
-      <Marquee pauseOnHover className="[--duration:15s] py-2">
-        {row1.map((artwork, index) => (
-          <ArtworkCard key={`row1-${artwork.id}-${index}`} artwork={artwork} />
-        ))}
-      </Marquee>
-      
-      {/* Row 2 - Right to Left - Medium */}
-      <Marquee reverse pauseOnHover className="[--duration:18s] py-2">
-        {row2.map((artwork, index) => (
-          <ArtworkCard key={`row2-${artwork.id}-${index}`} artwork={artwork} />
-        ))}
-      </Marquee>
-      
-      {/* Row 3 - Left to Right - Fast */}
-      <Marquee pauseOnHover className="[--duration:20s] py-2">
-        {row3.map((artwork, index) => (
-          <ArtworkCard key={`row3-${artwork.id}-${index}`} artwork={artwork} />
-        ))}
-      </Marquee>
+      {/* Marquee Gallery - Only show when fully loaded */}
+      {imagesLoaded && (
+        <>
+          {/* Row 1 - Left to Right - Fast */}
+          <Marquee pauseOnHover className="[--duration:15s] py-2">
+            {row1.map((artwork, index) => (
+              <ArtworkCard key={`row1-${artwork.id}-${index}`} artwork={artwork} />
+            ))}
+          </Marquee>
+          
+          {/* Row 2 - Right to Left - Medium */}
+          <Marquee reverse pauseOnHover className="[--duration:18s] py-2">
+            {row2.map((artwork, index) => (
+              <ArtworkCard key={`row2-${artwork.id}-${index}`} artwork={artwork} />
+            ))}
+          </Marquee>
+          
+          {/* Row 3 - Left to Right - Fast */}
+          <Marquee pauseOnHover className="[--duration:20s] py-2">
+            {row3.map((artwork, index) => (
+              <ArtworkCard key={`row3-${artwork.id}-${index}`} artwork={artwork} />
+            ))}
+          </Marquee>
+        </>
+      )}
 
       
             {/* Mobile Artwork Viewer Modal */}
@@ -327,7 +332,7 @@ export default function MarqueeGallery() {
                     <p className="text-[var(--color-text)] font-heebo font-medium">
                       {selectedArtwork.user_name || 'אמן אנונימי'}
                     </p>
-                  </div>
+      </div>
 
                   {/* Like Button - Minimalist */}
                   <button

@@ -62,8 +62,17 @@ export default function PromptForm({ onSubmit, isLoading }) {
   }
 
   const handleExampleClick = (fullText) => {
+    // Replace the current prompt with the example text
     setPrompt(fullText)
     setError('')
+    
+    // Focus on the textarea so user can see the text was added
+    const textarea = document.getElementById('artwork-prompt')
+    if (textarea) {
+      textarea.focus()
+      // Move cursor to end of text
+      textarea.setSelectionRange(fullText.length, fullText.length)
+    }
   }
 
   const examplePrompts = [
