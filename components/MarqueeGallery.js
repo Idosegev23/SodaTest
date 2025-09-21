@@ -31,14 +31,35 @@ export default function MarqueeGallery() {
     }
   }, [])
 
-  // Preload images for smooth marquee animation
+  // Preload images for smooth marquee animation with loading state
+  const [imagesLoaded, setImagesLoaded] = useState(false)
+  
   useEffect(() => {
     if (allArtworks.length > 0) {
+      let loadedCount = 0
+      const totalImages = allArtworks.length
+      
       allArtworks.forEach(artwork => {
         const img = new Image()
+        img.onload = () => {
+          loadedCount++
+          if (loadedCount === totalImages) {
+            setImagesLoaded(true)
+          }
+        }
+        img.onerror = () => {
+          loadedCount++
+          if (loadedCount === totalImages) {
+            setImagesLoaded(true)
+          }
+        }
         img.src = artwork.image_url
-        // Preload the image silently
       })
+      
+      // Fallback timeout for mobile
+      setTimeout(() => {
+        setImagesLoaded(true)
+      }, 3000)
     }
   }, [allArtworks])
 
@@ -215,6 +236,16 @@ export default function MarqueeGallery() {
 
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
+      {/* Loading indicator for mobile */}
+      {!imagesLoaded && (
+        <div className="absolute inset-0 bg-[var(--color-bg)]/80 backdrop-blur-sm flex items-center justify-center z-10">
+          <div className="text-center">
+            <div className="w-8 h-8 border-2 border-[var(--color-gold)] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+            <p className="text-[var(--color-muted)] text-sm font-heebo">טוען גלריה...</p>
+          </div>
+        </div>
+      )}
+      
       {/* Row 1 - Left to Right - Fast */}
       <Marquee pauseOnHover className="[--duration:15s] py-2">
         {row1.map((artwork, index) => (
@@ -237,20 +268,20 @@ export default function MarqueeGallery() {
       </Marquee>
 
       
-      {/* Mobile Artwork Viewer Modal */}
-      {selectedArtwork && (
-        <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="relative max-w-4xl max-h-[95vh] w-full">
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedArtwork(null)}
-              className="absolute -top-12 right-0 text-white hover:text-[var(--color-gold)] transition-colors z-10"
-              aria-label="סגור תצוגת יצירה"
-            >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+            {/* Mobile Artwork Viewer Modal */}
+            {selectedArtwork && (
+              <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div className="relative max-w-4xl max-h-[95vh] w-full">
+                  {/* Close Button - Mobile Friendly Position */}
+                  <button
+                    onClick={() => setSelectedArtwork(null)}
+                    className="absolute top-4 right-4 md:-top-12 md:right-0 text-white hover:text-[var(--color-gold)] transition-colors z-20 bg-black/50 md:bg-transparent rounded-full p-2 md:p-0"
+                    aria-label="סגור תצוגת יצירה"
+                  >
+                    <svg className="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
 
             {/* Navigation Buttons - More Visible */}
             <button

@@ -78,9 +78,21 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-attachment: scroll; /* Fixed causes pixelation on mobile */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+/* Mobile-specific background optimization */
+@media (max-width: 768px) {
+  .bg-with-image {
+    background-attachment: scroll;
+    background-size: cover;
+    image-rendering: auto;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
 }
 
 .sr-only {
