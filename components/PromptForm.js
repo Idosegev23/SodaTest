@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PremiumButton from './PremiumButton'
 
 export default function PromptForm({ onSubmit, isLoading }) {
   const [prompt, setPrompt] = useState('')
@@ -84,7 +85,7 @@ export default function PromptForm({ onSubmit, isLoading }) {
               id="artwork-prompt"
               value={prompt}
               onChange={(e) => handleInputChange(e.target.value)}
-              className="w-full px-6 py-4 text-lg font-heebo border-2 border-[var(--color-gold-border)] rounded bg-[var(--color-bg)] text-[var(--color-text)] placeholder-[var(--color-muted)]/60 focus:outline-none focus:border-[var(--color-gold)] focus:ring-2 focus:ring-[var(--color-gold)]/30 transition-all resize-none"
+              className="w-full px-6 py-4 text-lg font-heebo border-2 border-[var(--color-gold-border)] rounded bg-black/20 text-[var(--color-text)] placeholder-[var(--color-muted)]/60 focus:outline-none focus:border-[var(--color-gold)] focus:ring-2 focus:ring-[var(--color-gold)]/30 transition-all resize-none backdrop-blur-sm"
               rows="5"
               placeholder="לדוגמה: חוף ים בשקיעה עם גלים זהובים, עצים ירוקים ופרחים צבעוניים..."
               disabled={isLoading}
@@ -125,10 +126,11 @@ export default function PromptForm({ onSubmit, isLoading }) {
           </div>
         </div>
 
-        <button
+        <PremiumButton
           type="submit"
+          variant="secondary"
           disabled={isLoading || !prompt.trim()}
-          className="w-full py-4 text-xl font-heebo font-medium text-black bg-[var(--color-gold)] rounded hover:bg-[var(--color-gold)]/90 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)] focus:ring-offset-2 focus:ring-offset-black"
+          className="w-full text-xl font-heebo font-medium py-4"
           aria-label={isLoading ? 'יוצר יצירת אמנות...' : 'צור יצירת אמנות'}
         >
           {isLoading ? (
@@ -139,13 +141,13 @@ export default function PromptForm({ onSubmit, isLoading }) {
           ) : (
             'צור יצירת אמנות'
           )}
-        </button>
+        </PremiumButton>
       </form>
 
       {/* הנחיות מעודכנות */}
       <div 
         id="prompt-help"
-        className="mt-8 p-6 bg-[var(--color-gold-muted)] border border-[var(--color-gold-border)] rounded-lg"
+        className="mt-8 p-6 bg-black/20 border border-[var(--color-gold-border)] rounded-lg"
         role="region"
         aria-label="הנחיות ליצירת אמנות"
       >

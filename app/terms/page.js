@@ -23,7 +23,7 @@ export default function TermsPage() {
 
         {/* Title */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-playfair font-light text-[var(--color-text)] mb-4">
+          <h1 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4">
             תנאי שימוש
           </h1>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-4"></div>
@@ -37,7 +37,7 @@ export default function TermsPage() {
           <div className="bg-[var(--color-gold-muted)] border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 space-y-6 font-heebo">
             
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">1. כללי</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">1. כללי</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 ברוכים הבאים לשירות יצירת האמנות של קמפיין SodaStream Enso. 
                 השימוש בשירות זה כפוף לתנאי השימוש המפורטים להלן. 
@@ -46,7 +46,7 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">2. השירות</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">2. השירות</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 השירות מאפשר ליצור יצירות אמנות דיגיטליות באמצעות בינה מלאכותית, 
                 כאשר מכשיר SodaStream Enso מוטמע בכל יצירה. 
@@ -55,7 +55,7 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">3. כללי השימוש</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">3. כללי השימוש</h2>
               <p className="text-[var(--color-muted)] leading-relaxed mb-3">
                 בעת השימוש בשירות, אתם מתחייבים:
               </p>
@@ -69,7 +69,7 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">4. זכויות יוצרים ובעלות</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">4. זכויות יוצרים ובעלות</h2>
               <p className="text-[var(--color-muted)] leading-relaxed mb-3">
                 יצירות האמנות שנוצרות באתר:
               </p>
@@ -82,7 +82,7 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">5. אחריות והגבלות</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">5. אחריות והגבלות</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 השירות מסופק "כמו שהוא" ללא אחריות מכל סוג. 
                 SodaStream לא תהיה אחראית לנזקים הנובעים משימוש בשירות, 
@@ -91,7 +91,7 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">6. פרטיות ומידע אישי</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">6. פרטיות ומידע אישי</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 השימוש בשירות כפוף למדיניות הפרטיות שלנו. 
                 המידע שתספקו ישמש ליצירת היצירות ולשליחת עדכונים שיווקיים 
@@ -100,7 +100,7 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">7. הפרת תנאים</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">7. הפרת תנאים</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 במקרה של הפרת תנאי השימוש, אנו שומרים לעצמנו את הזכות 
                 לחסום את הגישה לשירות, למחוק תוכן לא מתאים ולנקוט בפעולות משפטיות במידת הצורך.
@@ -108,7 +108,7 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">8. שינויים בתנאים</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">8. שינויים בתנאים</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 אנו שומרים לעצמנו את הזכות לעדכן את תנאי השימוש מעת לעת. 
                 שינויים יכנסו לתוקף מיד עם פרסומם באתר.
@@ -116,7 +116,7 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">9. דין חל ושיפוט</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">9. דין חל ושיפוט</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 תנאי שימוש אלה כפופים לדיני מדינת ישראל. 
                 כל מחלוקת תהיה נתונה לשיפוטם הבלעדי של בתי המשפט המוסמכים בישראל.
@@ -124,7 +124,7 @@ export default function TermsPage() {
             </section>
 
             <section className="border-t border-[var(--color-gold-border)] pt-6">
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">עדכון אחרון</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">עדכון אחרון</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 תנאי שימוש אלה עודכנו לאחרונה ב-{new Date().toLocaleDateString('he-IL')}.
               </p>

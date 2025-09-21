@@ -2,190 +2,334 @@
 
 import { useState, useEffect } from 'react'
 import { getArtworks } from '../lib/supabaseClient'
+import { Marquee } from './ui/Marquee'
+import { cn } from '../lib/utils'
 
 export default function MarqueeGallery() {
   const [artworks, setArtworks] = useState([])
-  const [isPaused, setIsPaused] = useState(false)
+  const [allArtworks, setAllArtworks] = useState([]) // All artworks for navigation
 
   useEffect(() => {
     loadArtworks()
+    
+    // Listen for new artworks being created to update in real-time
+    const handleNewArtwork = () => {
+      loadArtworks() // Reload to get new artworks
+    }
+    
+    // Listen for artwork likes to update the display
+    const handleArtworkLiked = () => {
+      loadArtworks() // Reload to get updated likes and re-sort
+    }
+    
+    window.addEventListener('newArtworkCreated', handleNewArtwork)
+    window.addEventListener('artworkLiked', handleArtworkLiked)
+    
+    return () => {
+      window.removeEventListener('newArtworkCreated', handleNewArtwork)
+      window.removeEventListener('artworkLiked', handleArtworkLiked)
+    }
   }, [])
+
+  // Preload images for smooth marquee animation
+  useEffect(() => {
+    if (allArtworks.length > 0) {
+      allArtworks.forEach(artwork => {
+        const img = new Image()
+        img.src = artwork.image_url
+        // Preload the image silently
+      })
+    }
+  }, [allArtworks])
 
   const loadArtworks = async () => {
     try {
       const artworksFromDB = await getArtworks()
       
       if (artworksFromDB && artworksFromDB.length > 0) {
-        // Sort by creation date and take the most recent ones
-        const sorted = artworksFromDB.sort((a, b) => {
+        // Sort all artworks by likes for consistency
+        const sortedByLikes = artworksFromDB.sort((a, b) => {
+          const likesA = a.likes || 0
+          const likesB = b.likes || 0
+          
+          if (likesB !== likesA) {
+            return likesB - likesA // Most likes first
+          }
+          
+          // If likes are equal, sort by creation date (newest first)
           if (a.created_at && b.created_at) {
             return new Date(b.created_at) - new Date(a.created_at)
           }
           return (b.id || '').toString().localeCompare((a.id || '').toString())
         })
         
-        // Ensure we have enough items for seamless loop (minimum 6 per row)
-        let baseArtworks = sorted.slice(0, Math.max(12, sorted.length))
+        // Store ALL artworks for navigation
+        setAllArtworks(sortedByLikes)
         
-        // If we have fewer than 6 items, duplicate them to ensure smooth scrolling
-        while (baseArtworks.length < 18) {
-          baseArtworks = [...baseArtworks, ...baseArtworks]
-        }
-        
-        // Create multiple copies for seamless infinite scrolling
-        const duplicatedArtworks = [...baseArtworks, ...baseArtworks, ...baseArtworks]
-        setArtworks(duplicatedArtworks)
+        // Show all artworks except the top 7 (which are in BentoGallery) for display
+        // But if we have less than 7 total, show all
+        const marqueeArtworks = sortedByLikes.length > 7 ? sortedByLikes.slice(7) : sortedByLikes
+        setArtworks(marqueeArtworks)
       } else {
-        // Fallback images if no artworks exist - ensure enough for smooth loop
-        const fallbackImages = Array.from({ length: 18 }, (_, i) => ({
-          id: `fallback-${i}`,
-          image_url: `https://picsum.photos/300/300?random=${i + 100}`,
-          user_name: 'אמן דיגיטלי',
-          prompt: `יצירה דיגיטלית ${(i % 6) + 1}`,
-          created_at: new Date().toISOString()
-        }))
-        // Triple duplication for seamless loop
-        setArtworks([...fallbackImages, ...fallbackImages, ...fallbackImages])
+        console.log('No artworks found in database')
+        setArtworks([])
+        setAllArtworks([])
       }
     } catch (error) {
       console.error('Error loading artworks for marquee:', error)
-      // Error fallback with enough items for smooth scrolling
-      const errorImages = Array.from({ length: 18 }, (_, i) => ({
-        id: `error-${i}`,
-        image_url: `https://picsum.photos/300/300?random=${i + 200}`,
-        user_name: 'Fallback Artist',
-        prompt: `Fallback Art ${(i % 6) + 1}`,
-        created_at: new Date().toISOString()
-      }))
-      setArtworks([...errorImages, ...errorImages, ...errorImages])
+      setArtworks([])
+      setAllArtworks([])
     }
   }
 
-  const togglePause = () => {
-    setIsPaused(!isPaused)
+  // Split artworks into 3 rows - ensure each row has enough items by duplicating if needed
+  const minItemsPerRow = 8 // Minimum items per row for full display
+  
+  // Create rows and fill them with duplicates if needed
+  const createFullRow = (items) => {
+    if (items.length === 0) return []
+    const fullRow = [...items]
+    while (fullRow.length < minItemsPerRow) {
+      fullRow.push(...items) // Duplicate the items
+    }
+    return fullRow
+  }
+  
+  const row1 = createFullRow(artworks.filter((_, index) => index % 3 === 0))
+  const row2 = createFullRow(artworks.filter((_, index) => index % 3 === 1))
+  const row3 = createFullRow(artworks.filter((_, index) => index % 3 === 2))
+
+  const handleLike = async (artworkId, e) => {
+    e.stopPropagation()
+    
+    try {
+      const response = await fetch('/api/like-artwork', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ artworkId }),
+      })
+      
+      if (response.ok) {
+        // Reload artworks to update the display
+        loadArtworks()
+        
+        // Update selectedArtwork if it's currently selected
+        if (selectedArtwork && selectedArtwork.id === artworkId) {
+          const updatedArtwork = { ...selectedArtwork, likes: (selectedArtwork.likes || 0) + 1 }
+          setSelectedArtwork(updatedArtwork)
+        }
+        
+        // Trigger a global update for BentoGallery by dispatching a custom event
+        window.dispatchEvent(new CustomEvent('artworkLiked', { 
+          detail: { artworkId, newLikes: (selectedArtwork?.likes || 0) + 1 }
+        }))
+      }
+    } catch (error) {
+      console.error('Error liking artwork:', error)
+    }
   }
 
-  // Split artworks into 3 rows
-  const row1 = artworks.filter((_, index) => index % 3 === 0)
-  const row2 = artworks.filter((_, index) => index % 3 === 1)
-  const row3 = artworks.filter((_, index) => index % 3 === 2)
+  const handleCardClick = (artwork) => {
+    // Open artwork in popup/modal for mobile viewing
+    setSelectedArtwork(artwork)
+  }
 
-  const MarqueeRow = ({ artworks, direction = 'left', speed = '80s' }) => {
-    // Ensure we have enough items for smooth infinite scroll
-    const displayArtworks = artworks.length < 6 
-      ? [...artworks, ...artworks, ...artworks].slice(0, 12)
-      : artworks.slice(0, 12)
+  const [selectedArtwork, setSelectedArtwork] = useState(null)
+
+  const navigateArtwork = (direction) => {
+    console.log('Navigate called:', direction, 'allArtworks length:', allArtworks.length, 'selectedArtwork:', selectedArtwork?.id)
     
+    if (!selectedArtwork || !allArtworks.length) {
+      console.log('Navigation blocked - missing data')
+      return
+    }
+    
+    // Use ALL artworks for navigation (not just marquee artworks)
+    const currentIndex = allArtworks.findIndex(art => art.id === selectedArtwork.id)
+    console.log('Current index:', currentIndex)
+    
+    let newIndex = currentIndex + direction
+    
+    // Loop around
+    if (newIndex < 0) newIndex = allArtworks.length - 1
+    if (newIndex >= allArtworks.length) newIndex = 0
+    
+    console.log('New index:', newIndex, 'New artwork:', allArtworks[newIndex]?.id)
+    setSelectedArtwork(allArtworks[newIndex])
+  }
+
+  const ArtworkCard = ({ artwork }) => {
+    const [isLoaded, setIsLoaded] = useState(false)
+    const [hasError, setHasError] = useState(false)
+
     return (
-      <div className="overflow-hidden py-2 relative">
-        <div 
-          className={`flex gap-4 ${direction === 'left' ? 'animate-marquee' : 'animate-marquee-reverse'}`}
-          style={{ 
-            animationDuration: speed,
-            animationPlayState: isPaused ? 'paused' : 'running',
-            width: 'calc(200% + 1rem)' // Extra width for seamless loop
+      <figure
+        className={cn(
+          "relative h-full w-48 md:w-56 lg:w-64 cursor-pointer overflow-hidden rounded-lg border group",
+          "border-[var(--color-gold-border)] bg-[var(--color-bg)] hover:border-[var(--color-gold)]",
+          "transition-all duration-300"
+        )}
+        onClick={() => handleCardClick(artwork)}
+      >
+        {/* Loading placeholder */}
+        {!isLoaded && !hasError && (
+          <div className="w-full h-48 md:h-56 lg:h-64 bg-[var(--color-muted)]/20 animate-pulse flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-[var(--color-gold)] border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
+        
+        <img
+          src={artwork.image_url}
+          alt={artwork.prompt || 'יצירת אמנות'}
+          className={cn(
+            "w-full h-48 md:h-56 lg:h-64 object-cover transition-all duration-500 group-hover:scale-105",
+            isLoaded ? "opacity-100" : "opacity-0"
+          )}
+          onLoad={() => setIsLoaded(true)}
+          onError={(e) => {
+            setHasError(true)
+            setIsLoaded(true)
+            e.target.src = `https://picsum.photos/300/300?random=${Math.floor(Math.random() * 1000)}`
           }}
-        >
-          {/* First set */}
-          {displayArtworks.map((artwork, index) => (
-            <div 
-              key={`first-${artwork.id}-${index}`}
-              className="flex-shrink-0 w-48 md:w-56 lg:w-64 group cursor-pointer"
-            >
-              <div className="relative overflow-hidden rounded-lg bg-[var(--color-bg)] border border-[var(--color-gold-border)] hover:border-[var(--color-gold)] transition-all duration-300">
-                <img
-                  src={artwork.image_url}
-                  alt={artwork.prompt || 'יצירת אמנות'}
-                  className="w-full h-48 md:h-56 lg:h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-                  onError={(e) => {
-                    e.target.src = `https://picsum.photos/300/300?random=${Math.floor(Math.random() * 1000)}`
-                  }}
-                />
-                
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                  <h4 className="text-white text-sm font-heebo font-light line-clamp-2 mb-1">
-                    {artwork.prompt}
-                  </h4>
-                  <p className="text-[var(--color-gold)] text-xs font-heebo">
-                    {artwork.user_name}
-                  </p>
-                  {artwork.created_at && (
-                    <p className="text-[var(--color-muted)]/60 text-xs font-heebo mt-1">
-                      {new Date(artwork.created_at).toLocaleDateString('he-IL')}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-          
-          {/* Duplicate set for seamless loop */}
-          {displayArtworks.map((artwork, index) => (
-            <div 
-              key={`second-${artwork.id}-${index}`}
-              className="flex-shrink-0 w-48 md:w-56 lg:w-64 group cursor-pointer"
-            >
-              <div className="relative overflow-hidden rounded-lg bg-[var(--color-bg)] border border-[var(--color-gold-border)] hover:border-[var(--color-gold)] transition-all duration-300">
-                <img
-                  src={artwork.image_url}
-                  alt={artwork.prompt || 'יצירת אמנות'}
-                  className="w-full h-48 md:h-56 lg:h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-                  onError={(e) => {
-                    e.target.src = `https://picsum.photos/300/300?random=${Math.floor(Math.random() * 1000)}`
-                  }}
-                />
-                
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                  <h4 className="text-white text-sm font-heebo font-light line-clamp-2 mb-1">
-                    {artwork.prompt}
-                  </h4>
-                  <p className="text-[var(--color-gold)] text-xs font-heebo">
-                    {artwork.user_name}
-                  </p>
-                  {artwork.created_at && (
-                    <p className="text-[var(--color-muted)]/60 text-xs font-heebo mt-1">
-                      {new Date(artwork.created_at).toLocaleDateString('he-IL')}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
+        />
+        
+        {/* Hover overlay on desktop only - clean image display */}
+        <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+          <h4 className="text-white text-sm font-heebo font-light line-clamp-2 mb-1">
+            {artwork.prompt}
+          </h4>
+          <p className="text-[var(--color-gold)] text-xs font-heebo">
+            {artwork.user_name}
+          </p>
+          {artwork.created_at && (
+            <p className="text-[var(--color-muted)]/60 text-xs font-heebo mt-1">
+              {new Date(artwork.created_at).toLocaleDateString('he-IL')}
+            </p>
+          )}
         </div>
-      </div>
+      </figure>
     )
   }
 
   return (
-    <div className="w-full overflow-hidden bg-[var(--color-bg)] relative">
-      {/* Pause/Play Control for Accessibility */}
-      <div className="flex justify-center mb-6">
-        <button
-          onClick={togglePause}
-          className="px-4 py-2 text-sm font-heebo font-light text-[var(--color-muted)] hover:text-[var(--color-gold)] transition-colors focus:outline-none focus:text-[var(--color-gold)]"
-          aria-label={isPaused ? 'המשך גלילה אוטומטית' : 'עצור גלילה אוטומטית'}
-        >
-          {isPaused ? '▶️ המשך' : '⏸️ עצור'}
-        </button>
-      </div>
+    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
+      {/* Row 1 - Left to Right - Fast */}
+      <Marquee pauseOnHover className="[--duration:15s] py-2">
+        {row1.map((artwork, index) => (
+          <ArtworkCard key={`row1-${artwork.id}-${index}`} artwork={artwork} />
+        ))}
+      </Marquee>
+      
+      {/* Row 2 - Right to Left - Medium */}
+      <Marquee reverse pauseOnHover className="[--duration:18s] py-2">
+        {row2.map((artwork, index) => (
+          <ArtworkCard key={`row2-${artwork.id}-${index}`} artwork={artwork} />
+        ))}
+      </Marquee>
+      
+      {/* Row 3 - Left to Right - Fast */}
+      <Marquee pauseOnHover className="[--duration:20s] py-2">
+        {row3.map((artwork, index) => (
+          <ArtworkCard key={`row3-${artwork.id}-${index}`} artwork={artwork} />
+        ))}
+      </Marquee>
 
-      {/* Three Marquee Rows */}
-      <div className="space-y-4">
-        {/* Row 1 - Left to Right */}
-        <MarqueeRow artworks={row1} direction="left" speed="80s" />
-        
-        {/* Row 2 - Right to Left */}
-        <MarqueeRow artworks={row2} direction="right" speed="70s" />
-        
-        {/* Row 3 - Left to Right */}
-        <MarqueeRow artworks={row3} direction="left" speed="90s" />
-      </div>
+      
+      {/* Mobile Artwork Viewer Modal */}
+      {selectedArtwork && (
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="relative max-w-4xl max-h-[95vh] w-full">
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedArtwork(null)}
+              className="absolute -top-12 right-0 text-white hover:text-[var(--color-gold)] transition-colors z-10"
+              aria-label="סגור תצוגת יצירה"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
 
-      {/* Gradient Overlays for Smooth Edges */}
-      <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-[var(--color-bg)] to-transparent pointer-events-none z-10"></div>
-      <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-[var(--color-bg)] to-transparent pointer-events-none z-10"></div>
-    </div>
+            {/* Navigation Buttons - More Visible */}
+            <button
+              onClick={() => navigateArtwork(-1)}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-[var(--color-gold)] hover:bg-[var(--color-gold)]/80 text-black p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl z-20 border-2 border-white/20"
+              aria-label="יצירה קודמת"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            
+            <button
+              onClick={() => navigateArtwork(1)}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[var(--color-gold)] hover:bg-[var(--color-gold)]/80 text-black p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl z-20 border-2 border-white/20"
+              aria-label="יצירה הבאה"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+
+            {/* Artwork Display */}
+            <div className="bg-[var(--color-bg)] border border-[var(--color-gold-border)] rounded overflow-hidden shadow-2xl">
+              <div className="relative">
+                <img
+                  src={selectedArtwork.image_url}
+                  alt={selectedArtwork.prompt || 'יצירת אמנות'}
+                  className="w-full h-auto max-h-[60vh] object-contain"
+                />
+              </div>
+
+              <div className="p-6 bg-[var(--color-gold-muted)] border-t border-[var(--color-gold-border)]">
+                <div className="text-center mb-4">
+                  <h2 className="text-xl font-heebo font-light text-[var(--color-text)] mb-2 leading-relaxed">
+                    {selectedArtwork.prompt}
+                  </h2>
+                </div>
+
+                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                  <div>
+                    <p className="text-[var(--color-muted)] text-sm font-heebo font-light mb-1">יוצר:</p>
+                    <p className="text-[var(--color-text)] font-heebo font-medium">
+                      {selectedArtwork.user_name || 'אמן אנונימי'}
+                    </p>
+                  </div>
+
+                  {/* Like Button - Minimalist */}
+                  <button
+                    onClick={(e) => handleLike(selectedArtwork.id, e)}
+                    className="flex items-center gap-3 px-6 py-3 border-2 border-[var(--color-gold)] bg-transparent hover:bg-[var(--color-gold)] text-[var(--color-gold)] hover:text-black transition-all duration-300 font-heebo font-medium"
+                    aria-label={`הוסף לייק ליצירה`}
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span>
+                      הוסף לייק ({selectedArtwork.likes || 0})
+                    </span>
+                  </button>
+
+                  {selectedArtwork.created_at && (
+                    <div>
+                      <p className="text-[var(--color-muted)] text-sm font-heebo font-light mb-1">תאריך:</p>
+                      <p className="text-[var(--color-text)] font-heebo font-medium">
+                        {new Date(selectedArtwork.created_at).toLocaleDateString('he-IL', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      </div>
   )
 }

@@ -89,11 +89,11 @@ export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading 
                   >
                     <XMarkIcon className="h-6 w-6" />
                   </button>
-                  <Dialog.Title as="h3" className="text-xl font-playfair font-light text-[var(--color-text)]">
+                  <Dialog.Title as="h3" className="text-xl font-heebo font-light text-[var(--color-text)]">
                     פרטים ליצירת האמנות
                   </Dialog.Title>
                 </div>
-                
+
                 <div className="mb-6 text-center">
                   <p className="text-[var(--color-muted)] font-heebo font-light leading-relaxed">
                     כדי ליצור את יצירת האמנות שלך עם <span className="text-[var(--color-gold)]">SodaStream Enso</span>, נצטרך כמה פרטים בסיסיים

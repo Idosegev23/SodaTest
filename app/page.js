@@ -3,79 +3,92 @@
 import { useRouter } from 'next/navigation'
 import BentoGallery from '../components/BentoGallery'
 import MarqueeGallery from '../components/MarqueeGallery'
+import { PremiumButton } from '../components/ui/PremiumButton'
 
 export default function HomePage() {
   const router = useRouter()
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] overflow-hidden flex flex-col" lang="he">
+    <div className="min-h-screen bg-with-image overflow-hidden flex flex-col" lang="he">
       {/* Premium Navigation - SodaStream Enso */}
       <nav 
         className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[var(--color-bg)]/90 border-b border-[var(--color-gold-border)]"
         role="navigation"
         aria-label="ניווט ראשי"
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex justify-center items-center">
-          <h1 className="text-[var(--color-text)] font-playfair text-2xl md:text-3xl font-light tracking-wider">
-            SodaStream Enso
-          </h1>
-        </div>
+               <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex justify-center items-center">
+                 <img 
+                   src="/logo.png" 
+                   alt="SodaStream Enso" 
+                   className="h-8 md:h-10 w-auto"
+                 />
+               </div>
         
         {/* CTA Buttons */}
-        <div className="max-w-7xl mx-auto px-6 md:px-8 pb-4 flex flex-col sm:flex-row gap-4 justify-center">
-          <button
+        <div className="max-w-7xl mx-auto px-6 md:px-8 pb-4 flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <PremiumButton
+            variant="secondary"
             onClick={() => router.push('/create')}
-            className="px-8 py-3 border-2 border-[var(--color-gold)] text-[var(--color-gold)] text-lg font-heebo font-light tracking-wide rounded-none hover:bg-[var(--color-gold)] hover:text-black transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)] focus:ring-offset-2 focus:ring-offset-black"
+            className="text-lg font-heebo font-light tracking-wide group w-full sm:w-auto"
             aria-label="צור יצירת אמנות חדשה"
           >
             צור יצירת אמנות
-          </button>
-          <a
-            href="https://sodastream.co.il/products/enso?variant=42858873749582"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-8 py-3 bg-[var(--color-gold)] text-black text-lg font-heebo font-medium tracking-wide rounded-none hover:bg-[var(--color-gold)]/90 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)] focus:ring-offset-2 focus:ring-offset-black text-center"
+          </PremiumButton>
+          <PremiumButton
+            variant="primary"
+            onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
+            className="text-lg font-heebo font-medium tracking-wide group w-full sm:w-auto"
             aria-label="רכוש את מכשיר SodaStream Enso"
           >
             רכוש עכשיו
-          </a>
+          </PremiumButton>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-40 pb-16 px-4 relative flex flex-col items-center text-center">
-        <h2 className="text-4xl md:text-6xl lg:text-8xl font-playfair font-light text-[var(--color-text)] mb-6 leading-tight tracking-wide">
-          SodaStream Enso
-        </h2>
+      {/* Hero Section with Background Image */}
+      <section className="relative min-h-screen flex flex-col">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/imgs/File00005.png"
+            alt="SodaStream Enso"
+            className="w-full h-full object-cover"
+          />
+          {/* Dark Overlay for Text Readability */}
+          <div className="absolute inset-0 bg-black/40"></div>
+        </div>
 
-        <p className="text-lg md:text-xl text-[var(--color-muted)] font-heebo font-light mb-16 max-w-2xl mx-auto leading-relaxed">
-          מכשיר Enso תמיד יופיע ביצירה כפי שהוא, ללא שינוי.
-          <br />
-          צור יצירות אמנות ייחודיות עם הבינה המלאכותית המתקדמת ביותר.
-        </p>
+               {/* Logo - Upper Part - Below Header */}
+               <div className="relative z-10 flex-1 flex items-start justify-center pt-72 md:pt-80">
+                 <div className="text-center px-4">
+                   <img 
+                     src="/logo.png" 
+                     alt="SodaStream Enso" 
+                     className="h-20 md:h-32 lg:h-40 w-auto drop-shadow-2xl"
+                   />
+                 </div>
+               </div>
 
-        {/* SodaStream Enso Display with Gold Frame */}
-        <div className="relative mb-16 gallery-spotlight">
-          <div className="gold-frame p-4 bg-[var(--color-bg)] rounded-lg">
-            <img
-              src="/file.png"
-              alt="מכשיר SodaStream Enso - יופיע בכל יצירה"
-              className="w-32 md:w-48 lg:w-64 mx-auto"
-              style={{
-                filter: 'drop-shadow(0 25px 50px rgba(205, 164, 52, 0.4))',
-              }}
-            />
-          </div>
-          <div className="mt-4 text-[var(--color-gold)] font-heebo text-sm tracking-wide">
-            מכשיר SodaStream Enso
-          </div>
+        {/* Quote and Signature - Left Side */}
+        <div className="absolute bottom-4 right-4 md:right-8 z-10 max-w-md px-4 md:px-0">
+          {/* Elegant Quote */}
+          <p className="text-white/70 font-heebo font-light text-xs md:text-sm leading-loose mb-6 tracking-wider italic text-right px-2" dir="rtl">
+            "תמונה פוטו-ריאליסטית בסגנון יפני מינימליסטי בהשראת נאוטו פוקאסאווה: אובייקט יחיד מוצג במרחב שקט ונקי, עם אור טבעי רך, טקסטורות עדינות, פרופורציות מאוזנות ומרחב שלילי נדיב. האווירה רגועה, אלגנטית ועל-זמנית, כמו יצירת אמנות בגלריה."
+          </p>
+          
+          {/* Signature */}
+          <img
+            src="/imgs/Signature.png"
+            alt="חתימה"
+            className="h-16 md:h-20 opacity-90 drop-shadow-lg brightness-0 invert"
+          />
         </div>
       </section>
 
-      {/* Section Title: יצירות נבחרות */}
-      <section className="py-16 px-4">
+            {/* Section Title: יצירות נבחרות */}
+            <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto text-center mb-12">
-          <h3 className="text-3xl md:text-4xl font-playfair font-light text-[var(--color-text)] mb-4 tracking-wide">
+          <h3 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
             יצירות נבחרות
           </h3>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
@@ -88,7 +101,7 @@ export default function HomePage() {
       {/* Marquee Gallery - גלריית יצירות הגולשים */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto text-center mb-12 px-4">
-          <h3 className="text-3xl md:text-4xl font-playfair font-light text-[var(--color-text)] mb-4 tracking-wide">
+          <h3 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
             גלריית יצירות הגולשים
           </h3>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
@@ -98,14 +111,15 @@ export default function HomePage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-16 px-4 text-center">
-        <button
+      <section className="py-16 px-4 text-center flex justify-center">
+        <PremiumButton
+          variant="secondary"
           onClick={() => router.push('/create')}
-          className="px-12 py-4 border-2 border-[var(--color-gold)] text-[var(--color-gold)] text-xl font-heebo font-light tracking-wide rounded-none hover:bg-[var(--color-gold)] hover:text-black transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)] focus:ring-offset-2 focus:ring-offset-black"
+          className="text-xl font-heebo font-light tracking-wide group px-12 py-4 w-full sm:w-auto max-w-md"
           aria-label="צור את היצירה שלך עכשיו"
         >
           צור את היצירה שלך עכשיו
-        </button>
+        </PremiumButton>
       </section>
 
       {/* Footer */}

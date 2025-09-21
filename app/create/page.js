@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import PromptForm from '../../components/PromptForm'
 import UserDetailsModal from '../../components/UserDetailsModal'
+import PremiumButton from '../../components/PremiumButton'
 import { addToQueue, checkQueueStatus, getCompletedArtwork } from '../../lib/supabaseClient'
 
 export default function CreatePage() {
@@ -143,7 +144,7 @@ export default function CreatePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] text-white overflow-hidden" lang="he">
+    <div className="min-h-screen bg-with-image text-white overflow-hidden" lang="he">
       <div className="container mx-auto px-4 md:px-8 py-6 md:py-12 relative z-10">
         {/* Premium header with back button - SodaStream Enso */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12 gap-4">
@@ -156,12 +157,14 @@ export default function CreatePage() {
             <span className="font-heebo font-light tracking-wide text-sm md:text-base">חזור לגלריה</span>
           </button>
           
-          {/* SodaStream Enso Title */}
+          {/* SodaStream Enso Logo */}
           <div className="text-center">
-            <h1 className="text-2xl md:text-3xl font-playfair font-light text-[var(--color-text)] tracking-wide">
-              SodaStream Enso
-            </h1>
-            <div className="text-[var(--color-gold)] text-sm font-heebo font-light mt-1">
+            <img 
+              src="/logo.png" 
+              alt="SodaStream Enso" 
+              className="h-8 md:h-10 w-auto mx-auto mb-2"
+            />
+            <div className="text-[var(--color-gold)] text-sm font-heebo font-light">
               צור יצירת אמנות
             </div>
           </div>
@@ -191,12 +194,12 @@ export default function CreatePage() {
             <div className="max-w-4xl mx-auto transition-all">
               {/* הוראות SodaStream Enso */}
               <div className="mb-12 md:mb-16 text-center">
-                <h2 className="text-2xl md:text-3xl font-playfair font-light text-[var(--color-text)] mb-6 tracking-wide">
+                <h2 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-6 tracking-wide">
                   צור יצירת אמנות עם SodaStream Enso
                 </h2>
                 <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-8"></div>
                 
-                <div className="bg-[var(--color-gold-muted)] border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 mb-8">
+                <div className="bg-black/20 border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 mb-8">
                   <h3 className="text-lg font-heebo font-medium text-[var(--color-text)] mb-4">
                     הוראות חשובות
                   </h3>
@@ -236,24 +239,23 @@ export default function CreatePage() {
               
               {/* כפתורי CTA נוספים */}
               <div className="mt-12 text-center">
-                <a
-                  href="https://sodastream.co.il/products/enso?variant=42858873749582"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block px-8 py-3 bg-[var(--color-gold)] text-black text-lg font-heebo font-medium tracking-wide rounded-none hover:bg-[var(--color-gold)]/90 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)] focus:ring-offset-2 focus:ring-offset-black"
+                <PremiumButton
+                  variant="primary"
+                  onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
+                  className="text-lg font-heebo font-medium tracking-wide"
                   aria-label="רכוש את מכשיר SodaStream Enso"
                 >
                   רכוש עכשיו
-                </a>
+                </PremiumButton>
               </div>
             </div>
           )}
 
           {step === 'processing' && (
             <div className="max-w-3xl mx-auto text-center transition-all">
-              <div className="bg-black/60 backdrop-blur-sm rounded-lg border border-[var(--color-gold)]/20 p-8 md:p-16">
+              <div className="bg-black/30 rounded-lg border border-[var(--color-gold)]/20 p-8 md:p-16">
                 <div className="mb-6 md:mb-8">
-                  <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-playfair">CREATING ARTWORK</h2>
+                  <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">CREATING ARTWORK</h2>
                   <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
                 </div>
 
@@ -263,7 +265,7 @@ export default function CreatePage() {
                   <div className="absolute inset-2 border border-[var(--color-gold)]/20 rounded-full animate-spin" style={{ animationDuration: '2s', animationDirection: 'reverse' }}></div>
                   <div className="absolute inset-4 border border-[var(--color-gold)]/10 rounded-full animate-spin" style={{ animationDuration: '4s' }}></div>
                   <div className="absolute inset-6 md:inset-8 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/30 rounded-full flex items-center justify-center">
-                    <span className="text-xl md:text-2xl font-light text-[var(--color-gold)] tracking-wider font-playfair">AI</span>
+                    <span className="text-xl md:text-2xl font-light text-[var(--color-gold)] tracking-wider font-heebo">AI</span>
                   </div>
                 </div>
 
@@ -314,9 +316,9 @@ export default function CreatePage() {
 
           {step === 'waiting' && (
             <div className="max-w-3xl mx-auto text-center transition-all">
-              <div className="bg-black/60 backdrop-blur-sm rounded-lg border border-[var(--color-chrome)]/20 p-8 md:p-16">
+              <div className="bg-black/30 rounded-lg border border-[var(--color-chrome)]/20 p-8 md:p-16">
                 <div className="mb-6 md:mb-8">
-                  <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-playfair">COMMISSION QUEUED</h2>
+                  <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">COMMISSION QUEUED</h2>
                   <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-chrome)] to-transparent mx-auto"></div>
                   {queueLength > 1 && (
                     <div className="mt-4 text-[var(--color-chrome)] text-sm font-light">
@@ -357,9 +359,9 @@ export default function CreatePage() {
 
           {step === 'completed' && completedArtwork && (
             <div className="max-w-5xl mx-auto text-center transition-all">
-              <div className="bg-black/60 backdrop-blur-sm rounded-lg border border-green-400/20 p-6 md:p-12">
+              <div className="bg-black/30 rounded-lg border border-green-400/20 p-6 md:p-12">
                 <div className="mb-6 md:mb-8">
-                  <h2 className="text-2xl md:text-3xl font-light text-[var(--color-text)] mb-2 tracking-wide font-playfair">COMMISSION COMPLETED</h2>
+                  <h2 className="text-2xl md:text-3xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">COMMISSION COMPLETED</h2>
                   <div className="w-16 md:w-24 h-px bg-gradient-to-r from-transparent via-green-400/50 to-transparent mx-auto"></div>
                   <p className="text-green-400/80 text-xs md:text-sm font-light mt-4 tracking-wide">
                     יצירת האומנות שלך מוכנה ומוצגת בגלריה
@@ -422,9 +424,9 @@ export default function CreatePage() {
 
           {step === 'validation_error' && validationError && (
             <div className="max-w-3xl mx-auto text-center transition-all">
-              <div className="bg-black/60 backdrop-blur-sm rounded-lg border border-red-400/20 p-8 md:p-16">
+              <div className="bg-black/30 rounded-lg border border-red-400/20 p-8 md:p-16">
                 <div className="mb-6 md:mb-8">
-                  <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-playfair">CONTENT NOT APPROVED</h2>
+                  <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">CONTENT NOT APPROVED</h2>
                   <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-red-400 to-transparent mx-auto"></div>
                 </div>
 

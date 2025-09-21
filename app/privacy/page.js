@@ -23,7 +23,7 @@ export default function PrivacyPage() {
 
         {/* Title */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-playfair font-light text-[var(--color-text)] mb-4">
+          <h1 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4">
             מדיניות פרטיות
           </h1>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-4"></div>
@@ -37,7 +37,7 @@ export default function PrivacyPage() {
           <div className="bg-[var(--color-gold-muted)] border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 space-y-6 font-heebo">
             
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">1. איסוף מידע</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">1. איסוף מידע</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 אנו אוספים מידע אישי שאתם מספקים בעת השימוש בשירות יצירת האמנות של SodaStream Enso, 
                 כולל שם, כתובת דוא"ל ומספר טלפון. מידע זה נאסף רק לאחר קבלת הסכמתכם המפורשת.
@@ -45,7 +45,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">2. שימוש במידע</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">2. שימוש במידע</h2>
               <p className="text-[var(--color-muted)] leading-relaxed mb-3">
                 המידע שאנו אוספים משמש למטרות הבאות:
               </p>
@@ -58,7 +58,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">3. שיתוף מידע</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">3. שיתוף מידע</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 אנו לא מוכרים, משכירים או מעבירים את המידע האישי שלכם לצדדים שלישיים ללא הסכמתכם, 
                 למעט במקרים הנדרשים על פי חוק או לצורך מתן השירות (כגון ספקי שירות טכניים).
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">4. אבטחת מידע</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">4. אבטחת מידע</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 אנו נוקטים באמצעי אבטחה מתקדמים להגנה על המידע האישי שלכם, כולל הצפנה, 
                 גישה מוגבלת ומערכות אבטחה מתקדמות. המידע מאוחסן בשרתים מאובטחים.
@@ -74,7 +74,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">5. זכויותיכם</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">5. זכויותיכם</h2>
               <p className="text-[var(--color-muted)] leading-relaxed mb-3">
                 בהתאם לחוקי הגנת הפרטיות, יש לכם זכות:
               </p>
@@ -87,7 +87,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">6. עוגיות (Cookies)</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">6. עוגיות (Cookies)</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 אתר זה משתמש בעוגיות טכניות הכרחיות לתפקוד האתר בלבד. 
                 אנו לא משתמשים בעוגיות מעקב או שיווק ללא הסכמתכם המפורשת.
@@ -95,14 +95,14 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">7. יצירת קשר</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">7. יצירת קשר</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 לשאלות או בקשות בנוגע למדיניות הפרטיות, ניתן לפנות אלינו באמצעות פרטי הקשר באתר SodaStream הראשי.
               </p>
             </section>
 
             <section className="border-t border-[var(--color-gold-border)] pt-6">
-              <h2 className="text-xl font-playfair font-medium text-[var(--color-text)] mb-4">עדכון אחרון</h2>
+              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">עדכון אחרון</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">
                 מדיניות פרטיות זו עודכנה לאחרונה ב-{new Date().toLocaleDateString('he-IL')}. 
                 אנו שומרים לעצמנו את הזכות לעדכן מדיניות זו מעת לעת.

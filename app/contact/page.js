@@ -23,7 +23,7 @@ export default function ContactPage() {
 
         {/* Title */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-playfair font-light text-[var(--color-text)] mb-4">
+          <h1 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4">
             יצירת קשר
           </h1>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-4"></div>
@@ -37,7 +37,7 @@ export default function ContactPage() {
           <div className="bg-[var(--color-gold-muted)] border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 text-center">
             
             <div className="mb-8">
-              <h2 className="text-2xl font-playfair font-light text-[var(--color-text)] mb-4">
+              <h2 className="text-2xl font-heebo font-light text-[var(--color-text)] mb-4">
                 צריכים עזרה?
               </h2>
               <p className="text-[var(--color-muted)] font-heebo font-light leading-relaxed">
@@ -48,7 +48,7 @@ export default function ContactPage() {
 
             <div className="space-y-6 mb-8">
               <div className="bg-[var(--color-bg)] border border-[var(--color-gold-border)] rounded-lg p-6">
-                <h3 className="text-lg font-playfair font-medium text-[var(--color-gold)] mb-3">
+                <h3 className="text-lg font-heebo font-medium text-[var(--color-gold)] mb-3">
                   שירות לקוחות SodaStream
                 </h3>
                 <p className="text-[var(--color-muted)] font-heebo font-light mb-4">
@@ -65,7 +65,7 @@ export default function ContactPage() {
               </div>
 
               <div className="bg-[var(--color-bg)] border border-[var(--color-gold-border)] rounded-lg p-6">
-                <h3 className="text-lg font-playfair font-medium text-[var(--color-gold)] mb-3">
+                <h3 className="text-lg font-heebo font-medium text-[var(--color-gold)] mb-3">
                   בעיות טכניות באתר
                 </h3>
                 <p className="text-[var(--color-muted)] font-heebo font-light mb-4">
@@ -78,7 +78,7 @@ export default function ContactPage() {
               </div>
 
               <div className="bg-[var(--color-bg)] border border-[var(--color-gold-border)] rounded-lg p-6">
-                <h3 className="text-lg font-playfair font-medium text-[var(--color-gold)] mb-3">
+                <h3 className="text-lg font-heebo font-medium text-[var(--color-gold)] mb-3">
                   רכישת מכשיר Enso
                 </h3>
                 <p className="text-[var(--color-muted)] font-heebo font-light mb-4">

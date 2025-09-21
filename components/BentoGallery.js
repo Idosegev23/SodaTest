@@ -9,6 +9,17 @@ export default function SymmetricGallery() {
 
   useEffect(() => {
     loadArtworks()
+    
+    // Listen for artwork likes to update in real-time
+    const handleArtworkLiked = () => {
+      loadArtworks() // Reload to get updated likes and re-sort
+    }
+    
+    window.addEventListener('artworkLiked', handleArtworkLiked)
+    
+    return () => {
+      window.removeEventListener('artworkLiked', handleArtworkLiked)
+    }
   }, [])
 
   const loadArtworks = async () => {
@@ -19,13 +30,25 @@ export default function SymmetricGallery() {
       if (artworksFromDB && artworksFromDB.length > 0) {
         // אם יש תמונות בטבלה, נשתמש רק בהן
         console.log('Using artworks from database:', artworksFromDB.length)
-        const sorted = artworksFromDB.sort((a, b) => {
+        
+        // Sort by likes (most liked first), then by creation date
+        const sortedByLikes = artworksFromDB.sort((a, b) => {
+          const likesA = a.likes || 0
+          const likesB = b.likes || 0
+          
+          if (likesB !== likesA) {
+            return likesB - likesA // Most likes first
+          }
+          
+          // If likes are equal, sort by creation date (newest first)
           if (a.created_at && b.created_at) {
             return new Date(b.created_at) - new Date(a.created_at)
           }
           return (b.id || '').toString().localeCompare((a.id || '').toString())
         })
-        setArtworks(sorted.slice(0, 6))
+        
+        // Take top 7 most liked artworks for Bento Gallery
+        setArtworks(sortedByLikes.slice(0, 7))
       } else {
         // רק אם אין תמונות בטבלה, נטען מ-Storage
         console.log('No artworks in database, trying storage...')
@@ -41,59 +64,78 @@ export default function SymmetricGallery() {
           })
           setArtworks(sorted.slice(0, 6))
         } else {
-          // אין תמונות בכלל - תמונות דמה
-          console.log('No artworks found, using fallback images')
-          setArtworks(Array.from({ length: 6 }, (_, i) => ({
-            id: `fallback-${i}`,
-            image_url: `https://picsum.photos/400/400?random=${i}`,
-            user_name: 'אמן דיגיטלי',
-            prompt: `יצירה דיגיטלית ${i + 1}`,
-            created_at: new Date().toISOString()
-          })))
+          // No artworks found - this should not happen now that we have data in DB
+          console.log('No artworks found in database')
+          setArtworks([])
         }
       }
     } catch (error) {
       console.error('Error loading artworks:', error)
-      setArtworks(Array.from({ length: 6 }, (_, i) => ({
-        id: `error-${i}`,
-        image_url: `https://picsum.photos/400/400?random=${i + 50}`,
-        user_name: 'Fallback Artist',
-        prompt: `Fallback Art ${i + 1}`,
-        created_at: new Date().toISOString()
-      })))
+      // On error, show empty state
+      setArtworks([])
     }
   }
 
   const openPopup = (artwork) => setSelectedImage(artwork)
   const closePopup = () => setSelectedImage(null)
+  
+  const handleLike = async (artworkId, e) => {
+    e.stopPropagation() // Prevent opening popup when clicking like
+    
+    try {
+      const response = await fetch('/api/like-artwork', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ artworkId }),
+      })
+      
+      if (response.ok) {
+        // Reload artworks to get updated likes
+        loadArtworks()
+        
+        // Update selectedImage if it's currently selected
+        if (selectedImage && selectedImage.id === artworkId) {
+          const updatedArtwork = { ...selectedImage, likes: (selectedImage.likes || 0) + 1 }
+          setSelectedImage(updatedArtwork)
+        }
+      }
+    } catch (error) {
+      console.error('Error liking artwork:', error)
+    }
+  }
 
   return (
     <>
-      <section className="px-4 py-8 bg-[var(--color-bg)]">
+      <section className="px-4 py-8">
         <div className="w-full max-w-7xl mx-auto">
-          {/* Bento Grid - Mobile First with Proper Image Coverage */}
+          {/* Bento Grid - Symmetric Desktop Layout */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 auto-rows-[150px] md:auto-rows-[200px]">
             {artworks.map((art, index) => {
-              // Create varied layout for visual interest on all devices
+              // Symmetric layout for desktop with mobile-first approach
               let gridClass = ""
               
               if (index === 0) {
-                // Hero image - large on all devices
+                // Hero image - center-left large square
                 gridClass = "col-span-2 row-span-2"
               } else if (index === 1) {
-                // Tall image on mobile, regular on desktop
-                gridClass = "col-span-1 row-span-2 md:row-span-1"
+                // Top-right square
+                gridClass = "col-span-1 row-span-1"
               } else if (index === 2) {
-                // Regular on mobile, tall on desktop
-                gridClass = "col-span-1 row-span-1 md:row-span-2"
+                // Bottom-right square (completes right column)
+                gridClass = "col-span-1 row-span-1"
               } else if (index === 3) {
-                // Wide image
+                // Wide rectangle - spans full width below
                 gridClass = "col-span-2 row-span-1"
               } else if (index === 4) {
-                // Square on mobile, wide on desktop
-                gridClass = "col-span-1 row-span-1 md:col-span-2"
-              } else {
-                // Regular grid items
+                // Right side wide rectangle
+                gridClass = "col-span-2 row-span-1"
+              } else if (index === 5) {
+                // Bottom left square
+                gridClass = "col-span-1 row-span-1"
+              } else if (index === 6) {
+                // Bottom right square - completes the symmetry
                 gridClass = "col-span-1 row-span-1"
               }
               
@@ -109,44 +151,80 @@ export default function SymmetricGallery() {
                     <div className="absolute -inset-1 gold-frame opacity-60"></div>
                   )}
                   
-                  <img
-                    src={art.image_url}
-                    alt={art.prompt || 'יצירת אמנות עם SodaStream Enso'}
-                    className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                    style={{ 
-                      minHeight: '100%',
-                      objectFit: 'cover'
-                    }}
-                    onError={(e) => {
-                      e.target.src = `https://picsum.photos/400/400?random=${Math.floor(Math.random() * 200)}`
-                    }}
-                  />
+                  {/* Luxury Art Gallery Frame for Main Image */}
+                  {index === 0 ? (
+                    <div className="relative w-full h-full">
+                      {/* Ornate Gold Frame */}
+                      <div className="absolute inset-0 p-4 bg-gradient-to-br from-[var(--color-gold)] via-[var(--color-gold)]/90 to-[var(--color-gold)]/80">
+                        {/* Frame bevels and details */}
+                        <div className="absolute inset-2 border-2 border-[var(--color-gold)]/30 shadow-[inset_0_0_8px_rgba(0,0,0,0.2)]"></div>
+                        <div className="absolute inset-1 border border-[var(--color-gold)]/50 shadow-[inset_0_0_4px_rgba(255,255,255,0.3)]"></div>
+                        
+                        {/* Inner frame recess */}
+                        <div className="relative w-full h-full bg-gradient-to-br from-[var(--color-muted)]/20 to-[var(--color-muted)]/10 shadow-[inset_0_0_12px_rgba(0,0,0,0.3)] p-2">
+                          <img
+                            src={art.image_url}
+                            alt={art.prompt || 'יצירת אמנות עם SodaStream Enso'}
+                            className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105 shadow-lg"
+                            style={{ 
+                              minHeight: '100%',
+                              objectFit: 'cover'
+                            }}
+                            onError={(e) => {
+                              e.target.src = `https://picsum.photos/400/400?random=${Math.floor(Math.random() * 200)}`
+                            }}
+                          />
+                          {/* Museum glass effect */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/10 pointer-events-none"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <img
+                      src={art.image_url}
+                      alt={art.prompt || 'יצירת אמנות עם SodaStream Enso'}
+                      className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                      style={{ 
+                        minHeight: '100%',
+                        objectFit: 'cover'
+                      }}
+                      onError={(e) => {
+                        e.target.src = `https://picsum.photos/400/400?random=${Math.floor(Math.random() * 200)}`
+                      }}
+                    />
+                  )}
                   
-                  {/* Museum-style overlay */}
-                  <figcaption className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                      <h3 className="text-white text-sm md:text-base font-heebo font-light line-clamp-2 mb-2 leading-relaxed">
+                  {/* Mobile Prompt Overlay - Always Visible */}
+                  <div className="absolute bottom-0 left-0 right-0 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 bg-gradient-to-t from-black/80 via-black/60 to-transparent p-3 md:p-4">
+                    <div className="transform md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500">
+                      <h3 className="text-white text-xs md:text-sm font-heebo font-light line-clamp-2 mb-1 md:mb-2 leading-relaxed">
                         {art.prompt}
                       </h3>
+
                       <div className="flex justify-between items-center">
-                        <p className="text-[var(--color-gold)] text-xs font-heebo font-light">
-                          {art.user_name || 'אמן אנונימי'}
-                        </p>
-                        {art.created_at && (
-                          <p className="text-[var(--color-muted)]/70 text-xs font-heebo">
-                            {new Date(art.created_at).toLocaleDateString('he-IL')}
-                          </p>
+                        {/* Weekly Winner indicator */}
+                        {index === 0 && (
+                          <div className="text-[var(--color-gold)] text-xs font-heebo font-medium tracking-wide">
+                            ★ הזוכה השבועי
+                          </div>
                         )}
-                      </div>
-                      
-                      {/* Featured artwork indicator */}
-                      {index === 0 && (
-                        <div className="mt-2 text-[var(--color-gold)] text-xs font-heebo font-medium tracking-wide">
-                          ★ יצירה מומלצת
+                        
+                        {/* Show likes count only */}
+                        <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-black/50">
+                          <svg 
+                            className="w-4 h-4 text-[var(--color-gold)]" 
+                            fill="currentColor" 
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                          </svg>
+                          <span className="text-white text-xs font-heebo">
+                            {art.likes || 0}
+                          </span>
                         </div>
-                      )}
+                      </div>
                     </div>
-                  </figcaption>
+                  </div>
                   
                   {/* Gallery spotlight effect */}
                   <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-20 h-8 bg-gradient-to-b from-[var(--color-gold-muted)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
@@ -183,10 +261,10 @@ export default function SymmetricGallery() {
               <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-16 bg-gradient-to-b from-[var(--color-gold-muted)] to-transparent blur-lg opacity-60"></div>
               
               <div className="relative gold-frame m-4">
-                <img
-                  src={selectedImage.image_url}
-                  alt={selectedImage.prompt || 'יצירת אמנות עם SodaStream Enso'}
-                  className="w-full h-auto max-h-[60vh] object-contain bg-[var(--color-bg)]"
+                    <img
+                      src={selectedImage.image_url}
+                      alt={selectedImage.prompt || 'יצירת אמנות עם SodaStream Enso'}
+                      className="w-full h-auto max-h-[60vh] object-contain"
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
@@ -195,7 +273,7 @@ export default function SymmetricGallery() {
                 <div className="text-center mb-4">
                   <h2 
                     id="artwork-title"
-                    className="text-xl md:text-2xl font-playfair font-light text-[var(--color-text)] mb-2 leading-relaxed"
+                    className="text-xl md:text-2xl font-heebo font-light text-[var(--color-text)] mb-2 leading-relaxed"
                   >
                     {selectedImage.prompt}
                   </h2>
@@ -209,7 +287,7 @@ export default function SymmetricGallery() {
                       {selectedImage.user_name || 'אמן אנונימי'}
                     </p>
                   </div>
-                  
+
                   {selectedImage.created_at && (
                     <div>
                       <p className="text-[var(--color-muted)] text-sm font-heebo font-light mb-1">תאריך:</p>
@@ -222,11 +300,23 @@ export default function SymmetricGallery() {
                       </p>
                     </div>
                   )}
-                  
+
                   <div>
                     <p className="text-[var(--color-gold)] text-sm font-heebo font-light">
                       SodaStream Enso Collection
                     </p>
+                    <div className="flex items-center justify-center gap-1 mt-2">
+                      <svg 
+                        className="w-4 h-4 text-[var(--color-gold)]" 
+                        fill="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                      </svg>
+                      <span className="text-[var(--color-gold)] text-sm font-heebo">
+                        {selectedImage.likes || 0} לייקים
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

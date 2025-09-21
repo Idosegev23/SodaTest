@@ -184,10 +184,15 @@ export async function GET() {
         .eq('status', 'pending')
       
       console.log(`Successfully processed item ${item.id}`)
+      
+      // Note: We can't dispatch browser events from server-side code
+      // The client-side will need to poll or use other mechanisms for real-time updates
+      
       return Response.json({ 
         success: true, 
         processed: item.id,
         imageUrl,
+        artworkId: artworkData[0].id,
         queueLength: remainingItems ? remainingItems.length : 0
       }, { status: 200 })
 

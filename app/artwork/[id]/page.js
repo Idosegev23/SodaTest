@@ -89,7 +89,7 @@ export default function ArtworkPage() {
           <div className="w-16 h-16 bg-[var(--color-gold-muted)] rounded-full flex items-center justify-center mx-auto mb-6">
             <span className="text-2xl">❌</span>
           </div>
-          <h1 className="text-2xl font-playfair font-light text-[var(--color-text)] mb-4">
+          <h1 className="text-2xl font-heebo font-light text-[var(--color-text)] mb-4">
             יצירה לא נמצאה
           </h1>
           <p className="text-[var(--color-muted)] font-heebo font-light mb-8">
@@ -121,7 +121,7 @@ export default function ArtworkPage() {
           </button>
           
           <div className="text-center">
-            <h1 className="text-2xl md:text-3xl font-playfair font-light text-[var(--color-text)] tracking-wide">
+            <h1 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] tracking-wide">
               SodaStream Enso
             </h1>
             <div className="text-[var(--color-gold)] text-sm font-heebo font-light mt-1">
@@ -161,7 +161,7 @@ export default function ArtworkPage() {
           {/* Artwork Details */}
           <div className="bg-[var(--color-gold-muted)] border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 mb-8">
             <div className="text-center mb-6">
-              <h2 className="text-xl md:text-2xl font-playfair font-light text-[var(--color-text)] mb-2">
+              <h2 className="text-xl md:text-2xl font-heebo font-light text-[var(--color-text)] mb-2">
                 פרטי היצירה
               </h2>
               <div className="w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
@@ -199,7 +199,7 @@ export default function ArtworkPage() {
 
           {/* Share Buttons */}
           <div className="bg-[var(--color-bg)] border border-[var(--color-gold-border)] rounded-lg p-6 mb-8">
-            <h3 className="text-lg font-playfair font-light text-[var(--color-text)] mb-4 text-center">
+            <h3 className="text-lg font-heebo font-light text-[var(--color-text)] mb-4 text-center">
               שתף את היצירה
             </h3>
             
