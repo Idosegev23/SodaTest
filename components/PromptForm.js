@@ -146,8 +146,13 @@ export default function PromptForm({ onSubmit, isLoading }) {
             {examplePrompts.map((example, index) => (
               <PremiumButton
                 key={index}
+                type="button"
                 variant="secondary"
-                onClick={() => handleExampleClick(example.fullText)}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  handleExampleClick(example.fullText)
+                }}
                 className="text-sm font-heebo font-light tracking-wide h-auto text-center w-full min-h-[48px] py-3"
                 disabled={isLoading}
                 aria-label={`השתמש בדוגמה: ${example.title}`}
