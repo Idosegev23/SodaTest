@@ -235,25 +235,26 @@ export default function SymmetricGallery() {
         </div>
       </section>
 
-      {/* Luxury Gallery Popup Modal */}
-      {selectedImage && (
-        <div 
-          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={closePopup}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="artwork-title"
-        >
-          <div className="relative max-w-5xl max-h-[95vh] w-full">
-            <button
-              onClick={closePopup}
-              className="absolute -top-12 right-0 text-[var(--color-muted)] hover:text-[var(--color-gold)] transition-colors z-10 focus:outline-none focus:text-[var(--color-gold)]"
-              aria-label="סגור תצוגת יצירה"
-            >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+            {/* Luxury Gallery Popup Modal */}
+            {selectedImage && (
+              <div
+                className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+                onClick={closePopup}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="artwork-title"
+              >
+                <div className="relative max-w-5xl max-h-[95vh] w-full">
+                  {/* Close Button - Mobile Friendly Position */}
+                  <button
+                    onClick={closePopup}
+                    className="absolute top-4 right-4 md:-top-12 md:right-0 text-white hover:text-[var(--color-gold)] transition-colors z-20 bg-black/50 md:bg-transparent rounded-full p-2 md:p-0 focus:outline-none focus:text-[var(--color-gold)]"
+                    aria-label="סגור תצוגת יצירה"
+                  >
+                    <svg className="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
             
             {/* Museum-style display */}
             <div className="bg-[var(--color-bg)] border border-[var(--color-gold-border)] rounded overflow-hidden shadow-2xl">
