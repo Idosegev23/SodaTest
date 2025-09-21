@@ -145,35 +145,33 @@ export default function CreatePage() {
 
   return (
     <div className="min-h-screen bg-with-image text-white overflow-hidden" lang="he">
-      <div className="container mx-auto px-4 md:px-8 py-6 md:py-12 relative z-10">
-        {/* Premium header with back button - SodaStream Enso */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12 gap-4">
+      {/* Fixed Navigation Header - Similar to Home Page */}
+      <nav 
+        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[var(--color-bg)]/90 border-b border-[var(--color-gold-border)]"
+        role="navigation"
+        aria-label="ניווט יצירה"
+      >
+        {/* Logo Section */}
+        <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex justify-between items-center">
+          {/* Back Button */}
           <button
             onClick={handleBackToGallery}
-            className="flex items-center gap-2 md:gap-3 text-[var(--color-chrome)] hover:text-[var(--color-gold)] transition-all duration-300 group focus:outline-none focus:text-[var(--color-gold)]"
+            className="flex items-center gap-2 text-[var(--color-chrome)] hover:text-[var(--color-gold)] transition-all duration-300 group focus:outline-none focus:text-[var(--color-gold)]"
             aria-label="חזור לגלריה הראשית"
           >
             <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             <span className="font-heebo font-light tracking-wide text-sm md:text-base">חזור לגלריה</span>
           </button>
           
-          {/* SodaStream Enso Logo */}
-          <div className="text-center">
-            <img 
-              src="/logo.png" 
-              alt="SodaStream Enso" 
-              className="h-8 md:h-10 w-auto mx-auto mb-2"
-            />
-            <div className="text-[var(--color-gold)] text-sm font-heebo font-light">
-              צור יצירת אמנות
-            </div>
-          </div>
+          {/* Logo */}
+          <img 
+            src="/logo.png" 
+            alt="SodaStream Enso" 
+            className="h-8 md:h-10 w-auto"
+          />
           
           {/* Status indicator */}
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4">
-            <div className="text-[var(--color-muted)] text-xs md:text-sm font-heebo font-light tracking-wide">
-              סטטוס יצירה
-            </div>
+          <div className="flex items-center gap-2">
             <div className={`px-3 py-1 rounded border text-xs font-heebo font-light tracking-wide transition-all ${
               step === 'prompt' ? 'border-[var(--color-gold)]/30 bg-[var(--color-gold)]/10 text-[var(--color-gold)]' :
               step === 'processing' ? 'border-[var(--color-gold)]/50 bg-[var(--color-gold)]/20 text-[var(--color-text)] animate-pulse' :
@@ -188,6 +186,26 @@ export default function CreatePage() {
             </div>
           </div>
         </div>
+        
+        {/* CTA Buttons - Only show during prompt step */}
+        {step === 'prompt' && (
+          <div className="max-w-7xl mx-auto px-6 md:px-8 pb-4 flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <div className="text-[var(--color-gold)] text-sm font-heebo font-light text-center">
+              צור יצירת אמנות עם SodaStream Enso
+            </div>
+            <PremiumButton
+              variant="primary"
+              onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
+              className="text-lg font-heebo font-medium tracking-wide group w-full sm:w-auto"
+              aria-label="רכוש את מכשיר SodaStream Enso"
+            >
+              רכוש עכשיו
+            </PremiumButton>
+          </div>
+        )}
+      </nav>
+
+      <div className="container mx-auto px-4 md:px-8 pt-32 md:pt-40 pb-12 relative z-10">
 
         <div>
           {step === 'prompt' && (
@@ -237,17 +255,6 @@ export default function CreatePage() {
                 isLoading={isLoading}
               />
               
-              {/* כפתורי CTA נוספים */}
-              <div className="mt-12 text-center">
-                <PremiumButton
-                  variant="primary"
-                  onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
-                  className="text-lg font-heebo font-medium tracking-wide"
-                  aria-label="רכוש את מכשיר SodaStream Enso"
-                >
-                  רכוש עכשיו
-                </PremiumButton>
-              </div>
             </div>
           )}
 
