@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import BentoGallery from '../components/BentoGalleryNew'
 import MarqueeGallery from '../components/MarqueeGallery'
 import { PremiumButton } from '../components/ui/PremiumButton'
@@ -31,10 +32,13 @@ export default function HomePage() {
         aria-label="ניווט ראשי"
       >
                <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex flex-col justify-center items-center">
-                 <img 
+                 <Image 
                    src="/logo.png" 
                    alt="SodaStream Enso" 
+                   width={160}
+                   height={40}
                    className="h-8 md:h-10 w-auto mb-3"
+                   priority
                  />
                  <p className="text-[var(--color-gold)] text-sm md:text-base font-heebo font-light tracking-wide text-center">
                    ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
@@ -46,7 +50,7 @@ export default function HomePage() {
           <PremiumButton
             variant="primary"
             onClick={() => router.push('/create')}
-            className="text-base md:text-lg font-heebo font-medium tracking-wide group flex-[2.3] md:flex-none md:w-auto max-w-[280px] md:max-w-none"
+            className="text-base md:text-lg font-heebo font-medium tracking-wide group flex-[2.3] md:flex-none md:w-auto max-w-[280px] md:max-w-none min-h-[44px]"
             aria-label="צור יצירת אמנות חדשה"
           >
             <span className="hidden sm:inline">צור יצירת אמנות</span>
@@ -55,7 +59,7 @@ export default function HomePage() {
           <PremiumButton
             variant="secondary"
             onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
-            className="text-base md:text-lg font-heebo font-light tracking-wide group flex-1 md:flex-none md:w-auto max-w-[120px] md:max-w-none"
+            className="text-base md:text-lg font-heebo font-light tracking-wide group flex-1 md:flex-none md:w-auto max-w-[120px] md:max-w-none min-h-[44px]"
             aria-label="רכוש את מכשיר SodaStream Enso"
           >
             <span className="hidden sm:inline">רכוש עכשיו</span>
@@ -65,24 +69,30 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section with Background Image */}
-      <section className="relative min-h-screen flex flex-col mt-[100px]">
+      <section className="relative min-h-[60vh] md:min-h-screen flex flex-col pt-24 md:pt-28">
+        <h1 className="sr-only">SodaStream Enso — ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך</h1>
         {/* Background Image - starts below navbar */}
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src="/hero.jpg"
             alt="SodaStream Enso"
-            className="w-full h-full object-cover"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
           />
           {/* Dark Overlay for Text Readability */}
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
                {/* Logo - Right Side - Below Header */}
-               <div className="relative z-10 flex-1 flex items-start justify-end pt-32 md:pt-40 pr-8 md:pr-16">
+               <div className="relative z-10 flex-1 flex items-start justify-end pt-20 md:pt-32 pr-6 md:pr-16">
                  <div className="text-right px-4">
-                   <img 
+                   <Image 
                      src="/logo.png" 
                      alt="SodaStream Enso" 
+                     width={240}
+                     height={60}
                      className="h-16 md:h-24 lg:h-32 w-auto drop-shadow-2xl"
                    />
                  </div>
@@ -111,9 +121,9 @@ export default function HomePage() {
             {/* Section Title: יצירות נבחרות */}
             <section className="py-8 md:py-12 px-4">
         <div className="max-w-5xl mx-auto text-center mb-8">
-          <h3 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
+          <h2 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
             יצירות נבחרות
-          </h3>
+          </h2>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
         </div>
         
@@ -126,9 +136,9 @@ export default function HomePage() {
       {/* Marquee Gallery - גלריית יצירות הגולשים */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto text-center mb-12 px-4">
-          <h3 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
+          <h2 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
             גלריית יצירות הגולשים
-          </h3>
+          </h2>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
         </div>
         
@@ -140,7 +150,7 @@ export default function HomePage() {
         <PremiumButton
           variant="secondary"
           onClick={() => router.push('/create')}
-          className="text-xl font-heebo font-light tracking-wide group px-12 py-4 w-full sm:w-auto max-w-md"
+          className="text-xl font-heebo font-light tracking-wide group px-12 py-4 w-full sm:w-auto max-w-md min-h-[44px]"
           aria-label="צור את היצירה שלך עכשיו"
         >
           צור את היצירה שלך עכשיו
