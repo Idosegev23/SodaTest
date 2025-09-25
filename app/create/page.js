@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import PromptForm from '../../components/PromptForm'
 import UserDetailsModal from '../../components/UserDetailsModal'
 import PremiumButton from '../../components/PremiumButton'
+import LightRays from '../../components/LightRays'
 import { addToQueue, checkQueueStatus, getCompletedArtwork } from '../../lib/supabaseClient'
 
 export default function CreatePage() {
@@ -143,7 +144,20 @@ export default function CreatePage() {
   }
 
   return (
-    <div className="min-h-screen bg-with-image text-white overflow-hidden" lang="he">
+    <div className="min-h-screen text-white overflow-hidden relative" style={{backgroundColor: 'var(--color-bg)'}} lang="he">
+      {/* Animated Light Rays Background */}
+      <LightRays
+        raysOrigin="top-center"
+        raysColor="#8e7845"
+        raysSpeed={0.6}
+        lightSpread={0.7}
+        rayLength={1.8}
+        followMouse={true}
+        mouseInfluence={0.06}
+        noiseAmount={0.03}
+        distortion={0.01}
+        className="background-rays"
+      />
       {/* Fixed Navigation Header - Similar to Home Page */}
       <nav 
         className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[var(--color-bg)]/90 border-b border-[var(--color-gold-border)]"

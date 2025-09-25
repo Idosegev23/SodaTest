@@ -4,12 +4,26 @@ import { useRouter } from 'next/navigation'
 import BentoGallery from '../components/BentoGalleryNew'
 import MarqueeGallery from '../components/MarqueeGallery'
 import { PremiumButton } from '../components/ui/PremiumButton'
+import LightRays from '../components/LightRays'
 
 export default function HomePage() {
   const router = useRouter()
 
   return (
-    <div className="min-h-screen bg-with-image overflow-hidden flex flex-col" lang="he">
+    <div className="min-h-screen overflow-hidden flex flex-col relative" style={{backgroundColor: 'var(--color-bg)'}} lang="he">
+      {/* Animated Light Rays Background */}
+      <LightRays
+        raysOrigin="top-center"
+        raysColor="#8e7845"
+        raysSpeed={0.8}
+        lightSpread={0.6}
+        rayLength={1.5}
+        followMouse={true}
+        mouseInfluence={0.08}
+        noiseAmount={0.05}
+        distortion={0.02}
+        className="background-rays"
+      />
       {/* Premium Navigation - SodaStream Enso */}
       <nav 
         className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[var(--color-bg)]/90 border-b border-[var(--color-gold-border)]"
