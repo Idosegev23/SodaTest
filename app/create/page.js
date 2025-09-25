@@ -400,19 +400,21 @@ export default function CreatePage() {
                 </div>
 
                 {/* Action buttons */}
-                <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center">
+                <div className="flex flex-row gap-3 md:gap-4 justify-center">
                   <button
                     onClick={handleBackToGallery}
-                    className="px-6 md:px-8 py-3 bg-gradient-to-r from-[var(--color-gold)]/80 to-[var(--color-gold)] text-black rounded-full hover:scale-105 transition-all transform font-medium tracking-wide text-sm md:text-base"
+                    className="px-4 md:px-8 py-3 bg-gradient-to-r from-[var(--color-gold)]/80 to-[var(--color-gold)] text-black rounded-full hover:scale-105 transition-all transform font-medium tracking-wide text-xs md:text-base flex-1 md:flex-none max-w-[160px] md:max-w-none"
                   >
-                    VIEW IN GALLERY
+                    <span className="hidden md:inline">VIEW IN GALLERY</span>
+                    <span className="md:hidden">צפה בגלריה</span>
                   </button>
                   
                   <button
                     onClick={() => window.location.reload()}
-                    className="px-6 md:px-8 py-3 bg-[var(--color-chrome)]/20 border border-[var(--color-chrome)]/40 text-[var(--color-text)] rounded-full hover:bg-[var(--color-chrome)]/30 transition-all font-light tracking-wide text-sm md:text-base"
+                    className="px-4 md:px-8 py-3 bg-[var(--color-chrome)]/20 border border-[var(--color-chrome)]/40 text-[var(--color-text)] rounded-full hover:bg-[var(--color-chrome)]/30 transition-all font-light tracking-wide text-xs md:text-base flex-1 md:flex-none max-w-[160px] md:max-w-none"
                   >
-                    COMMISSION NEW ARTWORK
+                    <span className="hidden md:inline">COMMISSION NEW ARTWORK</span>
+                    <span className="md:hidden">יצירה חדשה</span>
                   </button>
                 </div>
 
