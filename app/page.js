@@ -92,7 +92,7 @@ export default function HomePage() {
         <div className="absolute bottom-4 right-4 md:right-8 z-10 max-w-md px-4 md:px-0">
           {/* Elegant Quote */}
           <p className="text-white/70 font-heebo font-light text-xs md:text-sm leading-loose mb-6 tracking-wider italic text-right px-2" dir="rtl">
-            "תמונה פוטו-ריאליסטית בסגנון יפני מינימליסטי בהשראת נאוטו פוקאסאווה: אובייקט יחיד מוצג במרחב שקט ונקי, עם אור טבעי רך, טקסטורות עדינות, פרופורציות מאוזנות ומרחב שלילי נדיב. האווירה רגועה, אלגנטית ועל-זמנית, כמו יצירת אמנות בגלריה."
+            "מים מבעבעים קיימים על פני האדמה כבר אלפי שנים, ויוצרים חיבור היסטורי עם האנושות. לפני כמעט שלוש מאות שנה הצליחו מדענים להפוך את ייצור המים המוגזים לתעשייתי – פריבילגיה שהייתה שמורה למעטים בלבד. דרך כלי העבודה היצוקים ממתכת מלוטשת – נפרץ מעיין של השראה.<br/><br/>enso<sup className="text-[var(--color-gold)] text-xs">®</sup> חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת."
           </p>
           
           {/* Signature */}
@@ -105,16 +105,18 @@ export default function HomePage() {
       </section>
 
             {/* Section Title: יצירות נבחרות */}
-            <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto text-center mb-12">
-          <h3 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
+            <section className="py-8 md:py-12 px-4">
+        <div className="max-w-5xl mx-auto text-center mb-8">
+          <h3 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
             יצירות נבחרות
           </h3>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
         </div>
         
-        {/* Dynamic Bento Gallery */}
-        <BentoGallery />
+        {/* Dynamic Bento Gallery - Smaller Container */}
+        <div className="max-w-4xl mx-auto">
+          <BentoGallery />
+        </div>
       </section>
 
       {/* Marquee Gallery - גלריית יצירות הגולשים */}

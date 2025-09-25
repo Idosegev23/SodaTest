@@ -109,7 +109,7 @@ export default function SymmetricGallery() {
 
   return (
     <>
-      <section className="px-4 py-8">
+      <section className="px-2 py-4">
         <MagicBento 
           artworks={artworks}
           onArtworkClick={openPopup}
@@ -121,9 +121,9 @@ export default function SymmetricGallery() {
           enableTilt={true}
           enableMagnetism={true}
           clickEffect={true}
-          spotlightRadius={250}
-          particleCount={8}
-          glowColor="255, 215, 0"
+          spotlightRadius={200}
+          particleCount={6}
+          glowColor="142, 120, 69" // Our gold color
         />
       </section>
 
