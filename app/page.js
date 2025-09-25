@@ -65,8 +65,8 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section with Background Image */}
-      <section className="relative min-h-screen flex flex-col">
-        {/* Background Image */}
+      <section className="relative min-h-screen flex flex-col mt-[100px]">
+        {/* Background Image - starts below navbar */}
         <div className="absolute inset-0 z-0">
           <img
             src="/hero.jpg"
@@ -77,30 +77,34 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
-               {/* Logo - Upper Part - Below Header */}
-               <div className="relative z-10 flex-1 flex items-start justify-center pt-72 md:pt-80">
-                 <div className="text-center px-4">
+               {/* Logo - Left Side - Below Header */}
+               <div className="relative z-10 flex-1 flex items-start justify-start pt-32 md:pt-40 pl-8 md:pl-16">
+                 <div className="text-left px-4">
                    <img 
                      src="/logo.png" 
                      alt="SodaStream Enso" 
-                     className="h-20 md:h-32 lg:h-40 w-auto drop-shadow-2xl"
+                     className="h-16 md:h-24 lg:h-32 w-auto drop-shadow-2xl"
                    />
                  </div>
                </div>
 
-        {/* Quote and Signature - Left Side */}
-        <div className="absolute bottom-4 right-4 md:right-8 z-10 max-w-md px-4 md:px-0">
+        {/* Quote and Signature - Bottom Right with more spacing */}
+        <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-10 max-w-sm md:max-w-lg px-4 md:px-0">
           {/* Elegant Quote */}
-          <p className="text-white/70 font-heebo font-light text-xs md:text-sm leading-loose mb-6 tracking-wider italic text-right px-2" dir="rtl">
-            "מים מבעבעים קיימים על פני האדמה כבר אלפי שנים, ויוצרים חיבור היסטורי עם האנושות. לפני כמעט שלוש מאות שנה הצליחו מדענים להפוך את ייצור המים המוגזים לתעשייתי – פריבילגיה שהייתה שמורה למעטים בלבד. דרך כלי העבודה היצוקים ממתכת מלוטשת – נפרץ מעיין של השראה.<br/><br/>enso<sup className="text-[var(--color-gold)] text-xs">®</sup> חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת."
-          </p>
-          
-          {/* Signature */}
-          <img
-            src="/imgs/Signature.png"
-            alt="חתימה"
-            className="h-16 md:h-20 opacity-90 drop-shadow-lg brightness-0 invert"
-          />
+          <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 md:p-6">
+            <p className="text-white/80 font-heebo font-light text-xs md:text-sm leading-relaxed mb-6 tracking-wider italic text-right" dir="rtl">
+              "מים מבעבעים קיימים על פני האדמה כבר אלפי שנים, ויוצרים חיבור היסטורי עם האנושות. לפני כמעט שלוש מאות שנה הצליחו מדענים להפוך את ייצור המים המוגזים לתעשייתי – פריבילגיה שהייתה שמורה למעטים בלבד. דרך כלי העבודה היצוקים ממתכת מלוטשת – נפרץ מעיין של השראה.<br/><br/>enso<sup className="text-[var(--color-gold)] text-xs">®</sup> חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת."
+            </p>
+            
+            {/* Signature */}
+            <div className="flex justify-end">
+              <img
+                src="/imgs/Signature.png"
+                alt="חתימה"
+                className="h-12 md:h-16 opacity-90 drop-shadow-lg brightness-0 invert"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
