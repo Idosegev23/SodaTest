@@ -181,44 +181,6 @@ export default function MarqueeGallery() {
     setSelectedArtwork(allArtworks[newIndex])
   }
 
-  const handleLike = async (artworkId, event) => {
-    event?.preventDefault()
-    event?.stopPropagation()
-    
-    try {
-      const response = await fetch('/api/like-artwork', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ artworkId }),
-      })
-      
-      if (response.ok) {
-        const data = await response.json()
-        console.log('Like successful:', data)
-        // Update local state with new like count
-        setAllArtworks(prev => prev.map(art => 
-          art.id === artworkId 
-            ? { ...art, likes: (art.likes || 0) + 1 }
-            : art
-        ))
-        setArtworks(prev => prev.map(art => 
-          art.id === artworkId 
-            ? { ...art, likes: (art.likes || 0) + 1 }
-            : art
-        ))
-        // Update selected artwork if it's the one being liked
-        if (selectedArtwork && selectedArtwork.id === artworkId) {
-          setSelectedArtwork(prev => ({ ...prev, likes: (prev.likes || 0) + 1 }))
-        }
-      } else {
-        console.error('Like failed:', response.statusText)
-      }
-    } catch (error) {
-      console.error('Error liking artwork:', error)
-    }
-  }
 
   const ArtworkCard = ({ artwork }) => {
     const [isLoaded, setIsLoaded] = useState(false)
