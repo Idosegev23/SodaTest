@@ -116,13 +116,13 @@ export default function SymmetricGallery() {
           onLike={handleLike}
           textAutoHide={true}
           enableStars={true}
-          enableSpotlight={false}
-          enableBorderGlow={false}
-          enableTilt={false}
-          enableMagnetism={false}
+          enableSpotlight={true}
+          enableBorderGlow={true}
+          enableTilt={true}
+          enableMagnetism={true}
           clickEffect={true}
-          spotlightRadius={200}
-          particleCount={4}
+          spotlightRadius={250}
+          particleCount={8}
           glowColor="255, 215, 0"
         />
       </section>

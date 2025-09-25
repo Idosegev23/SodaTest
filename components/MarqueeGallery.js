@@ -181,6 +181,45 @@ export default function MarqueeGallery() {
     setSelectedArtwork(allArtworks[newIndex])
   }
 
+  const handleLike = async (artworkId, event) => {
+    event?.preventDefault()
+    event?.stopPropagation()
+    
+    try {
+      const response = await fetch('/api/like-artwork', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ artworkId }),
+      })
+      
+      if (response.ok) {
+        const data = await response.json()
+        console.log('Like successful:', data)
+        // Update local state with new like count
+        setAllArtworks(prev => prev.map(art => 
+          art.id === artworkId 
+            ? { ...art, likes: (art.likes || 0) + 1 }
+            : art
+        ))
+        setArtworks(prev => prev.map(art => 
+          art.id === artworkId 
+            ? { ...art, likes: (art.likes || 0) + 1 }
+            : art
+        ))
+        // Update selected artwork if it's the one being liked
+        if (selectedArtwork && selectedArtwork.id === artworkId) {
+          setSelectedArtwork(prev => ({ ...prev, likes: (prev.likes || 0) + 1 }))
+        }
+      } else {
+        console.error('Like failed:', response.statusText)
+      }
+    } catch (error) {
+      console.error('Error liking artwork:', error)
+    }
+  }
+
   const ArtworkCard = ({ artwork }) => {
     const [isLoaded, setIsLoaded] = useState(false)
     const [hasError, setHasError] = useState(false)
@@ -190,7 +229,7 @@ export default function MarqueeGallery() {
         className={cn(
           "relative h-full w-48 md:w-56 lg:w-64 cursor-pointer overflow-hidden rounded-lg border group",
           "border-[var(--color-gold-border)] bg-[var(--color-bg)] hover:border-[var(--color-gold)]",
-          "transition-all duration-300"
+          "transition-all duration-300 shadow-lg hover:shadow-xl"
         )}
         onClick={() => handleCardClick(artwork)}
       >
@@ -205,7 +244,7 @@ export default function MarqueeGallery() {
           src={artwork.image_url}
           alt={artwork.prompt || 'יצירת אמנות'}
           className={cn(
-            "w-full h-48 md:h-56 lg:h-64 object-cover transition-all duration-500 group-hover:scale-105",
+            "w-full h-48 md:h-56 lg:h-64 object-cover transition-all duration-700 group-hover:scale-105",
             isLoaded ? "opacity-100" : "opacity-0"
           )}
           onLoad={() => setIsLoaded(true)}
@@ -216,19 +255,46 @@ export default function MarqueeGallery() {
           }}
         />
         
-        {/* Hover overlay on desktop only - clean image display */}
-        <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-          <h4 className="text-white text-sm font-heebo font-light line-clamp-2 mb-1">
+        {/* Click indicator for mobile - always visible */}
+        <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm rounded-full p-2 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+        </div>
+
+        {/* Like button - always visible on mobile, hover on desktop */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            handleLike(artwork.id, e)
+          }}
+          className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm rounded-full p-2 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-[var(--color-gold)] hover:text-black group/like"
+          aria-label={`הוסף לייק ליצירה`}
+        >
+          <svg className="w-4 h-4 text-[var(--color-gold)] group-hover/like:text-current transition-colors" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-white bg-black/60 px-2 py-1 rounded opacity-0 group-hover/like:opacity-100 transition-opacity whitespace-nowrap">
+            {artwork.likes || 0}
+          </span>
+        </button>
+
+        {/* Mobile info overlay - always visible with reduced opacity */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+          <h4 className="text-white text-xs md:text-sm font-heebo font-light line-clamp-1 md:line-clamp-2 mb-1">
             {artwork.prompt}
           </h4>
           <p className="text-[var(--color-gold)] text-xs font-heebo">
             {artwork.user_name}
           </p>
-          {artwork.created_at && (
-            <p className="text-[var(--color-muted)]/60 text-xs font-heebo mt-1">
-              {new Date(artwork.created_at).toLocaleDateString('he-IL')}
-            </p>
-          )}
+        </div>
+
+        {/* Tap indicator for mobile */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none md:hidden">
+          <div className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 opacity-0 group-active:opacity-100 transition-opacity duration-150">
+            <span className="text-white text-xs font-medium">הקש לצפייה</span>
+          </div>
         </div>
       </figure>
     )
@@ -249,22 +315,22 @@ export default function MarqueeGallery() {
       {/* Marquee Gallery - Only show when fully loaded */}
       {imagesLoaded && (
         <>
-          {/* Row 1 - Left to Right - Fast */}
-          <Marquee pauseOnHover className="[--duration:15s] py-2">
+          {/* Row 1 - Left to Right - Slow for better mobile experience */}
+          <Marquee pauseOnHover className="[--duration:30s] py-2">
             {row1.map((artwork, index) => (
               <ArtworkCard key={`row1-${artwork.id}-${index}`} artwork={artwork} />
             ))}
           </Marquee>
           
-          {/* Row 2 - Right to Left - Medium */}
-          <Marquee reverse pauseOnHover className="[--duration:18s] py-2">
+          {/* Row 2 - Right to Left - Medium slow */}
+          <Marquee reverse pauseOnHover className="[--duration:35s] py-2">
             {row2.map((artwork, index) => (
               <ArtworkCard key={`row2-${artwork.id}-${index}`} artwork={artwork} />
             ))}
           </Marquee>
           
-          {/* Row 3 - Left to Right - Fast */}
-          <Marquee pauseOnHover className="[--duration:20s] py-2">
+          {/* Row 3 - Left to Right - Slowest for easy viewing */}
+          <Marquee pauseOnHover className="[--duration:40s] py-2">
             {row3.map((artwork, index) => (
               <ArtworkCard key={`row3-${artwork.id}-${index}`} artwork={artwork} />
             ))}

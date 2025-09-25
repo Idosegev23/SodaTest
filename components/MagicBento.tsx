@@ -28,8 +28,8 @@ export interface BentoProps {
   enableMagnetism?: boolean;
 }
 
-const DEFAULT_PARTICLE_COUNT = 6;
-const DEFAULT_SPOTLIGHT_RADIUS = 200;
+const DEFAULT_PARTICLE_COUNT = 8;
+const DEFAULT_SPOTLIGHT_RADIUS = 250;
 const DEFAULT_GLOW_COLOR = '255, 215, 0'; // זהב
 const MOBILE_BREAKPOINT = 768;
 
@@ -145,18 +145,18 @@ const ParticleCard: React.FC<{
         gsap.fromTo(clone, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: 'back.out(1.7)' });
 
         gsap.to(clone, {
-          x: (Math.random() - 0.5) * 60,
-          y: (Math.random() - 0.5) * 60,
-          rotation: Math.random() * 180,
-          duration: 2 + Math.random() * 1,
-          ease: 'power2.inOut',
+          x: (Math.random() - 0.5) * 80,
+          y: (Math.random() - 0.5) * 80,
+          rotation: Math.random() * 360,
+          duration: 1.5 + Math.random() * 1.5,
+          ease: 'none',
           repeat: -1,
           yoyo: true
         });
 
         gsap.to(clone, {
-          opacity: 0.4,
-          duration: 1.5,
+          opacity: 0.6,
+          duration: 1,
           ease: 'power2.inOut',
           repeat: -1,
           yoyo: true
