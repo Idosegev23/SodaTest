@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import BentoGallery from '../components/BentoGallery'
+import BentoGallery from '../components/BentoGalleryNew'
 import MarqueeGallery from '../components/MarqueeGallery'
 import { PremiumButton } from '../components/ui/PremiumButton'
 

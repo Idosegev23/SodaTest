@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { getArtworks, getImagesFromStorage } from '../lib/supabaseClient'
+import MagicBento from './MagicBento'
 
 export default function SymmetricGallery() {
   const [artworks, setArtworks] = useState([])
