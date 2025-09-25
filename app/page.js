@@ -30,12 +30,15 @@ export default function HomePage() {
         role="navigation"
         aria-label="ניווט ראשי"
       >
-               <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex justify-center items-center">
+               <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex flex-col justify-center items-center">
                  <img 
                    src="/logo.png" 
                    alt="SodaStream Enso" 
-                   className="h-8 md:h-10 w-auto"
+                   className="h-8 md:h-10 w-auto mb-3"
                  />
+                 <p className="text-[var(--color-gold)] text-sm md:text-base font-heebo font-light tracking-wide text-center">
+                   ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
+                 </p>
                </div>
         
         {/* CTA Buttons */}

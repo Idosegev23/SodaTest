@@ -21,19 +21,19 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SodaStream Enso - צור יצירות אמנות ייחודיות",
-  description: "קמפיין SodaStream Enso - צור יצירות אמנות יוקרתיות עם מכשיר Enso באמצעות בינה מלאכותית מתקדמת. אתר נגיש ומינימליסטי עם אווירת גלריה יוקרתית.",
-  keywords: "SodaStream, Enso, יצירות אמנות, בינה מלאכותית, AI, גלריה דיגיטלית, אמנות יוקרתית",
+  title: "SodaStream Enso - ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך",
+  description: "ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך - קמפיין SodaStream Enso. צור יצירות אמנות יוקרתיות עם מכשיר Enso באמצעות בינה מלאכותית מתקדמת. אתר נגיש ומינימליסטי עם אווירת גלריה יוקרתית.",
+  keywords: "SodaStream, Enso, יצירות אמנות, בינה מלאכותית, AI, גלריה דיגיטלית, אמנות יוקרתית, הרמוניה, עיצוב, טכנולוגיה",
   openGraph: {
-    title: "SodaStream Enso - צור יצירות אמנות ייחודיות",
-    description: "קמפיין SodaStream Enso - צור יצירות אמנות יוקרתיות עם מכשיר Enso באמצעות בינה מלאכותית מתקדמת",
+    title: "SodaStream Enso - ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך",
+    description: "ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך - קמפיין SodaStream Enso. צור יצירות אמנות יוקרתיות עם מכשיר Enso באמצעות בינה מלאכותית מתקדמת",
     type: "website",
     locale: "he_IL",
   },
   twitter: {
     card: "summary_large_image",
-    title: "SodaStream Enso - צור יצירות אמנות ייחודיות",
-    description: "צור יצירות אמנות יוקרתיות עם מכשיר SodaStream Enso",
+    title: "SodaStream Enso - ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך",
+    description: "ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך - צור יצירות אמנות יוקרתיות עם מכשיר SodaStream Enso",
   },
 };
 

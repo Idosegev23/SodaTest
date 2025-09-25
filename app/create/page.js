@@ -182,16 +182,19 @@ export default function CreatePage() {
           
           {/* Logo - Centered and Clickable */}
           <div className="flex justify-center">
-            <button
+            <button 
               onClick={handleBackToGallery}
-              className="hover:scale-105 transition-transform duration-300 focus:outline-none focus:scale-105"
+              className="hover:scale-105 transition-transform duration-300 focus:outline-none focus:scale-105 flex flex-col items-center"
               aria-label="חזור לדף הבית"
             >
               <img 
                 src="/logo.png" 
                 alt="SodaStream Enso" 
-                className="h-8 md:h-10 w-auto"
+                className="h-8 md:h-10 w-auto mb-2"
               />
+              <p className="text-[var(--color-gold)] text-xs md:text-sm font-heebo font-light tracking-wide text-center">
+                ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
+              </p>
             </button>
           </div>
           
