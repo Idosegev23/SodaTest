@@ -109,7 +109,7 @@ export default function SymmetricGallery() {
 
   return (
     <>
-      <section className="px-4 py-8 min-h-screen" style={{backgroundColor: 'var(--color-bg)'}}>
+      <section className="px-4 py-8">
         <MagicBento 
           artworks={artworks}
           onArtworkClick={openPopup}

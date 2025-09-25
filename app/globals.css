@@ -75,20 +75,19 @@
 /* Background with image - Sharp and Clear */
 .bg-with-image {
   background-image: var(--bg-image);
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll; /* Fixed causes pixelation on mobile */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
-  image-rendering: pixelated;
 }
 
 /* Mobile-specific background optimization */
 @media (max-width: 768px) {
   .bg-with-image {
     background-attachment: scroll;
-    background-size: cover;
+    background-size: contain;
     image-rendering: auto;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
