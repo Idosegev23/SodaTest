@@ -69,7 +69,7 @@ export default function HomePage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/imgs/File00005.png"
+            src="/hero.jpg"
             alt="SodaStream Enso"
             className="w-full h-full object-cover"
           />
