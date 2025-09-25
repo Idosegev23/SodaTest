@@ -41,18 +41,18 @@ export default function HomePage() {
         {/* CTA Buttons */}
         <div className="max-w-7xl mx-auto px-4 md:px-8 pb-4 flex flex-row gap-3 md:gap-6 justify-center items-center">
           <PremiumButton
-            variant="secondary"
+            variant="primary"
             onClick={() => router.push('/create')}
-            className="text-base md:text-lg font-heebo font-light tracking-wide group flex-1 md:flex-none md:w-auto max-w-[200px] md:max-w-none"
+            className="text-base md:text-lg font-heebo font-medium tracking-wide group flex-[2.3] md:flex-none md:w-auto max-w-[280px] md:max-w-none"
             aria-label="צור יצירת אמנות חדשה"
           >
             <span className="hidden sm:inline">צור יצירת אמנות</span>
             <span className="sm:hidden">צור יצירה</span>
           </PremiumButton>
           <PremiumButton
-            variant="primary"
+            variant="secondary"
             onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
-            className="text-base md:text-lg font-heebo font-medium tracking-wide group flex-[1.3] md:flex-none md:w-auto max-w-[240px] md:max-w-none"
+            className="text-base md:text-lg font-heebo font-light tracking-wide group flex-1 md:flex-none md:w-auto max-w-[120px] md:max-w-none"
             aria-label="רכוש את מכשיר SodaStream Enso"
           >
             <span className="hidden sm:inline">רכוש עכשיו</span>
