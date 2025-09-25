@@ -1,7 +1,6 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import BentoGallery from '../components/BentoGalleryNew'
 import MarqueeGallery from '../components/MarqueeGallery'
 import { PremiumButton } from '../components/ui/PremiumButton'
@@ -32,13 +31,10 @@ export default function HomePage() {
         aria-label="ניווט ראשי"
       >
                <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex flex-col justify-center items-center">
-                 <Image 
+                 <img 
                    src="/logo.png" 
                    alt="SodaStream Enso" 
-                   width={160}
-                   height={40}
                    className="h-8 md:h-10 w-auto mb-3"
-                   priority
                  />
                  <p className="text-[var(--color-gold)] text-sm md:text-base font-heebo font-light tracking-wide text-center">
                    ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
@@ -50,7 +46,7 @@ export default function HomePage() {
           <PremiumButton
             variant="primary"
             onClick={() => router.push('/create')}
-            className="text-base md:text-lg font-heebo font-medium tracking-wide group flex-[2.3] md:flex-none md:w-auto max-w-[280px] md:max-w-none min-h-[44px]"
+            className="text-base md:text-lg font-heebo font-medium tracking-wide group flex-[2.3] md:flex-none md:w-auto max-w-[280px] md:max-w-none"
             aria-label="צור יצירת אמנות חדשה"
           >
             <span className="hidden sm:inline">צור יצירת אמנות</span>
@@ -59,7 +55,7 @@ export default function HomePage() {
           <PremiumButton
             variant="secondary"
             onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
-            className="text-base md:text-lg font-heebo font-light tracking-wide group flex-1 md:flex-none md:w-auto max-w-[120px] md:max-w-none min-h-[44px]"
+            className="text-base md:text-lg font-heebo font-light tracking-wide group flex-1 md:flex-none md:w-auto max-w-[120px] md:max-w-none"
             aria-label="רכוש את מכשיר SodaStream Enso"
           >
             <span className="hidden sm:inline">רכוש עכשיו</span>
@@ -81,38 +77,43 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
-               {/* Logo - Upper Part - Below Header */}
-               <div className="relative z-10 flex-1 flex items-start justify-center pt-72 md:pt-80">
-                 <div className="text-center px-4">
+               {/* Logo - Right Side - Below Header */}
+               <div className="relative z-10 flex-1 flex items-start justify-end pt-32 md:pt-40 pr-8 md:pr-16">
+                 <div className="text-right px-4">
                    <img 
                      src="/logo.png" 
                      alt="SodaStream Enso" 
-                     className="h-20 md:h-32 lg:h-40 w-auto drop-shadow-2xl"
+                     className="h-16 md:h-24 lg:h-32 w-auto drop-shadow-2xl"
                    />
                  </div>
                </div>
 
-        {/* Quote and Signature - Right Bottom (restored simpler layout) */}
-        <div className="absolute bottom-4 right-4 md:right-8 z-10 max-w-md px-4 md:px-0">
-          <p className="text-white/70 font-heebo font-light text-xs md:text-sm leading-loose mb-6 tracking-wider italic text-right px-2" dir="rtl">
-            מים מבעבעים קיימים על פני האדמה כבר אלפי שנים, ויוצרים חיבור היסטורי עם האנושות. לפני כמעט שלוש מאות שנה הצליחו מדענים להפוך את ייצור המים המוגזים לתעשייתי – פריבילגיה שהייתה שמורה למעטים בלבד. דרך כלי העבודה היצוקים ממתכת מלוטשת – נפרץ מעיין של השראה.
-            <br/><br/>
-            enso<sup className="text-[var(--color-gold)] text-xs">®</sup> חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת.
-          </p>
-          <img
-            src="/imgs/Signature.png"
-            alt="חתימה"
-            className="h-16 md:h-20 opacity-90 drop-shadow-lg brightness-0 invert"
-          />
+        {/* Quote and Signature - Bottom Right with more spacing */}
+        <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-10 max-w-sm md:max-w-lg px-4 md:px-0">
+          {/* Elegant Quote */}
+          <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 md:p-6">
+            <p className="text-white/80 font-heebo font-light text-xs md:text-sm leading-relaxed mb-6 tracking-wider italic text-right" dir="rtl">
+              "מים מבעבעים קיימים על פני האדמה כבר אלפי שנים, ויוצרים חיבור היסטורי עם האנושות. לפני כמעט שלוש מאות שנה הצליחו מדענים להפוך את ייצור המים המוגזים לתעשייתי – פריבילגיה שהייתה שמורה למעטים בלבד. דרך כלי העבודה היצוקים ממתכת מלוטשת – נפרץ מעיין של השראה.<br/><br/>enso<sup className="text-[var(--color-gold)] text-xs">®</sup> חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת."
+            </p>
+            
+            {/* Signature */}
+            <div className="flex justify-end">
+              <img
+                src="/imgs/Signature.png"
+                alt="חתימה"
+                className="h-12 md:h-16 opacity-90 drop-shadow-lg brightness-0 invert"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
             {/* Section Title: יצירות נבחרות */}
             <section className="py-8 md:py-12 px-4">
         <div className="max-w-5xl mx-auto text-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
+          <h3 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
             יצירות נבחרות
-          </h2>
+          </h3>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
         </div>
         
@@ -125,9 +126,9 @@ export default function HomePage() {
       {/* Marquee Gallery - גלריית יצירות הגולשים */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto text-center mb-12 px-4">
-          <h2 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
+          <h3 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
             גלריית יצירות הגולשים
-          </h2>
+          </h3>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
         </div>
         
@@ -139,7 +140,7 @@ export default function HomePage() {
         <PremiumButton
           variant="secondary"
           onClick={() => router.push('/create')}
-          className="text-xl font-heebo font-light tracking-wide group px-12 py-4 w-full sm:w-auto max-w-md min-h-[44px]"
+          className="text-xl font-heebo font-light tracking-wide group px-12 py-4 w-full sm:w-auto max-w-md"
           aria-label="צור את היצירה שלך עכשיו"
         >
           צור את היצירה שלך עכשיו
