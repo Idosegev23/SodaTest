@@ -80,8 +80,28 @@ export default function SymmetricGallery() {
   const openPopup = (artwork) => setSelectedImage(artwork)
   const closePopup = () => setSelectedImage(null)
   
+  // Check if user already liked this artwork
+  const hasUserLiked = (artworkId) => {
+    const likedArtworks = JSON.parse(localStorage.getItem('likedArtworks') || '[]')
+    return likedArtworks.includes(artworkId)
+  }
+
+  // Add artwork to liked list
+  const addToLikedList = (artworkId) => {
+    const likedArtworks = JSON.parse(localStorage.getItem('likedArtworks') || '[]')
+    if (!likedArtworks.includes(artworkId)) {
+      likedArtworks.push(artworkId)
+      localStorage.setItem('likedArtworks', JSON.stringify(likedArtworks))
+    }
+  }
+  
   const handleLike = async (artworkId, e) => {
     e.stopPropagation() // Prevent opening popup when clicking like
+    
+    // Check if user already liked this artwork
+    if (hasUserLiked(artworkId)) {
+      return
+    }
     
     try {
       const response = await fetch('/api/like-artwork', {
@@ -93,6 +113,9 @@ export default function SymmetricGallery() {
       })
       
       if (response.ok) {
+        // Add to liked list in localStorage
+        addToLikedList(artworkId)
+        
         // Reload artworks to get updated likes
         loadArtworks()
         
@@ -194,22 +217,28 @@ export default function SymmetricGallery() {
                     </div>
                   )}
 
-                  <div>
-                    <p className="text-[var(--color-gold)] text-sm font-light">
+                  <div className="text-center">
+                    <p className="text-[var(--color-gold)] text-sm font-light mb-3">
                       Digital Art Collection
                     </p>
-                    <div className="flex items-center justify-center gap-1 mt-2">
-                      <svg 
-                        className="w-4 h-4 text-[var(--color-gold)]" 
-                        fill="currentColor" 
-                        viewBox="0 0 24 24"
-                      >
+                    <button
+                      onClick={(e) => handleLike(selectedImage.id, e)}
+                      className={`flex items-center gap-3 px-6 py-3 border backdrop-blur-sm rounded transition-all duration-300 font-heebo font-light mx-auto ${
+                        hasUserLiked(selectedImage.id)
+                          ? 'border-[var(--color-gold)] bg-[var(--color-gold)]/20 text-[var(--color-gold)] cursor-default opacity-70'
+                          : 'border-[var(--color-gold)]/40 bg-black/20 hover:bg-[var(--color-gold)]/10 text-[var(--color-gold)] hover:border-[var(--color-gold)]'
+                      }`}
+                      aria-label={hasUserLiked(selectedImage.id) ? `כבר נתת לייק ליצירה` : `תן לייק ליצירה`}
+                    >
+                      <svg className={`w-4 h-4 fill-current ${
+                        hasUserLiked(selectedImage.id) ? 'scale-110' : ''
+                      }`} viewBox="0 0 24 24">
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                       </svg>
-                      <span className="text-[var(--color-gold)] text-sm">
-                        {selectedImage.likes || 0} לייקים
+                      <span className="tracking-wide text-sm">
+                        {hasUserLiked(selectedImage.id) ? 'נתת לייק' : 'תן לייק'} ({selectedImage.likes || 0})
                       </span>
-                    </div>
+                    </button>
                   </div>
                 </div>
               </div>

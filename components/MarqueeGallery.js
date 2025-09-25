@@ -119,8 +119,38 @@ export default function MarqueeGallery() {
   const row2 = createFullRow(artworks.filter((_, index) => index % 3 === 1))
   const row3 = createFullRow(artworks.filter((_, index) => index % 3 === 2))
 
+  // Check if user already liked this artwork
+  const hasUserLiked = (artworkId) => {
+    const likedArtworks = JSON.parse(localStorage.getItem('likedArtworks') || '[]')
+    return likedArtworks.includes(artworkId)
+  }
+
+  // Add artwork to liked list
+  const addToLikedList = (artworkId) => {
+    const likedArtworks = JSON.parse(localStorage.getItem('likedArtworks') || '[]')
+    if (!likedArtworks.includes(artworkId)) {
+      likedArtworks.push(artworkId)
+      localStorage.setItem('likedArtworks', JSON.stringify(likedArtworks))
+    }
+  }
+
   const handleLike = async (artworkId, e) => {
     e.stopPropagation()
+    
+    // Check if user already liked this artwork
+    if (hasUserLiked(artworkId)) {
+      // Show subtle feedback that they already liked it
+      const button = e.target.closest('button')
+      if (button) {
+        button.style.transform = 'scale(0.9)'
+        button.style.opacity = '0.5'
+        setTimeout(() => {
+          button.style.transform = 'scale(1)'
+          button.style.opacity = '1'
+        }, 200)
+      }
+      return
+    }
     
     try {
       const response = await fetch('/api/like-artwork', {
@@ -132,6 +162,9 @@ export default function MarqueeGallery() {
       })
       
       if (response.ok) {
+        // Add to liked list in localStorage
+        addToLikedList(artworkId)
+        
         // Reload artworks to update the display
         loadArtworks()
         
@@ -145,6 +178,15 @@ export default function MarqueeGallery() {
         window.dispatchEvent(new CustomEvent('artworkLiked', { 
           detail: { artworkId, newLikes: (selectedArtwork?.likes || 0) + 1 }
         }))
+        
+        // Visual feedback for successful like
+        const button = e.target.closest('button')
+        if (button) {
+          button.style.transform = 'scale(1.1)'
+          setTimeout(() => {
+            button.style.transform = 'scale(1)'
+          }, 200)
+        }
       }
     } catch (error) {
       console.error('Error liking artwork:', error)
@@ -239,10 +281,18 @@ export default function MarqueeGallery() {
             e.stopPropagation()
             handleLike(artwork.id, e)
           }}
-          className="absolute bottom-3 right-3 bg-black/40 backdrop-blur-sm p-2 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-[var(--color-gold)]/20 group/like"
-          aria-label={`תן לייק ליצירה`}
+          className={`absolute bottom-3 right-3 backdrop-blur-sm p-2 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 group/like ${
+            hasUserLiked(artwork.id) 
+              ? 'bg-[var(--color-gold)]/80 cursor-default' 
+              : 'bg-black/40 hover:bg-[var(--color-gold)]/20'
+          }`}
+          aria-label={hasUserLiked(artwork.id) ? `כבר נתת לייק ליצירה` : `תן לייק ליצירה`}
         >
-          <svg className="w-4 h-4 text-[var(--color-gold)] fill-current group-hover/like:scale-110 transition-transform" viewBox="0 0 24 24">
+          <svg className={`w-4 h-4 fill-current transition-transform ${
+            hasUserLiked(artwork.id) 
+              ? 'text-black scale-110' 
+              : 'text-[var(--color-gold)] group-hover/like:scale-110'
+          }`} viewBox="0 0 24 24">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
           </svg>
         </button>
@@ -392,14 +442,20 @@ export default function MarqueeGallery() {
                   {/* Like Button - Simple */}
                   <button
                     onClick={(e) => handleLike(selectedArtwork.id, e)}
-                    className="flex items-center gap-3 px-6 py-3 border border-[var(--color-gold)]/40 bg-black/20 hover:bg-[var(--color-gold)]/10 text-[var(--color-gold)] hover:border-[var(--color-gold)] transition-all duration-300 font-heebo font-light backdrop-blur-sm rounded"
-                    aria-label={`תן לייק ליצירה`}
+                    className={`flex items-center gap-3 px-6 py-3 border backdrop-blur-sm rounded transition-all duration-300 font-heebo font-light ${
+                      hasUserLiked(selectedArtwork.id)
+                        ? 'border-[var(--color-gold)] bg-[var(--color-gold)]/20 text-[var(--color-gold)] cursor-default opacity-70'
+                        : 'border-[var(--color-gold)]/40 bg-black/20 hover:bg-[var(--color-gold)]/10 text-[var(--color-gold)] hover:border-[var(--color-gold)]'
+                    }`}
+                    aria-label={hasUserLiked(selectedArtwork.id) ? `כבר נתת לייק ליצירה` : `תן לייק ליצירה`}
                   >
-                    <svg className="w-4 h-4 text-[var(--color-gold)] fill-current" viewBox="0 0 24 24">
+                    <svg className={`w-4 h-4 fill-current ${
+                      hasUserLiked(selectedArtwork.id) ? 'scale-110' : ''
+                    }`} viewBox="0 0 24 24">
                       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                     </svg>
                     <span className="tracking-wide">
-                      תן לייק ({selectedArtwork.likes || 0})
+                      {hasUserLiked(selectedArtwork.id) ? 'נתת לייק' : 'תן לייק'} ({selectedArtwork.likes || 0})
                     </span>
                   </button>
 
