@@ -68,11 +68,16 @@ export default function HomePage() {
       <section className="relative min-h-screen flex flex-col mt-[100px]">
         {/* Background Image - starts below navbar */}
         <div className="absolute inset-0 z-0">
-          <img
-            src="/hero.jpg"
-            alt="SodaStream Enso"
-            className="w-full h-full object-cover"
-          />
+          <picture>
+            <source srcSet="/hero.webp" type="image/webp" />
+            <img
+              src="/hero.jpg"
+              alt="SodaStream Enso"
+              className="w-full h-full object-cover"
+              loading="eager"
+              fetchPriority="high"
+            />
+          </picture>
           {/* Dark Overlay for Text Readability */}
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
