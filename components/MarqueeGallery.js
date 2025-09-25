@@ -224,30 +224,28 @@ export default function MarqueeGallery() {
           </svg>
         </div>
 
-        {/* Appreciation indicator - Elegant */}
-        <div className="absolute top-3 left-3 bg-black/40 backdrop-blur-sm text-[var(--color-gold)] px-3 py-1 rounded text-xs font-heebo font-light md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 border border-[var(--color-gold)]/30">
-          הערכה
+        {/* Like count display - always visible */}
+        <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm px-2 py-1 rounded flex items-center gap-1.5 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300">
+          <svg className="w-3 h-3 text-[var(--color-gold)] fill-current" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span className="text-white text-xs font-heebo font-light">
+            {artwork.likes || 0}
+          </span>
         </div>
 
-        {/* Appreciation button - Elegant design */}
+        {/* Like button - subtle */}
         <button
           onClick={(e) => {
             e.stopPropagation()
             handleLike(artwork.id, e)
           }}
-          className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-3 py-2 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-[var(--color-gold)]/20 group/like border border-[var(--color-gold)]/40 rounded"
-          aria-label={`הוסף הערכה ליצירה`}
+          className="absolute bottom-3 right-3 bg-black/40 backdrop-blur-sm p-2 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-[var(--color-gold)]/20 group/like"
+          aria-label={`תן לייק ליצירה`}
         >
-          <div className="flex items-center gap-2">
-            <div className="w-1 h-1 bg-[var(--color-gold)] rounded-full opacity-60 group-hover/like:opacity-100 transition-opacity"></div>
-            <span className="text-[var(--color-gold)] text-xs font-heebo font-light group-hover/like:text-white transition-colors">
-              {artwork.likes || 0}
-            </span>
-            <div className="w-1 h-1 bg-[var(--color-gold)] rounded-full opacity-60 group-hover/like:opacity-100 transition-opacity"></div>
-          </div>
-          <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs text-[var(--color-gold)] bg-black/80 backdrop-blur-sm px-2 py-1 rounded opacity-0 group-hover/like:opacity-100 transition-opacity whitespace-nowrap border border-[var(--color-gold)]/30">
-            הוסף הערכה
-          </span>
+          <svg className="w-4 h-4 text-[var(--color-gold)] fill-current group-hover/like:scale-110 transition-transform" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
         </button>
 
         {/* Mobile info overlay - always visible with reduced opacity */}
@@ -278,14 +276,15 @@ export default function MarqueeGallery() {
           גלריית יצירות הקהילה
         </h2>
         <p className="text-sm md:text-base text-[var(--color-muted)] mb-3 font-heebo font-light">
-          גלול, צפה והעניק הערכה ליצירות שריגשו אותך
+          גלול, צפה ותן לייק ליצירות שאהבת
         </p>
         <div className="flex items-center justify-center gap-3 text-xs md:text-sm text-[var(--color-gold)] bg-black/20 border border-[var(--color-gold)]/30 rounded px-6 py-3 backdrop-blur-sm">
-          <span className="w-1 h-1 bg-[var(--color-gold)] rounded-full"></span>
-          <span className="font-heebo font-light">גע להערכה</span>
+          <svg className="w-3 h-3 text-[var(--color-gold)] fill-current" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span className="font-heebo font-light">לחץ ללייק</span>
           <span className="w-1 h-1 bg-[var(--color-gold)] rounded-full opacity-50"></span>
           <span className="font-heebo font-light">לחץ לצפייה מלאה</span>
-          <span className="w-1 h-1 bg-[var(--color-gold)] rounded-full"></span>
         </div>
       </div>
 
@@ -391,25 +390,18 @@ export default function MarqueeGallery() {
                     </p>
       </div>
 
-                  {/* Appreciation Button - Elegant */}
+                  {/* Like Button - Simple */}
                   <button
                     onClick={(e) => handleLike(selectedArtwork.id, e)}
-                    className="flex items-center gap-4 px-8 py-4 border border-[var(--color-gold)]/40 bg-black/20 hover:bg-[var(--color-gold)]/10 text-[var(--color-gold)] hover:border-[var(--color-gold)] transition-all duration-300 font-heebo font-light backdrop-blur-sm rounded"
-                    aria-label={`הוסף הערכה ליצירה`}
+                    className="flex items-center gap-3 px-6 py-3 border border-[var(--color-gold)]/40 bg-black/20 hover:bg-[var(--color-gold)]/10 text-[var(--color-gold)] hover:border-[var(--color-gold)] transition-all duration-300 font-heebo font-light backdrop-blur-sm rounded"
+                    aria-label={`תן לייק ליצירה`}
                   >
-                    <div className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 bg-[var(--color-gold)] rounded-full opacity-60"></div>
-                      <div className="w-1 h-1 bg-[var(--color-gold)] rounded-full opacity-80"></div>
-                      <div className="w-1.5 h-1.5 bg-[var(--color-gold)] rounded-full opacity-60"></div>
-                    </div>
+                    <svg className="w-4 h-4 text-[var(--color-gold)] fill-current" viewBox="0 0 24 24">
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
                     <span className="tracking-wide">
-                      הוסף הערכה ({selectedArtwork.likes || 0})
+                      תן לייק ({selectedArtwork.likes || 0})
                     </span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 bg-[var(--color-gold)] rounded-full opacity-60"></div>
-                      <div className="w-1 h-1 bg-[var(--color-gold)] rounded-full opacity-80"></div>
-                      <div className="w-1.5 h-1.5 bg-[var(--color-gold)] rounded-full opacity-60"></div>
-                    </div>
                   </button>
 
                   {selectedArtwork.created_at && (
