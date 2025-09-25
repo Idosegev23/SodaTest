@@ -69,52 +69,39 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section with Background Image */}
-      <section className="relative min-h-[60vh] md:min-h-screen flex flex-col pt-24 md:pt-28">
-        <h1 className="sr-only">SodaStream Enso — ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך</h1>
+      <section className="relative min-h-screen flex flex-col mt-[100px]">
         {/* Background Image - starts below navbar */}
         <div className="absolute inset-0 z-0">
-          <Image
+          <img
             src="/hero.jpg"
             alt="SodaStream Enso"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
+            className="w-full h-full object-cover"
           />
           {/* Dark Overlay for Text Readability */}
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
-               {/* Logo - Right Side - Below Header */}
-               <div className="relative z-10 flex-1 flex items-start justify-end pt-20 md:pt-32 pr-6 md:pr-16">
-                 <div className="text-right px-4">
-                   <Image 
+               {/* Logo - Upper Part - Below Header */}
+               <div className="relative z-10 flex-1 flex items-start justify-center pt-72 md:pt-80">
+                 <div className="text-center px-4">
+                   <img 
                      src="/logo.png" 
                      alt="SodaStream Enso" 
-                     width={240}
-                     height={60}
-                     className="h-16 md:h-24 lg:h-32 w-auto drop-shadow-2xl"
+                     className="h-20 md:h-32 lg:h-40 w-auto drop-shadow-2xl"
                    />
                  </div>
                </div>
 
-        {/* Quote and Signature - Bottom Right with more spacing */}
-        <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-10 max-w-sm md:max-w-lg px-4 md:px-0">
-          {/* Elegant Quote */}
-          <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 md:p-6">
-            <p className="text-white/80 font-heebo font-light text-xs md:text-sm leading-relaxed mb-6 tracking-wider italic text-right" dir="rtl">
-              "מים מבעבעים קיימים על פני האדמה כבר אלפי שנים, ויוצרים חיבור היסטורי עם האנושות. לפני כמעט שלוש מאות שנה הצליחו מדענים להפוך את ייצור המים המוגזים לתעשייתי – פריבילגיה שהייתה שמורה למעטים בלבד. דרך כלי העבודה היצוקים ממתכת מלוטשת – נפרץ מעיין של השראה.<br/><br/>enso<sup className="text-[var(--color-gold)] text-xs">®</sup> חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת."
-            </p>
-            
-            {/* Signature */}
-            <div className="flex justify-end">
-              <img
-                src="/imgs/Signature.png"
-                alt="חתימה"
-                className="h-12 md:h-16 opacity-90 drop-shadow-lg brightness-0 invert"
-              />
-            </div>
-          </div>
+        {/* Quote and Signature - Right Bottom (restored simpler layout) */}
+        <div className="absolute bottom-4 right-4 md:right-8 z-10 max-w-md px-4 md:px-0">
+          <p className="text-white/70 font-heebo font-light text-xs md:text-sm leading-loose mb-6 tracking-wider italic text-right px-2" dir="rtl">
+            "מים מבעבעים קיימים על פני האדמה כבר אלפי שנים, ויוצרים חיבור היסטורי עם האנושות. לפני כמעט שלוש מאות שנה הצליחו מדענים להפוך את ייצור המים המוגזים לתעשייתי – פריבילגיה שהייתה שמורה למעטים בלבד. דרך כלי העבודה היצוקים ממתכת מלוטשת – נפרץ מעיין של השראה.<br/><br/>enso<sup className=\"text-[var(--color-gold)] text-xs\">®</sup> חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת."
+          </p>
+          <img
+            src="/imgs/Signature.png"
+            alt="חתימה"
+            className="h-16 md:h-20 opacity-90 drop-shadow-lg brightness-0 invert"
+          />
         </div>
       </section>
 
