@@ -87,10 +87,9 @@ export default function MarqueeGallery() {
         // Store ALL artworks for navigation
         setAllArtworks(sortedByLikes)
         
-        // Show all artworks except the top 7 (which are in BentoGallery) for display
-        // But if we have less than 7 total, show all
-        const marqueeArtworks = sortedByLikes.length > 7 ? sortedByLikes.slice(7) : sortedByLikes
-        setArtworks(marqueeArtworks)
+        // Show ALL artworks in marquee gallery (including top ones from Bento)
+        // This allows users to continue liking popular artworks
+        setArtworks(sortedByLikes)
       } else {
         console.log('No artworks found in database')
         setArtworks([])
