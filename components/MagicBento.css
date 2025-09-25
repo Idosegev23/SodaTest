@@ -1,14 +1,4 @@
-:root {
-  --color-gold: #FFD700;
-  --color-gold-light: #FFF8DC;
-  --color-gold-dark: #B8860B;
-  --color-gold-muted: rgba(255, 215, 0, 0.1);
-  --color-gold-border: rgba(255, 215, 0, 0.2);
-  --color-bg: #0A0A0A;
-  --color-text: #F5F5F5;
-  --color-muted: #888888;
-  --border-radius: 16px;
-}
+/* MagicBento styles inherit from global CSS variables */
 
 .bento-section {
   position: relative;
@@ -42,7 +32,7 @@
   position: relative;
   border-radius: var(--border-radius);
   border: 1px solid var(--color-gold-border);
-  background: var(--color-bg);
+  background: inherit;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
