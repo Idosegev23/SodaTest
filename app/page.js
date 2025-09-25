@@ -77,9 +77,9 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
-               {/* Logo - Left Side - Below Header */}
-               <div className="relative z-10 flex-1 flex items-start justify-start pt-32 md:pt-40 pl-8 md:pl-16">
-                 <div className="text-left px-4">
+               {/* Logo - Right Side - Below Header */}
+               <div className="relative z-10 flex-1 flex items-start justify-end pt-32 md:pt-40 pr-8 md:pr-16">
+                 <div className="text-right px-4">
                    <img 
                      src="/logo.png" 
                      alt="SodaStream Enso" 
