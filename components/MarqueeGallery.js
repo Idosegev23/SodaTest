@@ -255,12 +255,16 @@ export default function MarqueeGallery() {
           }}
         />
         
-        {/* Click indicator for mobile - always visible */}
-        <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm rounded-full p-2 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
-          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        {/* Voting/Like indicator - always visible on mobile */}
+        <div className="absolute top-3 right-3 bg-[var(--color-gold)]/90 backdrop-blur-sm rounded-full p-2 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 shadow-lg">
+          <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3.5M3 16.5h12" />
           </svg>
+        </div>
+
+        {/* Voting banner for mobile */}
+        <div className="absolute top-3 left-3 bg-[var(--color-gold)] text-black px-3 py-1 rounded-full text-xs font-bold md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 shadow-lg border border-white/20">
+          הצבע לי! 🗳️
         </div>
 
         {/* Like button - always visible on mobile, hover on desktop */}
@@ -269,14 +273,14 @@ export default function MarqueeGallery() {
             e.stopPropagation()
             handleLike(artwork.id, e)
           }}
-          className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm rounded-full p-2 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-[var(--color-gold)] hover:text-black group/like"
+          className="absolute bottom-3 right-3 bg-red-500/90 backdrop-blur-sm rounded-full p-2 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-red-400 hover:scale-110 group/like shadow-lg border border-white/20"
           aria-label={`הוסף לייק ליצירה`}
         >
-          <svg className="w-4 h-4 text-[var(--color-gold)] group-hover/like:text-current transition-colors" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 text-white transition-transform group-hover/like:scale-110" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
           </svg>
-          <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-white bg-black/60 px-2 py-1 rounded opacity-0 group-hover/like:opacity-100 transition-opacity whitespace-nowrap">
-            {artwork.likes || 0}
+          <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs text-white bg-black/80 px-2 py-1 rounded opacity-0 group-hover/like:opacity-100 transition-opacity whitespace-nowrap">
+            ❤️ {artwork.likes || 0}
           </span>
         </button>
 
@@ -302,6 +306,22 @@ export default function MarqueeGallery() {
 
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden min-h-[400px]">
+      {/* Voting instruction banner */}
+      <div className="text-center mb-6 px-4">
+        <h2 className="text-xl md:text-2xl font-heebo font-light text-[var(--color-text)] mb-2">
+          גלריית יצירות הקהילה
+        </h2>
+        <p className="text-sm md:text-base text-[var(--color-muted)] mb-3">
+          גלול, צפה והצבע ליצירות שאהבת ❤️
+        </p>
+        <div className="flex items-center justify-center gap-2 text-xs md:text-sm text-[var(--color-gold)] bg-[var(--color-gold)]/10 border border-[var(--color-gold)]/30 rounded-full px-4 py-2 backdrop-blur-sm">
+          <span>🗳️</span>
+          <span>לחץ על הלב כדי להצביע</span>
+          <span>•</span>
+          <span>לחץ על התמונה לצפייה מלאה</span>
+        </div>
+      </div>
+
       {/* Show loading indicator until fully loaded */}
       {!imagesLoaded && (
         <div className="absolute inset-0 bg-[var(--color-bg)] flex items-center justify-center z-10">
@@ -314,7 +334,7 @@ export default function MarqueeGallery() {
       
       {/* Marquee Gallery - Only show when fully loaded */}
       {imagesLoaded && (
-        <>
+        <div className="relative">
           {/* Row 1 - Left to Right - Slow for better mobile experience */}
           <Marquee pauseOnHover className="[--duration:30s] py-2">
             {row1.map((artwork, index) => (
@@ -335,7 +355,11 @@ export default function MarqueeGallery() {
               <ArtworkCard key={`row3-${artwork.id}-${index}`} artwork={artwork} />
             ))}
           </Marquee>
-        </>
+
+          {/* Fade gradients on sides for better visual flow */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-24 bg-gradient-to-r from-[var(--color-bg)] to-transparent z-10"></div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-24 bg-gradient-to-l from-[var(--color-bg)] to-transparent z-10"></div>
+        </div>
       )}
 
       
