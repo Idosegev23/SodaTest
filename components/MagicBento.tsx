@@ -557,6 +557,9 @@ const MagicBento: React.FC<BentoProps> = ({
                   
                   <div className="artwork-overlay">
                     <div className="artwork-info">
+                      <div className="position-badge">
+                        #{index + 2}
+                      </div>
                       <h3 className="artwork-title">{artwork.prompt}</h3>
                       <p className="artwork-creator">{artwork.user_name}</p>
                       
@@ -594,6 +597,9 @@ const MagicBento: React.FC<BentoProps> = ({
                 
                 <div className="artwork-overlay">
                   <div className="artwork-info">
+                    <div className="position-badge">
+                      #{index + 2}
+                    </div>
                     <h3 className="artwork-title">{artwork.prompt}</h3>
                     <p className="artwork-creator">{artwork.user_name}</p>
                     

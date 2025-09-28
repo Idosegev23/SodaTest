@@ -27,6 +27,11 @@
     animation: fadeIn 1s ease-out;
   }
   
+  /* Radial Gradient for Light Effects */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+  
   /* Premium Gold Frame Effect */
   .gold-frame {
     position: relative;

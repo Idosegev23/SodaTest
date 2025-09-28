@@ -48,8 +48,8 @@ export default function SymmetricGallery() {
           return (b.id || '').toString().localeCompare((a.id || '').toString())
         })
         
-        // Take top 7 most liked artworks for Bento Gallery
-        setArtworks(sortedByLikes.slice(0, 7))
+        // Take artworks 2-8 (skip the winner, show places 2-8)
+        setArtworks(sortedByLikes.slice(1, 8))
       } else {
         // רק אם אין תמונות בטבלה, נטען מ-Storage
         console.log('No artworks in database, trying storage...')

@@ -215,24 +215,73 @@ export default function HomePage() {
         </div>
       </section>
 
-            {/* Section Title: יצירות נבחרות */}
+      {/* Weekly Winner Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
+              זוכה השבוע
+            </h3>
+            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-8"></div>
+            <p className="text-lg text-[var(--color-text)] font-heebo font-light leading-relaxed" dir="rtl">
+              היצירה שקיבלה את מירב הלייקים השבוע
+            </p>
+          </div>
+          
+          {/* Winner Card Container */}
+          <div className="relative max-w-2xl mx-auto">
+            {/* Creator of the Week Badge */}
+            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-20">
+              <div className="bg-gradient-to-r from-[var(--color-gold)] to-[var(--color-gold-dark)] text-[var(--color-bg)] px-6 py-3 rounded-full font-heebo font-semibold text-lg shadow-lg border-2 border-[var(--color-gold-dark)]">
+                Creator of the Week
+              </div>
+            </div>
+            
+            {/* Winner Card with Gold Frame */}
+            <div className="relative">
+              {/* Animated Gold Border */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-gold)] via-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-lg p-1 animate-pulse">
+                <div className="w-full h-full bg-[var(--color-bg)] rounded-lg"></div>
+              </div>
+              
+              {/* Winner Content */}
+              <div className="relative bg-[var(--color-bg)] rounded-lg p-1 m-1">
+                <div className="aspect-square bg-gradient-to-br from-[var(--color-gold)]/10 to-transparent border border-[var(--color-gold)]/20 rounded-lg flex items-center justify-center min-h-[400px]">
+                  <div className="text-center">
+                    <div className="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/5 rounded-lg flex items-center justify-center">
+                      <span className="text-[var(--color-gold)] font-heebo font-light text-lg">יצירה זוכה בקרוב</span>
+                    </div>
+                    <h4 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-2">שם היוצר</h4>
+                    <p className="text-[var(--color-muted)] font-heebo font-light mb-4">תיאור היצירה</p>
+                    <div className="flex items-center justify-center gap-2 text-[var(--color-gold)]">
+                      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                      </svg>
+                      <span className="font-heebo font-medium">0 לייקים</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+            {/* Section Title: מקומות 2-8 */}
             <section className="py-8 md:py-12 px-4">
         <div className="max-w-5xl mx-auto text-center mb-8">
           <h3 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
-            יצירות נבחרות
+            מקומות 2-8 השבוע
           </h3>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
           
           {/* Updated subtitle text */}
           <div className="mt-8 space-y-4 text-[var(--color-text)] font-heebo font-light text-lg leading-relaxed max-w-4xl mx-auto" dir="rtl">
             <p>
-              כאן תוכלו לראות את היצירות שלכם ושל שאר המשתתפים - פרשנויות אישיות למכשיר ה־ENSŌ.
+              היצירות הכי מוצלחות השבוע לפי כמות הלייקים - מקומות 2 עד 8
             </p>
             <p>
-              מצאתם יצירה שאהבתם? תנו לה לייק ❤️
-            </p>
-            <p className="text-[var(--color-gold)] font-medium">
-              בכל שבוע, היצירה שתקבל את מירב הלייקים תהפוך לעיצוב הזוכה השבועי ותזכה בפרס נחשק.
+              מצאתם יצירה שאהבתם? תנו לה לייק ❤️ ואולי היא תעלה למקום הראשון!
             </p>
           </div>
         </div>
@@ -256,19 +305,47 @@ export default function HomePage() {
       </section>
 
       {/* Final Section - Large Device Image & CTA */}
-      <section className="py-16 px-4">
+      <section className="py-16 px-4 relative overflow-hidden">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Large Device Image */}
+          {/* Large Device Image with Light Rays */}
           <div className="relative mb-12">
             <div className="relative max-w-2xl mx-auto">
-              <img
-                src="/hero.jpg"
-                alt="מכשיר SodaStream Enso"
-                className="w-full h-auto rounded-lg shadow-2xl"
-                loading="lazy"
-              />
-              {/* Elegant overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"></div>
+              {/* Light Rays Background */}
+              <div className="absolute inset-0 -m-20">
+                {/* Top Light Rays */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-96 opacity-30">
+                  <div className="absolute top-0 left-1/2 w-1 h-32 bg-gradient-to-b from-[var(--color-gold)] to-transparent transform -translate-x-1/2 rotate-12 blur-sm"></div>
+                  <div className="absolute top-0 left-1/2 w-1 h-40 bg-gradient-to-b from-[var(--color-gold)] to-transparent transform -translate-x-1/2 rotate-6 blur-sm"></div>
+                  <div className="absolute top-0 left-1/2 w-1 h-36 bg-gradient-to-b from-[var(--color-gold)] to-transparent transform -translate-x-1/2 blur-sm"></div>
+                  <div className="absolute top-0 left-1/2 w-1 h-40 bg-gradient-to-b from-[var(--color-gold)] to-transparent transform -translate-x-1/2 -rotate-6 blur-sm"></div>
+                  <div className="absolute top-0 left-1/2 w-1 h-32 bg-gradient-to-b from-[var(--color-gold)] to-transparent transform -translate-x-1/2 -rotate-12 blur-sm"></div>
+                </div>
+                
+                {/* Side Light Rays */}
+                <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent opacity-20 blur-sm"></div>
+                <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-32 h-1 bg-gradient-to-l from-transparent via-[var(--color-gold)] to-transparent opacity-20 blur-sm"></div>
+                
+                {/* Diagonal Light Rays */}
+                <div className="absolute top-1/4 left-1/4 w-24 h-1 bg-gradient-to-r from-[var(--color-gold)] to-transparent transform rotate-45 opacity-15 blur-sm"></div>
+                <div className="absolute top-1/4 right-1/4 w-24 h-1 bg-gradient-to-l from-[var(--color-gold)] to-transparent transform -rotate-45 opacity-15 blur-sm"></div>
+                <div className="absolute bottom-1/4 left-1/4 w-24 h-1 bg-gradient-to-r from-[var(--color-gold)] to-transparent transform -rotate-45 opacity-15 blur-sm"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-24 h-1 bg-gradient-to-l from-[var(--color-gold)] to-transparent transform rotate-45 opacity-15 blur-sm"></div>
+              </div>
+              
+              {/* Spotlight Effect */}
+              <div className="absolute inset-0 bg-gradient-radial from-[var(--color-gold)]/10 via-transparent to-transparent rounded-lg"></div>
+              
+              {/* Product Image */}
+              <div className="relative z-10">
+                <img
+                  src="/file.png"
+                  alt="מכשיר SodaStream Enso"
+                  className="w-full h-auto rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+                {/* Elegant glow */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-gold)]/5 to-transparent rounded-lg"></div>
+              </div>
             </div>
           </div>
           
@@ -276,7 +353,7 @@ export default function HomePage() {
           <PremiumButton
             variant="secondary"
             onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
-            className="text-xl font-heebo font-light tracking-wide group px-12 py-4 w-full sm:w-auto max-w-md"
+            className="text-xl font-heebo font-light tracking-wide group px-12 py-4 w-full sm:w-auto max-w-md relative z-10"
             aria-label="לפרטים נוספים על מכשיר SodaStream Enso"
           >
             לפרטים נוספים לחצו כאן

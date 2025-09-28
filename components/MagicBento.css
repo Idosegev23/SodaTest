@@ -69,50 +69,7 @@
   transform: scale(1.05);
 }
 
-/* Hero Card - תמונה ראשית */
-.hero-card {
-  position: relative;
-}
-
-.hero-card::before {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  background: linear-gradient(45deg, var(--color-gold), var(--color-gold-dark), var(--color-gold));
-  border-radius: var(--border-radius);
-  z-index: -1;
-  opacity: 0.8;
-  animation: goldGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes goldGlow {
-  0% {
-    box-shadow: 0 0 20px rgba(142, 120, 69, 0.5);
-  }
-  100% {
-    box-shadow: 0 0 40px rgba(142, 120, 69, 0.8);
-  }
-}
-
-/* Creator of the Week Badge */
-.hero-card::after {
-  content: 'Creator of the Week';
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(45deg, var(--color-gold), var(--color-gold-dark));
-  color: var(--color-bg);
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  font-family: 'Heebo', sans-serif;
-  z-index: 10;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  border: 2px solid var(--color-gold-dark);
-}
-
+/* Hero Card - תמונה ראשית (עכשיו רגילה כמו שאר הקלפים) */
 .hero-card .artwork-content {
   min-height: 320px;
 }
@@ -197,7 +154,7 @@
   margin: 0 0 0.5rem;
 }
 
-.winner-badge {
+.position-badge {
   display: inline-block;
   background: linear-gradient(45deg, var(--color-gold), var(--color-gold-dark));
   color: var(--color-bg);
@@ -207,6 +164,8 @@
   font-weight: 600;
   margin-bottom: 0.5rem;
   text-shadow: none;
+  min-width: 2rem;
+  text-align: center;
 }
 
 .artwork-likes {
