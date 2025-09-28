@@ -113,6 +113,118 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Section 2 - Welcome to ENSŌ Gallery */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-heebo font-light text-[var(--color-text)] mb-8 tracking-wide leading-relaxed" dir="rtl">
+            ברוכים הבאים ל־ENSŌ Gallery<br />
+            <span className="text-[var(--color-gold)]">המקום שבו עיצוב פוגש חדשנות</span>
+          </h2>
+          
+          <div className="space-y-6 text-[var(--color-text)] font-heebo font-light text-lg md:text-xl leading-relaxed" dir="rtl">
+            <p>
+              כאן אתם לא רק צופים - אתם יוצרים. בלחיצה אחת המכשיר מתמזג עם רקעים שנולדו בבינה מלאכותית, ואתם מעניקים לו פרשנות אישית משלכם.
+            </p>
+            
+            <p>
+              היצירה שלכם תצטרף לגלריה החיה בהמשך העמוד ותהפוך לחלק מהמהלך הכי מדובר בעולמות העיצוב והטכנולוגיה.
+            </p>
+            
+            <p>
+              בכל שבוע ייבחר עיצוב זוכה, שיזכה באחד מהפרסים הנחשקים שלנו.<br />
+              ובסוף - נבחרת השופטים שלנו תבחר את היצירה הייחודית ביותר, והיוצר שלה יקבל במתנה את מכשיר ה־ENSŌ היוקרתי.
+            </p>
+            
+            <p className="text-[var(--color-gold)] font-medium text-xl md:text-2xl">
+              זו ההזדמנות שלכם לקחת חלק במהלך עולמי שמטשטש גבולות בין מוצר, אמנות וחדשנות.<br />
+              עכשיו התור שלכם ליצור.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 3 - Judges Panel */}
+      <section className="py-16 px-4 bg-gradient-to-b from-transparent to-[var(--color-bg)]/50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
+              נבחרת השופטים
+            </h3>
+            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+            {/* Judge 1 - Shai Franco */}
+            <div className="text-center">
+              <div className="relative mb-4">
+                <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-2 border-[var(--color-gold)]/50 shadow-lg">
+                  <img 
+                    src="/imgs/franco.jpeg" 
+                    alt="Shai Franco" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <h4 className="text-lg md:text-xl font-heebo font-medium text-[var(--color-text)] mb-2">Shai Franco</h4>
+              <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-lg bg-gradient-to-br from-[var(--color-gold)]/10 to-transparent border border-[var(--color-gold)]/20 flex items-center justify-center">
+                <span className="text-[var(--color-gold)]/60 font-heebo font-light text-xs">יצירה בקרוב</span>
+              </div>
+            </div>
+
+            {/* Judge 2 - Shira Barzilay */}
+            <div className="text-center">
+              <div className="relative mb-4">
+                <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-2 border-[var(--color-gold)]/50 shadow-lg">
+                  <img 
+                    src="/imgs/shira.jpeg" 
+                    alt="Shira Barzilay" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <h4 className="text-lg md:text-xl font-heebo font-medium text-[var(--color-text)] mb-2">Shira Barzilay</h4>
+              <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-lg bg-gradient-to-br from-[var(--color-gold)]/10 to-transparent border border-[var(--color-gold)]/20 flex items-center justify-center">
+                <span className="text-[var(--color-gold)]/60 font-heebo font-light text-xs">יצירה בקרוב</span>
+              </div>
+            </div>
+
+            {/* Judge 3 - Alon Shabo */}
+            <div className="text-center">
+              <div className="relative mb-4">
+                <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-2 border-[var(--color-gold)]/50 shadow-lg">
+                  <img 
+                    src="/imgs/shebo.jpeg" 
+                    alt="Alon Shabo" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <h4 className="text-lg md:text-xl font-heebo font-medium text-[var(--color-text)] mb-2">Alon Shabo</h4>
+              <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-lg bg-gradient-to-br from-[var(--color-gold)]/10 to-transparent border border-[var(--color-gold)]/20 flex items-center justify-center">
+                <span className="text-[var(--color-gold)]/60 font-heebo font-light text-xs">יצירה בקרוב</span>
+              </div>
+            </div>
+
+            {/* Judge 4 - Dede Bandaid */}
+            <div className="text-center">
+              <div className="relative mb-4">
+                <div className="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-2 border-[var(--color-gold)]/50 shadow-lg">
+                  <img 
+                    src="/imgs/dede.jpeg" 
+                    alt="Dede Bandaid" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <h4 className="text-lg md:text-xl font-heebo font-medium text-[var(--color-text)] mb-2">Dede Bandaid</h4>
+              <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-lg bg-gradient-to-br from-[var(--color-gold)]/10 to-transparent border border-[var(--color-gold)]/20 flex items-center justify-center">
+                <span className="text-[var(--color-gold)]/60 font-heebo font-light text-xs">יצירה בקרוב</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
             {/* Section Title: יצירות נבחרות */}
             <section className="py-8 md:py-12 px-4">
         <div className="max-w-5xl mx-auto text-center mb-8">
@@ -120,6 +232,19 @@ export default function HomePage() {
             יצירות נבחרות
           </h3>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
+          
+          {/* Updated subtitle text */}
+          <div className="mt-8 space-y-4 text-[var(--color-text)] font-heebo font-light text-lg leading-relaxed max-w-4xl mx-auto" dir="rtl">
+            <p>
+              כאן תוכלו לראות את היצירות שלכם ושל שאר המשתתפים - פרשנויות אישיות למכשיר ה־ENSŌ.
+            </p>
+            <p>
+              מצאתם יצירה שאהבתם? תנו לה לייק ❤️
+            </p>
+            <p className="text-[var(--color-gold)] font-medium">
+              בכל שבוע, היצירה שתקבל את מירב הלייקים תהפוך לעיצוב הזוכה השבועי ותזכה בפרס נחשק.
+            </p>
+          </div>
         </div>
         
         {/* Dynamic Bento Gallery - Smaller Container */}
@@ -140,15 +265,44 @@ export default function HomePage() {
         <MarqueeGallery />
       </section>
 
-      {/* Bottom CTA */}
+      {/* Final Section - Large Device Image & CTA */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Large Device Image */}
+          <div className="relative mb-12">
+            <div className="relative max-w-2xl mx-auto">
+              <img
+                src="/hero.jpg"
+                alt="מכשיר SodaStream Enso"
+                className="w-full h-auto rounded-lg shadow-2xl"
+                loading="lazy"
+              />
+              {/* Elegant overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"></div>
+            </div>
+          </div>
+          
+          {/* CTA Button */}
+          <PremiumButton
+            variant="secondary"
+            onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
+            className="text-xl font-heebo font-light tracking-wide group px-12 py-4 w-full sm:w-auto max-w-md"
+            aria-label="לפרטים נוספים על מכשיר SodaStream Enso"
+          >
+            לפרטים נוספים לחצו כאן
+          </PremiumButton>
+        </div>
+      </section>
+
+      {/* Bottom CTA - Create Artwork */}
       <section className="py-16 px-4 text-center flex justify-center">
         <PremiumButton
-          variant="secondary"
+          variant="primary"
           onClick={() => router.push('/create')}
           className="text-xl font-heebo font-light tracking-wide group px-12 py-4 w-full sm:w-auto max-w-md"
-          aria-label="צור את היצירה שלך עכשיו"
+          aria-label="עצב את החזון שלך"
         >
-          צור את היצירה שלך עכשיו
+          Design Your Vision
         </PremiumButton>
       </section>
 
