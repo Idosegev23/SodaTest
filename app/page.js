@@ -287,14 +287,17 @@ export default function HomePage() {
         <div className="absolute inset-0">
           <LightRaysAdvanced
             raysOrigin="bottom-center"
-            raysColor="#8e7845"
-            raysSpeed={2.0}
-            lightSpread={1.2}
-            rayLength={2.0}
+            raysColor="#FFD700"
+            raysSpeed={4.0}
+            lightSpread={3.0}
+            rayLength={5.0}
             followMouse={true}
-            mouseInfluence={0.15}
-            noiseAmount={0.15}
-            distortion={0.08}
+            mouseInfluence={0.4}
+            noiseAmount={0.3}
+            distortion={0.2}
+            fadeDistance={3.0}
+            saturation={2.0}
+            pulsating={true}
             className="advanced-rays"
           />
         </div>
