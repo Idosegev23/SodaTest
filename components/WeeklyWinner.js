@@ -60,7 +60,7 @@ export default function WeeklyWinner() {
           </div>
           
           {/* Loading State */}
-          <div className="relative max-w-2xl mx-auto">
+          <div className="relative max-w-2xl mx-auto mt-8">
             <div className="relative bg-[var(--color-bg)] rounded-lg p-1 m-1">
               <div className="aspect-square bg-gradient-to-br from-[var(--color-gold)]/10 to-transparent border border-[var(--color-gold)]/20 rounded-lg flex items-center justify-center min-h-[400px]">
                 <div className="text-center">
@@ -69,6 +69,11 @@ export default function WeeklyWinner() {
                   </div>
                 </div>
               </div>
+            </div>
+            
+            {/* Loading Subtitle */}
+            <div className="text-center mt-6">
+              <div className="h-8 bg-gradient-to-r from-[var(--color-gold)]/20 to-[var(--color-gold)]/10 rounded animate-pulse mx-auto max-w-xs"></div>
             </div>
           </div>
         </div>
@@ -91,7 +96,7 @@ export default function WeeklyWinner() {
           </div>
           
           {/* No Winner State */}
-          <div className="relative max-w-2xl mx-auto">
+          <div className="relative max-w-2xl mx-auto mt-8">
             <div className="relative bg-[var(--color-bg)] rounded-lg p-1 m-1">
               <div className="aspect-square bg-gradient-to-br from-[var(--color-gold)]/10 to-transparent border border-[var(--color-gold)]/20 rounded-lg flex items-center justify-center min-h-[400px]">
                 <div className="text-center">
@@ -108,6 +113,13 @@ export default function WeeklyWinner() {
                   </div>
                 </div>
               </div>
+            </div>
+            
+            {/* Placeholder Subtitle */}
+            <div className="text-center mt-6">
+              <h5 className="text-xl md:text-2xl font-heebo font-semibold text-[var(--color-gold)] tracking-wide">
+                Creator of the Week
+              </h5>
             </div>
           </div>
         </div>
@@ -140,13 +152,6 @@ export default function WeeklyWinner() {
             {/* Winner Content */}
             <div className="relative bg-[var(--color-bg)] rounded-lg p-1 m-1">
               <div className="relative rounded-lg overflow-hidden">
-                {/* Creator of the Week Badge - Inside Image */}
-                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
-                  <div className="bg-gradient-to-r from-[var(--color-gold)] to-[var(--color-gold-dark)] text-[var(--color-bg)] px-4 py-2 rounded-full font-heebo font-semibold text-sm md:text-base shadow-lg border-2 border-[var(--color-gold-dark)]">
-                    Creator of the Week
-                  </div>
-                </div>
-                
                 <img
                   src={winner.image_url}
                   alt={winner.prompt || 'יצירת אמנות זוכה'}
@@ -177,6 +182,13 @@ export default function WeeklyWinner() {
                 </div>
               </div>
             </div>
+          </div>
+          
+          {/* Creator of the Week Subtitle */}
+          <div className="text-center mt-6">
+            <h5 className="text-xl md:text-2xl font-heebo font-semibold text-[var(--color-gold)] tracking-wide">
+              Creator of the Week
+            </h5>
           </div>
         </div>
       </div>
