@@ -86,12 +86,12 @@ export default function WeeklyWinner() {
     return (
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
+          <div className="text-center mb-8 md:mb-12">
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide px-4">
               זוכה השבוע
             </h3>
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-8"></div>
-            <p className="text-lg text-[var(--color-text)] font-heebo font-light leading-relaxed" dir="rtl">
+            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-6 md:mb-8"></div>
+            <p className="text-base md:text-lg text-[var(--color-text)] font-heebo font-light leading-relaxed px-4 max-w-2xl mx-auto" dir="rtl">
               היצירה שקיבלה את מירב הלייקים השבוע
             </p>
           </div>
@@ -128,12 +128,12 @@ export default function WeeklyWinner() {
   return (
     <section className="py-16 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h3 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
+        <div className="text-center mb-8 md:mb-12">
+          <h3 className="text-2xl md:text-3xl lg:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide px-4">
             זוכה השבוע
           </h3>
-          <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-8"></div>
-          <p className="text-lg text-[var(--color-text)] font-heebo font-light leading-relaxed" dir="rtl">
+          <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-6 md:mb-8"></div>
+          <p className="text-base md:text-lg text-[var(--color-text)] font-heebo font-light leading-relaxed px-4 max-w-2xl mx-auto" dir="rtl">
             היצירה שקיבלה את מירב הלייקים השבוע
           </p>
         </div>
