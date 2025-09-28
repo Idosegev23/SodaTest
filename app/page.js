@@ -259,33 +259,33 @@ export default function HomePage() {
 
       {/* Final Section - Large Device Image & CTA */}
       <section className="py-16 px-4 relative overflow-hidden">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Large Device Image with Advanced Light Rays */}
-          <div className="relative mb-12" style={{ height: '600px' }}>
-            <div className="relative max-w-2xl mx-auto h-full">
-              {/* Advanced Light Rays Background */}
-              <LightRaysAdvanced
-                raysOrigin="top-center"
-                raysColor="#8e7845"
-                raysSpeed={1.5}
-                lightSpread={0.8}
-                rayLength={1.2}
-                followMouse={true}
-                mouseInfluence={0.1}
-                noiseAmount={0.1}
-                distortion={0.05}
-                className="advanced-rays"
-              />
-              
+        {/* Advanced Light Rays Background - Full Section */}
+        <div className="absolute inset-0">
+          <LightRaysAdvanced
+            raysOrigin="top-center"
+            raysColor="#8e7845"
+            raysSpeed={1.5}
+            lightSpread={0.8}
+            rayLength={1.2}
+            followMouse={true}
+            mouseInfluence={0.1}
+            noiseAmount={0.1}
+            distortion={0.05}
+            className="advanced-rays"
+          />
+        </div>
+        
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          {/* Large Device Image */}
+          <div className="relative mb-12">
+            <div className="relative max-w-2xl mx-auto">
               {/* Product Image */}
-              <div className="relative z-10 flex items-center justify-center h-full">
-                <img
-                  src="/file.png"
-                  alt="מכשיר SodaStream Enso"
-                  className="max-w-full max-h-full object-contain transform hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-              </div>
+              <img
+                src="/file.png"
+                alt="מכשיר SodaStream Enso"
+                className="w-full h-auto object-contain transform hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+              />
             </div>
           </div>
           
@@ -293,7 +293,7 @@ export default function HomePage() {
           <PremiumButton
             variant="secondary"
             onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
-            className="text-xl font-heebo font-light tracking-wide group px-12 py-4 w-full sm:w-auto max-w-md relative z-10"
+            className="text-xl font-heebo font-light tracking-wide group px-12 py-4 w-full sm:w-auto max-w-md"
             aria-label="לפרטים נוספים על מכשיר SodaStream Enso"
           >
             לפרטים נוספים לחצו כאן

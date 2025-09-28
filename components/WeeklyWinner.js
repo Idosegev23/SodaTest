@@ -129,14 +129,7 @@ export default function WeeklyWinner() {
         </div>
         
         {/* Winner Card Container */}
-        <div className="relative max-w-2xl mx-auto">
-          {/* Creator of the Week Badge */}
-          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-20">
-            <div className="bg-gradient-to-r from-[var(--color-gold)] to-[var(--color-gold-dark)] text-[var(--color-bg)] px-6 py-3 rounded-full font-heebo font-semibold text-lg shadow-lg border-2 border-[var(--color-gold-dark)]">
-              Creator of the Week
-            </div>
-          </div>
-          
+        <div className="relative max-w-2xl mx-auto mt-8">
           {/* Winner Card with Gold Frame */}
           <div className="relative">
             {/* Animated Gold Border */}
@@ -147,6 +140,13 @@ export default function WeeklyWinner() {
             {/* Winner Content */}
             <div className="relative bg-[var(--color-bg)] rounded-lg p-1 m-1">
               <div className="relative rounded-lg overflow-hidden">
+                {/* Creator of the Week Badge - Inside Image */}
+                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
+                  <div className="bg-gradient-to-r from-[var(--color-gold)] to-[var(--color-gold-dark)] text-[var(--color-bg)] px-4 py-2 rounded-full font-heebo font-semibold text-sm md:text-base shadow-lg border-2 border-[var(--color-gold-dark)]">
+                    Creator of the Week
+                  </div>
+                </div>
+                
                 <img
                   src={winner.image_url}
                   alt={winner.prompt || 'יצירת אמנות זוכה'}
