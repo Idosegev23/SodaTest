@@ -220,21 +220,21 @@ export default function HomePage() {
       {/* Weekly Winner Section - Dynamic */}
       <WeeklyWinner />
 
-            {/* Section Title: מקומות 2-8 */}
+            {/* Section Title: התמונות שהכי אהבתם */}
             <section className="py-8 md:py-12 px-4">
         <div className="max-w-5xl mx-auto text-center mb-8">
           <h3 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
-            מקומות 2-8 השבוע
+            התמונות שהכי אהבתם
           </h3>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
           
           {/* Updated subtitle text */}
           <div className="mt-8 space-y-4 text-[var(--color-text)] font-heebo font-light text-lg leading-relaxed max-w-4xl mx-auto" dir="rtl">
             <p>
-              היצירות הכי מוצלחות השבוע לפי כמות הלייקים - מקומות 2 עד 8
+              היצירות הכי מוצלחות שקיבלו את הכי הרבה לייקים מהקהילה שלנו
             </p>
             <p>
-              מצאתם יצירה שאהבתם? תנו לה לייק ❤️ ואולי היא תעלה למקום הראשון!
+              מצאתם יצירה שאהבתם? תנו לה לייק ❤️ ואולי היא תהפוך לזוכה השבועי הבא!
             </p>
           </div>
         </div>
