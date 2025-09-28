@@ -5,6 +5,8 @@ import BentoGallery from '../components/BentoGalleryNew'
 import MarqueeGallery from '../components/MarqueeGallery'
 import { PremiumButton } from '../components/ui/PremiumButton'
 import LightRays from '../components/LightRays'
+import LightRaysAdvanced from '../components/LightRaysAdvanced'
+import WeeklyWinner from '../components/WeeklyWinner'
 
 export default function HomePage() {
   const router = useRouter()
@@ -215,57 +217,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Weekly Winner Section */}
-      <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
-              זוכה השבוע
-            </h3>
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-8"></div>
-            <p className="text-lg text-[var(--color-text)] font-heebo font-light leading-relaxed" dir="rtl">
-              היצירה שקיבלה את מירב הלייקים השבוע
-            </p>
-          </div>
-          
-          {/* Winner Card Container */}
-          <div className="relative max-w-2xl mx-auto">
-            {/* Creator of the Week Badge */}
-            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-20">
-              <div className="bg-gradient-to-r from-[var(--color-gold)] to-[var(--color-gold-dark)] text-[var(--color-bg)] px-6 py-3 rounded-full font-heebo font-semibold text-lg shadow-lg border-2 border-[var(--color-gold-dark)]">
-                Creator of the Week
-              </div>
-            </div>
-            
-            {/* Winner Card with Gold Frame */}
-            <div className="relative">
-              {/* Animated Gold Border */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-gold)] via-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-lg p-1 animate-pulse">
-                <div className="w-full h-full bg-[var(--color-bg)] rounded-lg"></div>
-              </div>
-              
-              {/* Winner Content */}
-              <div className="relative bg-[var(--color-bg)] rounded-lg p-1 m-1">
-                <div className="aspect-square bg-gradient-to-br from-[var(--color-gold)]/10 to-transparent border border-[var(--color-gold)]/20 rounded-lg flex items-center justify-center min-h-[400px]">
-                  <div className="text-center">
-                    <div className="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/5 rounded-lg flex items-center justify-center">
-                      <span className="text-[var(--color-gold)] font-heebo font-light text-lg">יצירה זוכה בקרוב</span>
-                    </div>
-                    <h4 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-2">שם היוצר</h4>
-                    <p className="text-[var(--color-muted)] font-heebo font-light mb-4">תיאור היצירה</p>
-                    <div className="flex items-center justify-center gap-2 text-[var(--color-gold)]">
-                      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                      </svg>
-                      <span className="font-heebo font-medium">0 לייקים</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Weekly Winner Section - Dynamic */}
+      <WeeklyWinner />
 
             {/* Section Title: מקומות 2-8 */}
             <section className="py-8 md:py-12 px-4">
@@ -307,44 +260,31 @@ export default function HomePage() {
       {/* Final Section - Large Device Image & CTA */}
       <section className="py-16 px-4 relative overflow-hidden">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Large Device Image with Light Rays */}
-          <div className="relative mb-12">
-            <div className="relative max-w-2xl mx-auto">
-              {/* Light Rays Background */}
-              <div className="absolute inset-0 -m-20">
-                {/* Top Light Rays */}
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-96 opacity-30">
-                  <div className="absolute top-0 left-1/2 w-1 h-32 bg-gradient-to-b from-[var(--color-gold)] to-transparent transform -translate-x-1/2 rotate-12 blur-sm"></div>
-                  <div className="absolute top-0 left-1/2 w-1 h-40 bg-gradient-to-b from-[var(--color-gold)] to-transparent transform -translate-x-1/2 rotate-6 blur-sm"></div>
-                  <div className="absolute top-0 left-1/2 w-1 h-36 bg-gradient-to-b from-[var(--color-gold)] to-transparent transform -translate-x-1/2 blur-sm"></div>
-                  <div className="absolute top-0 left-1/2 w-1 h-40 bg-gradient-to-b from-[var(--color-gold)] to-transparent transform -translate-x-1/2 -rotate-6 blur-sm"></div>
-                  <div className="absolute top-0 left-1/2 w-1 h-32 bg-gradient-to-b from-[var(--color-gold)] to-transparent transform -translate-x-1/2 -rotate-12 blur-sm"></div>
-                </div>
-                
-                {/* Side Light Rays */}
-                <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent opacity-20 blur-sm"></div>
-                <div className="absolute top-1/2 right-0 transform -translate-y-1/2 w-32 h-1 bg-gradient-to-l from-transparent via-[var(--color-gold)] to-transparent opacity-20 blur-sm"></div>
-                
-                {/* Diagonal Light Rays */}
-                <div className="absolute top-1/4 left-1/4 w-24 h-1 bg-gradient-to-r from-[var(--color-gold)] to-transparent transform rotate-45 opacity-15 blur-sm"></div>
-                <div className="absolute top-1/4 right-1/4 w-24 h-1 bg-gradient-to-l from-[var(--color-gold)] to-transparent transform -rotate-45 opacity-15 blur-sm"></div>
-                <div className="absolute bottom-1/4 left-1/4 w-24 h-1 bg-gradient-to-r from-[var(--color-gold)] to-transparent transform -rotate-45 opacity-15 blur-sm"></div>
-                <div className="absolute bottom-1/4 right-1/4 w-24 h-1 bg-gradient-to-l from-[var(--color-gold)] to-transparent transform rotate-45 opacity-15 blur-sm"></div>
-              </div>
-              
-              {/* Spotlight Effect */}
-              <div className="absolute inset-0 bg-gradient-radial from-[var(--color-gold)]/10 via-transparent to-transparent rounded-lg"></div>
+          {/* Large Device Image with Advanced Light Rays */}
+          <div className="relative mb-12" style={{ height: '600px' }}>
+            <div className="relative max-w-2xl mx-auto h-full">
+              {/* Advanced Light Rays Background */}
+              <LightRaysAdvanced
+                raysOrigin="top-center"
+                raysColor="#8e7845"
+                raysSpeed={1.5}
+                lightSpread={0.8}
+                rayLength={1.2}
+                followMouse={true}
+                mouseInfluence={0.1}
+                noiseAmount={0.1}
+                distortion={0.05}
+                className="advanced-rays"
+              />
               
               {/* Product Image */}
-              <div className="relative z-10">
+              <div className="relative z-10 flex items-center justify-center h-full">
                 <img
                   src="/file.png"
                   alt="מכשיר SodaStream Enso"
-                  className="w-full h-auto rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-500"
+                  className="max-w-full max-h-full object-contain transform hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
-                {/* Elegant glow */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-gold)]/5 to-transparent rounded-lg"></div>
               </div>
             </div>
           </div>
