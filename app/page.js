@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import BentoGallery from '../components/BentoGalleryNew'
 import MarqueeGallery from '../components/MarqueeGallery'
 import { PremiumButton } from '../components/ui/PremiumButton'
@@ -10,6 +11,29 @@ import WeeklyWinner from '../components/WeeklyWinner'
 
 export default function HomePage() {
   const router = useRouter()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const finalSection = document.getElementById('final-section')
+      const navbar = document.querySelector('nav')
+      
+      if (finalSection && navbar) {
+        const rect = finalSection.getBoundingClientRect()
+        const isVisible = rect.top <= window.innerHeight && rect.bottom >= 0
+        
+        if (isVisible) {
+          navbar.style.opacity = '0'
+          navbar.style.pointerEvents = 'none'
+        } else {
+          navbar.style.opacity = '1'
+          navbar.style.pointerEvents = 'auto'
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <div className="min-h-screen overflow-hidden flex flex-col relative" style={{backgroundColor: 'var(--color-bg)'}} lang="he">
@@ -28,7 +52,7 @@ export default function HomePage() {
       />
       {/* Premium Navigation - SodaStream Enso */}
       <nav 
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[var(--color-bg)]/90 border-b border-[var(--color-gold-border)]"
+        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[var(--color-bg)]/90 border-b border-[var(--color-gold-border)] transition-opacity duration-500"
         role="navigation"
         aria-label="ניווט ראשי"
       >
@@ -258,27 +282,27 @@ export default function HomePage() {
       </section>
 
       {/* Final Section - Large Device Image & CTA */}
-      <section className="py-16 px-4 relative overflow-hidden">
+      <section className="py-16 px-4 relative overflow-hidden" id="final-section">
         {/* Advanced Light Rays Background - Full Section */}
         <div className="absolute inset-0">
           <LightRaysAdvanced
-            raysOrigin="top-center"
+            raysOrigin="bottom-center"
             raysColor="#8e7845"
-            raysSpeed={1.5}
-            lightSpread={0.8}
-            rayLength={1.2}
+            raysSpeed={2.0}
+            lightSpread={1.2}
+            rayLength={2.0}
             followMouse={true}
-            mouseInfluence={0.1}
-            noiseAmount={0.1}
-            distortion={0.05}
+            mouseInfluence={0.15}
+            noiseAmount={0.15}
+            distortion={0.08}
             className="advanced-rays"
           />
         </div>
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          {/* Large Device Image */}
+          {/* Product Image - Even Smaller */}
           <div className="relative mb-12">
-            <div className="relative max-w-2xl mx-auto">
+            <div className="relative max-w-md mx-auto">
               {/* Product Image */}
               <img
                 src="/file.png"
