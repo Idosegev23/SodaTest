@@ -83,31 +83,8 @@ export default function HomePage() {
         className="background-rays"
       />
 
-      {/* Premium Navigation - SodaStream ENSŌ */}
-      <nav 
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[var(--color-bg)]/95 border-b border-[var(--color-gold-border)] transition-opacity duration-500 shadow-lg"
-        role="navigation"
-        aria-label="ניווט ראשי"
-      >
-        <div className="max-w-7xl mx-auto px-6 md:px-8 py-6">
-          {/* Logo - Centered */}
-          <div className="flex justify-center">
-            <div className="text-center">
-              <img 
-                src="/logo.png" 
-                alt="SodaStream ENSŌ" 
-                className="h-8 md:h-10 w-auto mb-3"
-              />
-              <p className="text-[var(--color-gold)] text-xs md:text-sm font-heebo font-light tracking-wide">
-                ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
-              </p>
-            </div>
-          </div>
-        </div>
-      </nav>
-
       {/* Section 1 - Welcome Opening (replaces Hero) */}
-      <section className="relative min-h-screen flex items-center justify-center mt-[100px] px-4">
+      <section className="relative min-h-screen flex items-center justify-center px-4">
         {/* ENSŌ Visual Background */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-radial from-[var(--color-gold)]/20 via-transparent to-transparent"></div>
@@ -122,6 +99,18 @@ export default function HomePage() {
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
+          {/* Logo and Tagline */}
+          <div className="mb-12">
+                 <img 
+                   src="/logo.png" 
+              alt="SodaStream ENSŌ" 
+              className="h-16 md:h-20 lg:h-24 w-auto mx-auto mb-6"
+                 />
+            <p className="text-[var(--color-gold)] text-base md:text-lg font-heebo font-light tracking-wide">
+                   ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
+                 </p>
+          </div>
+          
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-heebo font-light text-[var(--color-text)] mb-8 tracking-wide leading-relaxed" dir="rtl">
             ברוכים הבאים ל־ENSŌ Gallery<br />
             <span className="text-[var(--color-gold)]">המקום שבו עיצוב פוגש חדשנות</span>
