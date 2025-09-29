@@ -7,14 +7,13 @@ if (process.env.GEMINI_API_KEY) {
   process.env.GOOGLE_GENAI_API_KEY = process.env.GEMINI_API_KEY
 }
 
-const apiKey = process.env.GEMINI_API_KEY
-console.log('Gemini API Key exists:', !!apiKey)
-console.log('Gemini API Key prefix:', apiKey ? apiKey.substring(0, 10) + '...' : 'undefined')
-
-// Initialize SDK - it will use GOOGLE_GENAI_API_KEY from environment
-const genAI = new GoogleGenAI()
-
 export async function POST(request) {
+  const apiKey = process.env.GEMINI_API_KEY
+  console.log('Gemini API Key exists:', !!apiKey)
+  console.log('Gemini API Key prefix:', apiKey ? apiKey.substring(0, 10) + '...' : 'undefined')
+
+  // Initialize SDK - it will use GOOGLE_GENAI_API_KEY from environment
+  const genAI = new GoogleGenAI()
   try {
     const { prompt } = await request.json()
 
