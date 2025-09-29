@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { GoogleGenAI } from '@google/genai'
 import fs from 'fs'
 import path from 'path'
 
@@ -16,12 +16,10 @@ export async function POST(request) {
       return Response.json({ error: 'Gemini API key not configured' }, { status: 500 })
     }
 
-    // Initialize with old SDK that works
-    const genAI = new GoogleGenerativeAI(apiKey)
-    // Using gemini-1.5-flash which supports multimodal (text + image input/output)
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
+    // Initialize @google/genai SDK exactly as in documentation
+    const ai = new GoogleGenAI({ apiKey })
 
-    console.log('✅ Using Gemini 1.5 Flash (multimodal - supports image generation)')
+    console.log('✅ Using gemini-2.5-flash-image-preview with @google/genai SDK')
     console.log('Generating image with Gemini...')
 
     const fullPrompt = `A high-resolution, studio-quality photorealistic image of ${prompt}. 
@@ -71,47 +69,47 @@ Create a premium product photograph where the ENSŌ device appears naturally int
       }, { status: 500 })
     }
 
-    const objectImage = {
-      inlineData: {
-        data: imageBuffer.toString('base64'),
-        mimeType: 'image/png',
+    // Build prompt array exactly as in documentation
+    const promptArray = [
+      { text: fullPrompt },
+      {
+        inlineData: {
+          mimeType: 'image/png',
+          data: imageBuffer.toString('base64'),
+        },
       },
-    }
+    ]
 
-    // Generate content using OLD SDK (works!)
-    const result = await model.generateContent([fullPrompt, objectImage])
-    const response = await result.response
-    
+    // Generate content exactly as in documentation
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash-image-preview",
+      contents: promptArray,
+    })
+
     console.log('Gemini response received, checking structure...')
-    console.log('Response has candidates:', !!response.candidates)
     
     if (!response || !response.candidates || response.candidates.length === 0) {
       console.error('No candidates in response')
-      console.error('Full response:', JSON.stringify(response, null, 2))
       throw new Error('No candidates returned from Gemini API')
     }
 
-    const candidate = response.candidates[0]
-    console.log('Candidate structure:', !!candidate.content)
+    // Extract image from response exactly as in documentation
+    let generatedImageBuffer = null
     
-    if (!candidate || !candidate.content || !candidate.content.parts) {
-      console.error('Invalid candidate structure')
-      console.error('Candidate:', JSON.stringify(candidate, null, 2))
-      throw new Error('Invalid response structure from Gemini API')
+    for (const part of response.candidates[0].content.parts) {
+      if (part.text) {
+        console.log('Text in response:', part.text)
+      } else if (part.inlineData) {
+        const imageData = part.inlineData.data
+        generatedImageBuffer = Buffer.from(imageData, 'base64')
+        console.log('✅ Successfully received image from Gemini!')
+      }
     }
 
-    // Find the image part in the response
-    const imagePart = candidate.content.parts.find(part => part.inlineData)
-    console.log('Found image part:', !!imagePart)
-
-    if (!imagePart || !imagePart.inlineData) {
-      console.error('No image data found in response')
-      console.error('Parts:', JSON.stringify(candidate.content.parts, null, 2))
+    if (!generatedImageBuffer) {
+      console.error('No image data found in response parts')
       throw new Error('No image returned from Gemini API')
     }
-
-    console.log('✅ Successfully received image from Gemini!')
-    const generatedImageBuffer = Buffer.from(imagePart.inlineData.data, 'base64')
 
     return new Response(generatedImageBuffer, {
       status: 200,
