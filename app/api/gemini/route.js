@@ -2,18 +2,13 @@ import { GoogleGenAI } from '@google/genai'
 import fs from 'fs'
 import path from 'path'
 
-// Set API key in environment for @google/genai SDK
-if (process.env.GEMINI_API_KEY) {
-  process.env.GOOGLE_GENAI_API_KEY = process.env.GEMINI_API_KEY
-}
-
 export async function POST(request) {
   const apiKey = process.env.GEMINI_API_KEY
   console.log('Gemini API Key exists:', !!apiKey)
   console.log('Gemini API Key prefix:', apiKey ? apiKey.substring(0, 10) + '...' : 'undefined')
 
-  // Initialize SDK - it will use GOOGLE_GENAI_API_KEY from environment
-  const genAI = new GoogleGenAI()
+  // Initialize SDK with API key
+  const genAI = new GoogleGenAI({ apiKey })
   try {
     const { prompt } = await request.json()
 
@@ -87,26 +82,59 @@ Create a premium product photograph where the ENSŌ device appears naturally int
     }
 
     console.log('Generating image with Gemini using new SDK...')
-    
+
     // Build the prompt - mix of text and image as shown in docs
     const contents = [
-      { text: fullPrompt },
-      objectImage
+      objectImage,
+      { text: fullPrompt }
     ]
-    
+
+    // Safety settings to avoid blocking
+    const safetySettings = [
+      {
+        category: "HARM_CATEGORY_HARASSMENT",
+        threshold: "BLOCK_ONLY_HIGH"
+      },
+      {
+        category: "HARM_CATEGORY_HATE_SPEECH",
+        threshold: "BLOCK_ONLY_HIGH"
+      },
+      {
+        category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        threshold: "BLOCK_ONLY_HIGH"
+      },
+      {
+        category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+        threshold: "BLOCK_ONLY_HIGH"
+      }
+    ]
+
     // Generate content using the new @google/genai SDK (exact format from docs)
     const response = await genAI.models.generateContent({
       model: modelName,
       contents: contents,
+      safetySettings: safetySettings,
+      generationConfig: {
+        temperature: 0.7,
+        topP: 0.9,
+        maxOutputTokens: 4096
+      }
     })
     
     // Enhanced logging for debugging
     console.log('Gemini API response received')
     console.log('Candidates:', response.candidates?.length || 0)
-    
+
     // Better error handling
     if (!response.candidates || response.candidates.length === 0) {
       console.error('No candidates returned from Gemini API')
+      console.error('Prompt feedback:', JSON.stringify(response.promptFeedback, null, 2))
+
+      // Check if content was blocked
+      if (response.promptFeedback?.blockReason) {
+        throw new Error(`Content blocked: ${response.promptFeedback.blockReason}. Safety ratings: ${JSON.stringify(response.promptFeedback.safetyRatings)}`)
+      }
+
       throw new Error('No candidates returned - content may have been filtered')
     }
 
