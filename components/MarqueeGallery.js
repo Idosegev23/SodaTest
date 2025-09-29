@@ -396,7 +396,7 @@ export default function MarqueeGallery() {
             {/* Navigation Buttons - More Visible */}
             <button
               onClick={() => navigateArtwork(-1)}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-[var(--color-gold)] hover:bg-[var(--color-gold)]/80 text-black p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl z-20 border-2 border-white/20"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-[var(--color-gold)] hover:bg-[var(--color-gold)]/80 text-black p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl z-20 border-2 border-[var(--color-gold)]/30"
               aria-label="יצירה קודמת"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
@@ -406,7 +406,7 @@ export default function MarqueeGallery() {
             
             <button
               onClick={() => navigateArtwork(1)}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[var(--color-gold)] hover:bg-[var(--color-gold)]/80 text-black p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl z-20 border-2 border-white/20"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[var(--color-gold)] hover:bg-[var(--color-gold)]/80 text-black p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl z-20 border-2 border-[var(--color-gold)]/30"
               aria-label="יצירה הבאה"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { getArtworks, getImagesFromStorage } from '../lib/supabaseClient'
 import MagicBento from './MagicBento'
 
-export default function SymmetricGallery() {
+export default function SymmetricGallery({ compact = false }) {
   const [artworks, setArtworks] = useState([])
   const [selectedImage, setSelectedImage] = useState(null)
 
@@ -147,6 +147,7 @@ export default function SymmetricGallery() {
           spotlightRadius={200}
           particleCount={6}
           glowColor="142, 120, 69" // Our gold color
+          compact={compact}
         />
       </section>
 

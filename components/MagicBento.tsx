@@ -26,6 +26,7 @@ export interface BentoProps {
   glowColor?: string;
   clickEffect?: boolean;
   enableMagnetism?: boolean;
+  compact?: boolean;
 }
 
 const DEFAULT_PARTICLE_COUNT = 8;
@@ -487,7 +488,8 @@ const MagicBento: React.FC<BentoProps> = ({
   enableTilt = true,
   glowColor = DEFAULT_GLOW_COLOR,
   clickEffect = true,
-  enableMagnetism = true
+  enableMagnetism = true,
+  compact = false
 }) => {
   const gridRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobileDetection();
@@ -505,26 +507,31 @@ const MagicBento: React.FC<BentoProps> = ({
         />
       )}
 
-      <div ref={gridRef} className="magic-bento-grid">
+      <div ref={gridRef} className={compact ? "compact-gallery-grid" : "magic-bento-grid"}>
         {artworks.map((artwork, index) => {
           // פריסת גריד דינמית
           let gridClass = "";
           
-          if (index === 0) {
-            // תמונה ראשית גדולה
-            gridClass = "col-span-2 row-span-2 hero-card";
-          } else if (index === 1) {
-            gridClass = "col-span-1 row-span-1";
-          } else if (index === 2) {
-            gridClass = "col-span-1 row-span-1";
-          } else if (index === 3) {
-            gridClass = "col-span-2 row-span-1 wide-card";
-          } else if (index === 4) {
-            gridClass = "col-span-2 row-span-1 wide-card";
-          } else if (index === 5) {
-            gridClass = "col-span-1 row-span-1";
-          } else if (index === 6) {
-            gridClass = "col-span-1 row-span-1";
+          if (compact) {
+            // במצב קומפקטי - כל הכרטיסים באותו גודל בשורה אחת
+            gridClass = "compact-card";
+          } else {
+            if (index === 0) {
+              // תמונה ראשית גדולה
+              gridClass = "col-span-2 row-span-2 hero-card";
+            } else if (index === 1) {
+              gridClass = "col-span-1 row-span-1";
+            } else if (index === 2) {
+              gridClass = "col-span-1 row-span-1";
+            } else if (index === 3) {
+              gridClass = "col-span-2 row-span-1 wide-card";
+            } else if (index === 4) {
+              gridClass = "col-span-2 row-span-1 wide-card";
+            } else if (index === 5) {
+              gridClass = "col-span-1 row-span-1";
+            } else if (index === 6) {
+              gridClass = "col-span-1 row-span-1";
+            }
           }
 
           const baseClassName = `artwork-card ${textAutoHide ? 'card--text-autohide' : ''} ${enableBorderGlow ? 'card--border-glow' : ''} ${gridClass}`;

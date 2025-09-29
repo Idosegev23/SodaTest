@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* SodaStream Enso Design System - Updated Color Palette */
+/* SodaStream ENSŌ Design System - Updated Color Palette */
 :root {
   --color-bg: #13294b;
   --bg-image: url('/Bg.png');      /* כחול כהה - רקע ראשי */

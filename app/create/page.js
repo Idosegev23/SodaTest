@@ -166,16 +166,25 @@ export default function CreatePage() {
       >
         {/* Logo Section */}
         <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 grid grid-cols-3 items-center">
-          {/* Purchase Button - Left Aligned */}
-          <div className="flex justify-start">
-            {step === 'prompt' && (
+          {/* Navigation Buttons - Left Aligned */}
+          <div className="flex justify-start gap-2">
+            <PremiumButton
+              variant="secondary"
+              onClick={handleBackToGallery}
+              className="text-sm font-heebo font-medium tracking-wide"
+              aria-label="חזור לגלריה"
+            >
+              ← גלריה
+            </PremiumButton>
+            
+            {(step === 'processing' || step === 'waiting' || step === 'completed') && (
               <PremiumButton
-                variant="primary"
-                onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
+                variant="secondary"
+                onClick={() => window.location.reload()}
                 className="text-sm font-heebo font-medium tracking-wide"
-                aria-label="רכוש את מכשיר SodaStream Enso"
+                aria-label="יצירה חדשה"
               >
-                רכוש עכשיו
+                + יצירה חדשה
               </PremiumButton>
             )}
           </div>
@@ -189,7 +198,7 @@ export default function CreatePage() {
             >
               <img 
                 src="/logo.png" 
-                alt="SodaStream Enso" 
+                alt="SodaStream ENSŌ" 
                 className="h-8 md:h-10 w-auto mb-2"
               />
               <p className="text-[var(--color-gold)] text-xs md:text-sm font-heebo font-light tracking-wide text-center">
@@ -221,43 +230,12 @@ export default function CreatePage() {
         <div>
           {step === 'prompt' && (
             <div className="max-w-4xl mx-auto transition-all">
-              {/* הוראות SodaStream Enso */}
-              <div className="mb-12 md:mb-16 text-center">
+              {/* כותרת יצירה */}
+              <div className="mb-8 text-center">
                 <h2 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-6 tracking-wide">
-                  צור יצירת אמנות עם SodaStream Enso
+                  צור יצירת אמנות עם SodaStream ENSŌ
                 </h2>
-                <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-8"></div>
-                
-                <div className="bg-[var(--color-bg)] border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 mb-8">
-                  <h3 className="text-lg font-heebo font-medium text-[var(--color-text)] mb-4">
-                    הוראות חשובות
-                  </h3>
-                  <p className="text-[var(--color-text)] font-heebo font-light leading-relaxed mb-4">
-                    תאר את היצירה שתרצה ליצור – <strong className="text-[var(--color-gold)]">מכשיר Enso תמיד יופיע ביצירה כפי שהוא, ללא שינוי.</strong>
-                  </p>
-                  
-                  <div className="grid md:grid-cols-2 gap-6 mt-6">
-                    <div>
-                      <h4 className="text-[var(--color-gold)] font-heebo font-medium mb-2">מה מותר:</h4>
-                      <ul className="text-[var(--color-muted)] font-heebo font-light text-sm space-y-1">
-                        <li>• נופים וטבע</li>
-                        <li>• חפצים וסצנות</li>
-                        <li>• בעלי חיים</li>
-                        <li>• צבעים ואווירות</li>
-                      </ul>
-                    </div>
-                    
-                    <div>
-                      <h4 className="text-red-400 font-heebo font-medium mb-2">מה אסור:</h4>
-                      <ul className="text-[var(--color-muted)] font-heebo font-light text-sm space-y-1">
-                        <li>• אנשים וכל דמות אנושית</li>
-                        <li>• תוכן פוליטי</li>
-                        <li>• טקסטים וכתובות</li>
-                        <li>• תוכן NSFW או אלים</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+                <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
               </div>
 
               {/* טופס פרומפט מעודכן */}
@@ -265,6 +243,13 @@ export default function CreatePage() {
                 onSubmit={handlePromptSubmit}
                 isLoading={isLoading}
               />
+              
+              {/* הודעה קצרה בתחתית */}
+              <div className="mt-8 text-center">
+                <p className="text-[var(--color-muted)] font-heebo font-light text-sm">
+                  מכשיר ENSŌ יופיע תמיד ביצירה • תאר רק נופים, חפצים וטבע
+                </p>
+              </div>
               
             </div>
           )}

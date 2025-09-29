@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import PremiumButton from './PremiumButton'
 
-export default function PromptForm({ onSubmit, isLoading }) {
+export default function PromptForm({ onSubmit, isLoading, compact = false }) {
   const [prompt, setPrompt] = useState('')
   const [error, setError] = useState('')
 
@@ -104,7 +104,7 @@ export default function PromptForm({ onSubmit, isLoading }) {
 
   return (
     <div className="w-full max-w-3xl mx-auto">
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={handleSubmit} className={compact ? "space-y-4" : "space-y-8"}>
         <div>
           <label 
             htmlFor="artwork-prompt"
@@ -139,29 +139,31 @@ export default function PromptForm({ onSubmit, isLoading }) {
           )}
         </div>
 
-        {/* דוגמאות מהירות */}
-        <div>
-          <p className="text-[var(--color-muted)] text-base mb-6 font-heebo font-light text-center">דוגמאות מהירות להשראה:</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-            {examplePrompts.map((example, index) => (
-              <PremiumButton
-                key={index}
-                type="button"
-                variant="secondary"
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  handleExampleClick(example.fullText)
-                }}
-                className="text-sm font-heebo font-light tracking-wide h-auto text-center w-full min-h-[48px] py-3"
-                disabled={isLoading}
-                aria-label={`השתמש בדוגמה: ${example.title}`}
-              >
-                {example.title}
-              </PremiumButton>
-            ))}
+        {/* דוגמאות מהירות - רק במצב רגיל */}
+        {!compact && (
+          <div>
+            <p className="text-[var(--color-muted)] text-base mb-6 font-heebo font-light text-center">דוגמאות מהירות להשראה:</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+              {examplePrompts.map((example, index) => (
+                <PremiumButton
+                  key={index}
+                  type="button"
+                  variant="secondary"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleExampleClick(example.fullText)
+                  }}
+                  className="text-sm font-heebo font-light tracking-wide h-auto text-center w-full min-h-[48px] py-3"
+                  disabled={isLoading}
+                  aria-label={`השתמש בדוגמה: ${example.title}`}
+                >
+                  {example.title}
+                </PremiumButton>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         <PremiumButton
           type="submit"
@@ -181,22 +183,24 @@ export default function PromptForm({ onSubmit, isLoading }) {
         </PremiumButton>
       </form>
 
-      {/* הנחיות מעודכנות */}
-      <div 
-        id="prompt-help"
-        className="mt-8 p-6 bg-[var(--color-bg)] border border-[var(--color-gold-border)] rounded-lg"
-        role="region"
-        aria-label="הנחיות ליצירת אמנות"
-      >
-        <h3 className="text-[var(--color-text)] font-heebo font-medium mb-4">עצות ליצירה מושלמת:</h3>
-        <ul className="text-[var(--color-muted)] font-heebo font-light text-sm space-y-2">
-          <li>• תאר נופים, חפצים, בעלי חיים או סצנות טבע</li>
-          <li>• השתמש בצבעים, תאורה ואווירות מיוחדות</li>
-          <li>• ציין פרטים כמו זמן יום, מזג אוויר או עונה</li>
-          <li>• <strong className="text-[var(--color-gold)]">זכור: מכשיר Enso יופיע תמיד ביצירה</strong></li>
-          <li>• ככל שהתיאור יותר מפורט, היצירה תהיה יותר מדויקת</li>
-        </ul>
-      </div>
+      {/* הנחיות מעודכנות - רק במצב רגיל */}
+      {!compact && (
+        <div 
+          id="prompt-help"
+          className="mt-8 p-6 bg-[var(--color-bg)] border border-[var(--color-gold-border)] rounded-lg"
+          role="region"
+          aria-label="הנחיות ליצירת אמנות"
+        >
+          <h3 className="text-[var(--color-text)] font-heebo font-medium mb-4">עצות ליצירה מושלמת:</h3>
+          <ul className="text-[var(--color-muted)] font-heebo font-light text-sm space-y-2">
+            <li>• תאר נופים, חפצים, בעלי חיים או סצנות טבע</li>
+            <li>• השתמש בצבעים, תאורה ואווירות מיוחדות</li>
+            <li>• ציין פרטים כמו זמן יום, מזג אוויר או עונה</li>
+            <li>• <strong className="text-[var(--color-gold)]">זכור: מכשיר ENSŌ יופיע תמיד ביצירה</strong></li>
+            <li>• ככל שהתיאור יותר מפורט, היצירה תהיה יותר מדויקת</li>
+          </ul>
+        </div>
+      )}
     </div>
   )
 }

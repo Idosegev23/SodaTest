@@ -96,7 +96,7 @@ export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading 
 
                 <div className="mb-6 text-center">
                   <p className="text-[var(--color-muted)] font-heebo font-light leading-relaxed">
-                    כדי ליצור את יצירת האמנות שלך עם <span className="text-[var(--color-gold)]">SodaStream Enso</span>, נצטרך כמה פרטים בסיסיים
+                    כדי ליצור את יצירת האמנות שלך עם <span className="text-[var(--color-gold)]">SodaStream ENSŌ</span>, נצטרך כמה פרטים בסיסיים
                   </p>
                 </div>
 

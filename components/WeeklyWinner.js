@@ -63,7 +63,7 @@ export default function WeeklyWinner() {
           <div className="relative max-w-sm md:max-w-lg mx-auto mt-8 px-4 md:px-0">
             <div className="relative p-3 md:p-6 bg-gradient-to-br from-[var(--color-gold)]/30 via-[var(--color-gold-dark)]/30 to-[var(--color-gold)]/30 rounded-sm shadow-2xl animate-pulse">
               <div className="relative p-2 md:p-4 bg-gradient-to-br from-[var(--color-gold-dark)]/30 to-[var(--color-gold)]/30 rounded-sm">
-                <div className="relative bg-white/10 p-1 md:p-2 rounded-sm">
+                <div className="relative bg-gradient-to-br from-[var(--color-gold)]/10 via-[var(--color-gold)]/5 to-[var(--color-gold)]/10 p-1 md:p-2 rounded-sm">
                   <div className="aspect-square bg-gradient-to-br from-[var(--color-gold)]/20 to-transparent flex items-center justify-center">
                     <span className="text-[var(--color-gold)] font-heebo font-light text-sm md:text-lg">טוען...</span>
                   </div>
@@ -100,7 +100,7 @@ export default function WeeklyWinner() {
           <div className="relative max-w-sm md:max-w-lg mx-auto mt-8 px-4 md:px-0">
             <div className="relative p-3 md:p-6 bg-gradient-to-br from-[var(--color-gold)] via-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm shadow-2xl">
               <div className="relative p-2 md:p-4 bg-gradient-to-br from-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm">
-                <div className="relative bg-white p-1 md:p-2 rounded-sm shadow-inner">
+                <div className="relative bg-gradient-to-br from-[var(--color-gold)]/10 via-[var(--color-gold)]/5 to-[var(--color-gold)]/10 p-1 md:p-2 rounded-sm shadow-inner">
                   <div className="aspect-square bg-gradient-to-br from-[var(--color-gold)]/10 to-transparent flex items-center justify-center">
                     <div className="text-center">
                       <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/5 rounded flex items-center justify-center">
@@ -149,7 +149,7 @@ export default function WeeklyWinner() {
               <div className="absolute inset-0.5 md:inset-1 border border-[var(--color-gold)]/30 rounded-sm"></div>
               
               {/* Image Container */}
-              <div className="relative bg-white p-1 md:p-2 rounded-sm shadow-inner">
+              <div className="relative bg-gradient-to-br from-[var(--color-gold)]/10 via-[var(--color-gold)]/5 to-[var(--color-gold)]/10 p-1 md:p-2 rounded-sm shadow-inner">
                 <div className="relative overflow-hidden rounded-sm">
                   <img
                     src={winner.image_url}

@@ -165,7 +165,7 @@ export default function SymmetricGallery() {
                         <div className="relative w-full h-full bg-gradient-to-br from-[var(--color-muted)]/20 to-[var(--color-muted)]/10 shadow-[inset_0_0_12px_rgba(0,0,0,0.3)] p-2">
                           <img
                             src={art.image_url}
-                            alt={art.prompt || 'יצירת אמנות עם SodaStream Enso'}
+                            alt={art.prompt || 'יצירת אמנות עם SodaStream ENSŌ'}
                             className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105 shadow-lg"
                             style={{ 
                               minHeight: '100%',
@@ -183,7 +183,7 @@ export default function SymmetricGallery() {
                   ) : (
                     <img
                       src={art.image_url}
-                      alt={art.prompt || 'יצירת אמנות עם SodaStream Enso'}
+                      alt={art.prompt || 'יצירת אמנות עם SodaStream ENSŌ'}
                       className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
                       style={{ 
                         minHeight: '100%',
@@ -265,7 +265,7 @@ export default function SymmetricGallery() {
               <div className="relative gold-frame m-4">
                     <img
                       src={selectedImage.image_url}
-                      alt={selectedImage.prompt || 'יצירת אמנות עם SodaStream Enso'}
+                      alt={selectedImage.prompt || 'יצירת אמנות עם SodaStream ENSŌ'}
                       className="w-full h-auto max-h-[60vh] object-contain"
                   onClick={(e) => e.stopPropagation()}
                 />
@@ -305,7 +305,7 @@ export default function SymmetricGallery() {
 
                   <div>
                     <p className="text-[var(--color-gold)] text-sm font-heebo font-light">
-                      SodaStream Enso Collection
+                      SodaStream ENSŌ Collection
                     </p>
                     <div className="flex items-center justify-center gap-1 mt-2">
                       <svg 
