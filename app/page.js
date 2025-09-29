@@ -387,47 +387,71 @@ export default function HomePage() {
 
       {/* Section 1 - Welcome Opening (replaces Hero) */}
       <section className="relative min-h-screen flex items-center justify-center px-4">
-        {/* Geometric Sketch Pattern Background */}
+        {/* Technical Illustration Background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
-          {/* SVG Geometric Pattern */}
-          <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
+          {/* Blueprint Grid Background */}
+          <svg className="absolute inset-0 w-full h-full opacity-15" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <pattern id="geometric-sketch" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
-                {/* Circles */}
-                <circle cx="100" cy="100" r="80" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
-                <circle cx="100" cy="100" r="60" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
-                <circle cx="100" cy="100" r="40" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
-                
-                {/* Connecting Lines */}
-                <line x1="20" y1="100" x2="180" y2="100" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,2" />
-                <line x1="100" y1="20" x2="100" y2="180" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,2" />
-                <line x1="35" y1="35" x2="165" y2="165" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,2" />
-                <line x1="165" y1="35" x2="35" y2="165" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,2" />
-                
-                {/* Geometric Shapes */}
-                <polygon points="100,30 130,50 130,80 100,100 70,80 70,50" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
-                <rect x="60" y="120" width="80" height="60" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" transform="rotate(15 100 150)" />
-                
-                {/* Small Details */}
-                <circle cx="50" cy="50" r="3" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
-                <circle cx="150" cy="50" r="3" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
-                <circle cx="50" cy="150" r="3" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
-                <circle cx="150" cy="150" r="3" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
+              {/* Grid Pattern */}
+              <pattern id="blueprint-grid" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+                <path d="M 50 0 L 0 0 0 50" fill="none" stroke="var(--color-gold)" strokeWidth="0.3" opacity="0.3"/>
+              </pattern>
+              
+              {/* Major Grid */}
+              <pattern id="major-grid" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+                <rect width="200" height="200" fill="url(#blueprint-grid)"/>
+                <path d="M 200 0 L 0 0 0 200" fill="none" stroke="var(--color-gold)" strokeWidth="0.5"/>
               </pattern>
             </defs>
-            <rect width="100%" height="100%" fill="url(#geometric-sketch)" />
+            <rect width="100%" height="100%" fill="url(#major-grid)" />
           </svg>
           
-          {/* Radial Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-radial from-transparent via-[var(--color-bg)]/30 to-[var(--color-bg)]"></div>
-          
-          {/* Large Geometric Accent Lines */}
-          <svg className="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
-            <line x1="0" y1="20%" x2="100%" y2="20%" stroke="var(--color-gold)" strokeWidth="1" strokeDasharray="10,10" />
-            <line x1="0" y1="80%" x2="100%" y2="80%" stroke="var(--color-gold)" strokeWidth="1" strokeDasharray="10,10" />
-            <circle cx="20%" cy="50%" r="15%" fill="none" stroke="var(--color-gold)" strokeWidth="1" />
-            <circle cx="80%" cy="50%" r="15%" fill="none" stroke="var(--color-gold)" strokeWidth="1" />
+          {/* Technical Drawing Elements */}
+          <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
+            {/* Center Crosshair */}
+            <line x1="50%" y1="30%" x2="50%" y2="70%" stroke="var(--color-gold)" strokeWidth="0.5" strokeDasharray="5,5" />
+            <line x1="30%" y1="50%" x2="70%" y2="50%" stroke="var(--color-gold)" strokeWidth="0.5" strokeDasharray="5,5" />
+            <circle cx="50%" cy="50%" r="100" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
+            <circle cx="50%" cy="50%" r="150" fill="none" stroke="var(--color-gold)" strokeWidth="0.3" />
+            
+            {/* Dimension Lines */}
+            <g>
+              {/* Horizontal Dimension */}
+              <line x1="20%" y1="20%" x2="80%" y2="20%" stroke="var(--color-gold)" strokeWidth="0.5" />
+              <line x1="20%" y1="19%" x2="20%" y2="21%" stroke="var(--color-gold)" strokeWidth="0.5" />
+              <line x1="80%" y1="19%" x2="80%" y2="21%" stroke="var(--color-gold)" strokeWidth="0.5" />
+              
+              {/* Vertical Dimension */}
+              <line x1="85%" y1="25%" x2="85%" y2="75%" stroke="var(--color-gold)" strokeWidth="0.5" />
+              <line x1="84%" y1="25%" x2="86%" y2="25%" stroke="var(--color-gold)" strokeWidth="0.5" />
+              <line x1="84%" y1="75%" x2="86%" y2="75%" stroke="var(--color-gold)" strokeWidth="0.5" />
+            </g>
+            
+            {/* Technical Annotations */}
+            <g opacity="0.6">
+              <circle cx="15%" cy="15%" r="3" fill="var(--color-gold)" />
+              <circle cx="85%" cy="15%" r="3" fill="var(--color-gold)" />
+              <circle cx="15%" cy="85%" r="3" fill="var(--color-gold)" />
+              <circle cx="85%" cy="85%" r="3" fill="var(--color-gold)" />
+            </g>
+            
+            {/* Corner Marks */}
+            <g stroke="var(--color-gold)" strokeWidth="0.5" fill="none">
+              <path d="M 5% 5% L 5% 10% M 5% 5% L 10% 5%" />
+              <path d="M 95% 5% L 95% 10% M 95% 5% L 90% 5%" />
+              <path d="M 5% 95% L 5% 90% M 5% 95% L 10% 95%" />
+              <path d="M 95% 95% L 95% 90% M 95% 95% L 90% 95%" />
+            </g>
+            
+            {/* Construction Lines */}
+            <line x1="25%" y1="35%" x2="75%" y2="35%" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,3" opacity="0.5" />
+            <line x1="25%" y1="65%" x2="75%" y2="65%" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,3" opacity="0.5" />
+            <line x1="35%" y1="25%" x2="35%" y2="75%" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,3" opacity="0.5" />
+            <line x1="65%" y1="25%" x2="65%" y2="75%" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,3" opacity="0.5" />
           </svg>
+          
+          {/* Radial Fade Overlay */}
+          <div className="absolute inset-0 bg-gradient-radial from-transparent via-[var(--color-bg)]/40 to-[var(--color-bg)]"></div>
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
