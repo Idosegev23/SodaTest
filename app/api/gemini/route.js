@@ -21,11 +21,11 @@ export async function POST(request) {
       return Response.json({ error: 'Gemini API key not configured' }, { status: 500 })
     }
 
-    // Using the latest Gemini 2.5 Flash Image Preview model
-    const modelName = "gemini-2.5-flash-image-preview"
+    // Using Gemini 2.0 Flash Experimental - verified working model
+    const modelName = "gemini-2.0-flash-exp"
     
     console.log(`✅ Using Gemini model: ${modelName} for image generation`)
-    console.log('🔧 Configuration: Latest image generation model with @google/genai SDK')
+    console.log('🔧 Configuration: Experimental image generation with new @google/genai SDK')
 
     const fullPrompt = `A high-resolution, studio-quality photorealistic image of ${prompt}. 
 
