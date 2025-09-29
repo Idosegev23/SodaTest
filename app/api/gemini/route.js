@@ -2,11 +2,17 @@ import { GoogleGenAI } from '@google/genai'
 import fs from 'fs'
 import path from 'path'
 
+// Set API key in environment for @google/genai SDK
+if (process.env.GEMINI_API_KEY) {
+  process.env.GOOGLE_GENAI_API_KEY = process.env.GEMINI_API_KEY
+}
+
 const apiKey = process.env.GEMINI_API_KEY
 console.log('Gemini API Key exists:', !!apiKey)
 console.log('Gemini API Key prefix:', apiKey ? apiKey.substring(0, 10) + '...' : 'undefined')
 
-const genAI = new GoogleGenAI({ apiKey })
+// Initialize SDK - it will use GOOGLE_GENAI_API_KEY from environment
+const genAI = new GoogleGenAI()
 
 export async function POST(request) {
   try {
@@ -21,11 +27,11 @@ export async function POST(request) {
       return Response.json({ error: 'Gemini API key not configured' }, { status: 500 })
     }
 
-    // Using Gemini 2.0 Flash Experimental - verified working model
-    const modelName = "gemini-2.0-flash-exp"
+    // Using Gemini 2.5 Flash Image Preview - latest model with @google/genai SDK
+    const modelName = "gemini-2.5-flash-image-preview"
     
     console.log(`✅ Using Gemini model: ${modelName} for image generation`)
-    console.log('🔧 Configuration: Experimental image generation with new @google/genai SDK')
+    console.log('🔧 Configuration: Latest Gemini 2.5 with native image generation using @google/genai SDK')
 
     const fullPrompt = `A high-resolution, studio-quality photorealistic image of ${prompt}. 
 
