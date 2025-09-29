@@ -314,14 +314,14 @@ export default function HomePage() {
               />
             </div>
             
-            {/* Product Image - Lighter Weight */}
+            {/* Product Image - Optimized Size */}
             <div className="relative mb-12">
-              <div className="relative max-w-xs mx-auto">
+              <div className="relative w-48 md:w-64 mx-auto">
                 {/* Product Image */}
                 <img
                   src="/file.png"
                   alt="מכשיר SodaStream Enso"
-                  className="w-full h-auto object-contain transform hover:scale-105 transition-transform duration-500 opacity-90"
+                  className="w-full h-auto object-contain transform hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
               </div>
