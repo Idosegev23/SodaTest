@@ -99,7 +99,7 @@ export default function HomePage() {
                    className="h-8 md:h-10 w-auto mb-3"
               />
               <p className="text-[var(--color-gold)] text-xs md:text-sm font-heebo font-light tracking-wide">
-                ההרמוניה שבין עיצוב לטכנולוgiה פורצת דרך
+                ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
               </p>
             </div>
           </div>

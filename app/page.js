@@ -85,21 +85,21 @@ export default function HomePage() {
 
       {/* Premium Navigation - SodaStream ENSŌ */}
       <nav 
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[var(--color-bg)]/90 border-b border-[var(--color-gold-border)] transition-opacity duration-500"
+        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[var(--color-bg)]/95 border-b border-[var(--color-gold-border)] transition-opacity duration-500 shadow-lg"
         role="navigation"
         aria-label="ניווט ראשי"
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 py-6">
           {/* Logo - Centered */}
-          <div className="flex-1 flex justify-center">
+          <div className="flex justify-center">
             <div className="text-center">
-                 <img 
-                   src="/logo.png" 
-                   alt="SodaStream ENSŌ" 
-                   className="h-8 md:h-10 w-auto mb-3"
-                 />
+              <img 
+                src="/logo.png" 
+                alt="SodaStream ENSŌ" 
+                className="h-8 md:h-10 w-auto mb-3"
+              />
               <p className="text-[var(--color-gold)] text-xs md:text-sm font-heebo font-light tracking-wide">
-                ההרמוניה שבין עיצוב לטכנולוgiה פורצת דרך
+                ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
               </p>
             </div>
           </div>
