@@ -188,11 +188,30 @@ export default function HomePage() {
 
       {/* Processing Screen Overlay */}
       {isProcessing && (
-        <div className="fixed inset-0 z-[9999] bg-[var(--color-bg)] flex items-center justify-center">
-          <div className="max-w-3xl w-full mx-auto px-4 text-center">
+        <div className="fixed inset-0 z-[9999] bg-[var(--color-bg)]/95 backdrop-blur-sm flex items-center justify-center">
+          <div className="max-w-3xl w-full mx-auto px-4 text-center relative">
+            {/* כפתור סגירה */}
+            <button
+              onClick={() => {
+                if (confirm('האם אתה בטוח שברצונך לעצור את תהליך היצירה?')) {
+                  setIsProcessing(false)
+                  setQueueId(null)
+                  setElapsedTime(0)
+                  setProcessingStage(0)
+                }
+              }}
+              className="absolute top-0 right-4 md:right-0 text-[var(--color-muted)] hover:text-[var(--color-gold)] transition-colors z-10"
+              aria-label="סגור"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
             <div className="bg-[var(--color-bg)] rounded-lg border border-[var(--color-gold)]/20 p-8 md:p-16">
               <div className="mb-6 md:mb-8">
                 <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">יוצר את יצירת האמנות שלך</h2>
+                <p className="text-[var(--color-muted)] text-sm mb-3">זמן משוער: 1-3 דקות</p>
                 <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
               </div>
 
@@ -222,7 +241,7 @@ export default function HomePage() {
                   />
                 </div>
                 <div className="text-[var(--color-muted)]/70 text-xs md:text-sm font-light">
-                  יוצר את יצירת האמנות שלך...
+                  יוצר את יצירת האמנות שלך... ({Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')})
                 </div>
               </div>
 
