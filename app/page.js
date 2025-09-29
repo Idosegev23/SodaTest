@@ -128,8 +128,8 @@ export default function HomePage() {
             <p className="text-[var(--color-gold)] text-base md:text-lg font-heebo font-light tracking-wide">
                    ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
                  </p>
-          </div>
-          
+               </div>
+        
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-heebo font-light text-[var(--color-text)] mb-8 tracking-wide leading-relaxed" dir="rtl">
             ברוכים הבאים ל־ENSŌ Gallery<br />
             <span className="text-[var(--color-gold)]">המקום שבו עיצוב פוגש חדשנות</span>
@@ -139,16 +139,6 @@ export default function HomePage() {
             <p>כאן אתם לא רק צופים - אתם יוצרים.</p>
             <p className="text-[var(--color-gold)] font-medium">זו ההזדמנות שלכם לקחת חלק במהלך עולמי שמטשטש גבולות בין מוצר, אמנות וחדשנות.</p>
                </div>
-        
-          {/* Call to Action Button */}
-          <PremiumButton
-            variant="primary"
-            onClick={() => router.push('/create')}
-            className="text-xl font-heebo font-light tracking-wide group px-12 py-4"
-            aria-label="עבור ליצירת יצירת אמנות"
-          >
-            Design Your Vision
-          </PremiumButton>
         </div>
       </section>
 
