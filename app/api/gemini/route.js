@@ -89,16 +89,16 @@ Create a premium product photograph where the ENSŌ device appears naturally int
 
     console.log('Generating image with Gemini using new SDK...')
     
-    // Build the prompt array with text and image (new SDK format)
-    const promptParts = [
+    // Build the prompt - mix of text and image as shown in docs
+    const contents = [
       { text: fullPrompt },
       objectImage
     ]
     
-    // Generate content using the new @google/genai SDK
+    // Generate content using the new @google/genai SDK (exact format from docs)
     const response = await genAI.models.generateContent({
       model: modelName,
-      contents: promptParts,
+      contents: contents,
     })
     
     // Enhanced logging for debugging
