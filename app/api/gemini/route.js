@@ -8,23 +8,23 @@ console.log('Gemini API Key prefix:', apiKey ? apiKey.substring(0, 10) + '...' :
 
 const genAI = new GoogleGenerativeAI(apiKey)
 
-// Safety settings for content generation
+// Safety settings for content generation - more lenient for creative content
 const safetySettings = [
   {
     category: 'HARM_CATEGORY_HARASSMENT',
-    threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+    threshold: 'BLOCK_ONLY_HIGH',
   },
   {
     category: 'HARM_CATEGORY_HATE_SPEECH',
-    threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+    threshold: 'BLOCK_ONLY_HIGH',
   },
   {
     category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-    threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+    threshold: 'BLOCK_ONLY_HIGH',
   },
   {
     category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
-    threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+    threshold: 'BLOCK_ONLY_HIGH',
   },
 ]
 
@@ -42,45 +42,52 @@ export async function POST(request) {
     }
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash-image-preview", 
+      model: "gemini-2.5-pro-image-preview", 
       safetySettings,
+      generationConfig: {
+        temperature: 0.8,
+        topK: 32,
+        topP: 1,
+        maxOutputTokens: 4096,
+        candidateCount: 1
+      }
     })
     
-    console.log('✅ Using Gemini model: gemini-2.5-flash-image-preview for image generation')
-    console.log('🔧 Configuration: Text-to-Image + Image Editing capabilities enabled')
+    console.log('✅ Using Gemini 2.5 Pro model: gemini-2.5-pro-image-preview for image generation')
+    console.log('🔧 Configuration: Most advanced Gemini model with enhanced image capabilities')
 
-    const fullPrompt = `Create a photorealistic scene showing ${prompt}. 
+    const fullPrompt = `A high-resolution, studio-quality photorealistic image of ${prompt}. 
 
-In this scene, naturally integrate the SodaStream ENSŌ device provided in the image, ensuring it feels like it belongs there organically.
+In this scene, naturally integrate the SodaStream ENSŌ device provided in the reference image, positioning it as a hero product within the environment.
 
-SCENE REQUIREMENTS:
-- Create a vivid, detailed photorealistic environment based on the description
-- Use professional photography techniques: proper depth of field, realistic lighting, and atmospheric perspective
-- Apply cinematic composition with attention to foreground, midground, and background elements
+PHOTOGRAPHIC SPECIFICATIONS:
+- Shot with professional camera equipment (full-frame DSLR, 85mm lens)
+- Perfect exposure with balanced highlights and shadows
+- Crisp focus on the ENSŌ device with natural depth of field
+- Professional three-point lighting setup creating dimensional depth
 
-OBJECT INTEGRATION:
-- Position the SodaStream ENSŌ device naturally within the scene context
-- Preserve the device's exact design, colors, and proportions
-- Apply scene-appropriate lighting that matches the environment's mood and time of day
-- Create realistic shadows and reflections that ground the object in the scene
-- Scale and orient the device appropriately for the scene's perspective
+SCENE COMPOSITION:
+- The SodaStream ENSŌ device as the focal point, naturally integrated into the scene
+- Maintain exact device proportions, colors, and design details
+- Realistic environmental lighting that enhances both the device and surroundings
+- Natural shadows and reflections that ground the product authentically
+
+VISUAL QUALITY:
+- Ultra-realistic textures and materials
+- Accurate color reproduction with natural saturation
+- Professional product photography aesthetics
+- Clean, commercial-grade image suitable for premium branding
 
 LIGHTING & ATMOSPHERE:
-- Match lighting direction and intensity across the entire composition  
-- Apply environmental effects like ambient occlusion, subsurface scattering if appropriate
-- Create atmospheric depth with subtle fog, haze, or particles if they enhance the scene
-- Use color temperature that supports the scene's mood and setting
+- Soft, even lighting that flatters the product
+- Environmental lighting that matches the scene's natural conditions
+- Subtle atmospheric effects that enhance mood without distraction
+- Color temperature optimized for the described environment
 
-PHOTOGRAPHIC QUALITY:
-- Captured with professional camera settings, emphasizing sharp focus on key elements
-- Natural color grading that enhances the scene without over-saturation
-- Subtle film grain or digital noise that adds to photographic authenticity
-- Balanced exposure with proper highlight and shadow detail
+CONTENT RESTRICTIONS:
+Absolutely no people, faces, human figures, text, writing, logos, or inappropriate content.
 
-STRICT CONTENT GUIDELINES:
-No humans, people, body parts, faces, text, writing, logos, celebrities, political content, violence, or inappropriate material.
-
-The final image should look like a professional product photograph where the ENSŌ device has been naturally placed in this beautiful environment.`
+Create a premium product photograph where the ENSŌ device appears naturally integrated into this beautiful setting.`
 
     // קריאת קובץ התמונה
     const imagePath = path.join(process.cwd(), 'public', 'file.png')
@@ -115,11 +122,16 @@ The final image should look like a professional product photograph where the ENS
     
     // Enhanced logging for debugging
     console.log('Gemini API response status:', response.candidates?.length || 0, 'candidates')
+    console.log('Full response:', JSON.stringify({
+      candidates: response.candidates?.length || 0,
+      safetyRatings: response.candidates?.[0]?.safetyRatings || 'none'
+    }, null, 2))
     
-    // Better error handling
+    // Better error handling with safety ratings check
     if (!response.candidates || response.candidates.length === 0) {
       console.error('No candidates returned from Gemini API')
-      throw new Error('No candidates returned from Gemini API')
+      console.error('This might be due to safety filters or prompt issues')
+      throw new Error('No candidates returned - content may have been filtered by safety settings')
     }
 
     const candidate = response.candidates[0]
