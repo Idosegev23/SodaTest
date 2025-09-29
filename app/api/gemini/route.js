@@ -18,9 +18,10 @@ export async function POST(request) {
 
     // Initialize with old SDK that works
     const genAI = new GoogleGenerativeAI(apiKey)
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" })
+    // Using gemini-1.5-flash which supports multimodal (text + image input/output)
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
 
-    console.log('✅ Using Gemini 2.0 Flash Experimental (old SDK - verified working)')
+    console.log('✅ Using Gemini 1.5 Flash (multimodal - supports image generation)')
     console.log('Generating image with Gemini...')
 
     const fullPrompt = `A high-resolution, studio-quality photorealistic image of ${prompt}. 
