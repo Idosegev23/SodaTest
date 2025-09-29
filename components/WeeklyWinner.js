@@ -60,19 +60,19 @@ export default function WeeklyWinner() {
           </div>
           
           {/* Loading State */}
-          <div className="relative max-w-lg mx-auto mt-8">
-            <div className="relative p-6 bg-gradient-to-br from-[var(--color-gold)]/30 via-[var(--color-gold-dark)]/30 to-[var(--color-gold)]/30 rounded-sm shadow-2xl animate-pulse">
-              <div className="relative p-4 bg-gradient-to-br from-[var(--color-gold-dark)]/30 to-[var(--color-gold)]/30 rounded-sm">
-                <div className="relative bg-white/10 p-2 rounded-sm">
+          <div className="relative max-w-sm md:max-w-lg mx-auto mt-8 px-4 md:px-0">
+            <div className="relative p-3 md:p-6 bg-gradient-to-br from-[var(--color-gold)]/30 via-[var(--color-gold-dark)]/30 to-[var(--color-gold)]/30 rounded-sm shadow-2xl animate-pulse">
+              <div className="relative p-2 md:p-4 bg-gradient-to-br from-[var(--color-gold-dark)]/30 to-[var(--color-gold)]/30 rounded-sm">
+                <div className="relative bg-white/10 p-1 md:p-2 rounded-sm">
                   <div className="aspect-square bg-gradient-to-br from-[var(--color-gold)]/20 to-transparent flex items-center justify-center">
-                    <span className="text-[var(--color-gold)] font-heebo font-light text-lg">טוען...</span>
+                    <span className="text-[var(--color-gold)] font-heebo font-light text-sm md:text-lg">טוען...</span>
                   </div>
                 </div>
               </div>
               
-              <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
-                <div className="bg-gradient-to-br from-[var(--color-gold)]/50 to-[var(--color-gold-dark)]/50 px-6 py-2 rounded shadow-lg">
-                  <div className="h-4 bg-[var(--color-gold)]/30 rounded animate-pulse w-24"></div>
+              <div className="absolute -bottom-3 md:-bottom-4 left-1/2 transform -translate-x-1/2">
+                <div className="bg-gradient-to-br from-[var(--color-gold)]/50 to-[var(--color-gold-dark)]/50 px-3 md:px-6 py-1 md:py-2 rounded shadow-lg">
+                  <div className="h-3 md:h-4 bg-[var(--color-gold)]/30 rounded animate-pulse w-16 md:w-24"></div>
                 </div>
               </div>
             </div>
@@ -97,23 +97,23 @@ export default function WeeklyWinner() {
           </div>
           
           {/* No Winner State */}
-          <div className="relative max-w-lg mx-auto mt-8">
-            <div className="relative p-6 bg-gradient-to-br from-[var(--color-gold)] via-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm shadow-2xl">
-              <div className="relative p-4 bg-gradient-to-br from-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm">
-                <div className="relative bg-white p-2 rounded-sm shadow-inner">
+          <div className="relative max-w-sm md:max-w-lg mx-auto mt-8 px-4 md:px-0">
+            <div className="relative p-3 md:p-6 bg-gradient-to-br from-[var(--color-gold)] via-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm shadow-2xl">
+              <div className="relative p-2 md:p-4 bg-gradient-to-br from-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm">
+                <div className="relative bg-white p-1 md:p-2 rounded-sm shadow-inner">
                   <div className="aspect-square bg-gradient-to-br from-[var(--color-gold)]/10 to-transparent flex items-center justify-center">
                     <div className="text-center">
-                      <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/5 rounded flex items-center justify-center">
-                        <span className="text-[var(--color-gold)] font-heebo font-light text-sm">יצירה זוכה בקרוב</span>
+                      <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/5 rounded flex items-center justify-center">
+                        <span className="text-[var(--color-gold)] font-heebo font-light text-xs md:text-sm">יצירה זוכה בקרוב</span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               
-              <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
-                <div className="bg-gradient-to-br from-[var(--color-gold)] to-[var(--color-gold-dark)] px-6 py-2 rounded shadow-lg border border-[var(--color-gold-dark)]">
-                  <span className="text-[var(--color-bg)] font-heebo font-semibold text-sm tracking-wide">
+              <div className="absolute -bottom-3 md:-bottom-4 left-1/2 transform -translate-x-1/2">
+                <div className="bg-gradient-to-br from-[var(--color-gold)] to-[var(--color-gold-dark)] px-3 md:px-6 py-1 md:py-2 rounded shadow-lg border border-[var(--color-gold-dark)]">
+                  <span className="text-[var(--color-bg)] font-heebo font-semibold text-xs md:text-sm tracking-wide">
                     Creator of the Week
                   </span>
                 </div>
@@ -139,17 +139,17 @@ export default function WeeklyWinner() {
         </div>
         
         {/* Winner Card Container */}
-        <div className="relative max-w-lg mx-auto mt-8">
+        <div className="relative max-w-sm md:max-w-lg mx-auto mt-8 px-4 md:px-0">
           {/* Museum-Style Gold Frame */}
-          <div className="relative p-6 bg-gradient-to-br from-[var(--color-gold)] via-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm shadow-2xl">
+          <div className="relative p-3 md:p-6 bg-gradient-to-br from-[var(--color-gold)] via-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm shadow-2xl">
             {/* Inner Frame */}
-            <div className="relative p-4 bg-gradient-to-br from-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm">
+            <div className="relative p-2 md:p-4 bg-gradient-to-br from-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm">
               {/* Frame Border Details */}
-              <div className="absolute inset-2 border-2 border-[var(--color-gold)]/60 rounded-sm"></div>
-              <div className="absolute inset-1 border border-[var(--color-gold)]/30 rounded-sm"></div>
+              <div className="absolute inset-1 md:inset-2 border border-[var(--color-gold)]/60 md:border-2 rounded-sm"></div>
+              <div className="absolute inset-0.5 md:inset-1 border border-[var(--color-gold)]/30 rounded-sm"></div>
               
               {/* Image Container */}
-              <div className="relative bg-white p-2 rounded-sm shadow-inner">
+              <div className="relative bg-white p-1 md:p-2 rounded-sm shadow-inner">
                 <div className="relative overflow-hidden rounded-sm">
                   <img
                     src={winner.image_url}
@@ -161,19 +161,19 @@ export default function WeeklyWinner() {
                   />
                   
                   {/* Winner Info Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-2 md:p-4">
                     <div className="text-center w-full">
-                      <h4 className="text-lg md:text-xl font-heebo font-medium text-white mb-1">
+                      <h4 className="text-sm md:text-lg lg:text-xl font-heebo font-medium text-white mb-1">
                         {winner.user_name || 'אמן אנונימי'}
                       </h4>
-                      <p className="text-white/90 font-heebo font-light mb-3 text-xs md:text-sm">
+                      <p className="text-white/90 font-heebo font-light mb-2 md:mb-3 text-xs md:text-sm line-clamp-2">
                         {winner.prompt || 'יצירת אמנות מרהיבה'}
                       </p>
-                      <div className="flex items-center justify-center gap-2 text-[var(--color-gold)]">
-                        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <div className="flex items-center justify-center gap-1 md:gap-2 text-[var(--color-gold)]">
+                        <svg className="w-3 h-3 md:w-4 md:h-4 fill-current" viewBox="0 0 24 24">
                           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                         </svg>
-                        <span className="font-heebo font-medium text-sm">
+                        <span className="font-heebo font-medium text-xs md:text-sm">
                           {winner.likes || 0} לייקים
                         </span>
                       </div>
@@ -184,9 +184,9 @@ export default function WeeklyWinner() {
             </div>
             
             {/* Museum Plaque */}
-            <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
-              <div className="bg-gradient-to-br from-[var(--color-gold)] to-[var(--color-gold-dark)] px-6 py-2 rounded shadow-lg border border-[var(--color-gold-dark)]">
-                <span className="text-[var(--color-bg)] font-heebo font-semibold text-sm tracking-wide">
+            <div className="absolute -bottom-3 md:-bottom-4 left-1/2 transform -translate-x-1/2">
+              <div className="bg-gradient-to-br from-[var(--color-gold)] to-[var(--color-gold-dark)] px-3 md:px-6 py-1 md:py-2 rounded shadow-lg border border-[var(--color-gold-dark)]">
+                <span className="text-[var(--color-bg)] font-heebo font-semibold text-xs md:text-sm tracking-wide">
                   Creator of the Week
                 </span>
               </div>

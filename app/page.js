@@ -303,25 +303,28 @@ export default function HomePage() {
         </div>
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          {/* Logo Above Product */}
-          <div className="mb-8">
-            <img 
-              src="/logo.png" 
-              alt="SodaStream Enso" 
-              className="h-12 md:h-16 w-auto mx-auto drop-shadow-2xl"
-            />
-          </div>
-          
-          {/* Product Image - Even Smaller */}
-          <div className="relative mb-12">
-            <div className="relative max-w-md mx-auto">
-              {/* Product Image */}
-              <img
-                src="/file.png"
-                alt="מכשיר SodaStream Enso"
-                className="w-full h-auto object-contain transform hover:scale-105 transition-transform duration-500"
-                loading="lazy"
+          {/* Logo and Product - Closer Together */}
+          <div className="flex flex-col items-center">
+            {/* Logo Above Product */}
+            <div className="mb-4">
+              <img 
+                src="/logo.png" 
+                alt="SodaStream Enso" 
+                className="h-10 md:h-12 w-auto drop-shadow-2xl"
               />
+            </div>
+            
+            {/* Product Image - Lighter Weight */}
+            <div className="relative mb-12">
+              <div className="relative max-w-xs mx-auto">
+                {/* Product Image */}
+                <img
+                  src="/file.png"
+                  alt="מכשיר SodaStream Enso"
+                  className="w-full h-auto object-contain transform hover:scale-105 transition-transform duration-500 opacity-90"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </div>
           
