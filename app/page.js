@@ -51,7 +51,7 @@ export default function HomePage() {
     if (isProcessing) {
       getArtworks().then(artworks => {
         const shuffled = artworks.sort(() => 0.5 - Math.random())
-        setInspirationArtworks(shuffled.slice(0, 6))
+        setInspirationArtworks(shuffled.slice(0, 3))
       })
     }
   }, [isProcessing])
@@ -208,74 +208,62 @@ export default function HomePage() {
               </svg>
             </button>
 
-            <div className="bg-[var(--color-bg)] rounded-lg border border-[var(--color-gold)]/20 p-6 md:p-8">
-              <div className="mb-6 md:mb-8">
-                <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">יוצר את יצירת האמנות שלך</h2>
-                <p className="text-[var(--color-muted)] text-sm mb-3">זמן משוער: 1-3 דקות</p>
-                <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
+            <div className="bg-[var(--color-bg)] rounded-lg border border-[var(--color-gold)]/20 p-6">
+              <div className="mb-4">
+                <h2 className="text-lg md:text-xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">יוצר את יצירת האמנות שלך</h2>
+                <p className="text-[var(--color-muted)] text-xs mb-2">זמן משוער: 1-3 דקות</p>
+                <div className="w-12 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
               </div>
 
               {/* Premium AI animation */}
-              <div className="relative w-20 md:w-24 h-20 md:h-24 mx-auto mb-6">
+              <div className="relative w-16 md:w-20 h-16 md:h-20 mx-auto mb-4">
                 <div className="absolute inset-0 border border-[var(--color-gold)]/30 rounded-full animate-spin" style={{ animationDuration: '3s' }}></div>
                 <div className="absolute inset-2 border border-[var(--color-gold)]/20 rounded-full animate-spin" style={{ animationDuration: '2s', animationDirection: 'reverse' }}></div>
-                <div className="absolute inset-4 border border-[var(--color-gold)]/10 rounded-full animate-spin" style={{ animationDuration: '4s' }}></div>
-                <div className="absolute inset-6 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/30 rounded-full flex items-center justify-center">
-                  <span className="text-lg md:text-xl font-light text-[var(--color-gold)] tracking-wider font-heebo">AI</span>
+                <div className="absolute inset-4 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/30 rounded-full flex items-center justify-center">
+                  <span className="text-sm md:text-base font-light text-[var(--color-gold)] tracking-wider font-heebo">AI</span>
                 </div>
               </div>
 
               {/* Process stage */}
-              <div className="mb-4">
-                <h3 className="text-sm md:text-base font-light text-[var(--color-text)] transition-all">
+              <div className="mb-3">
+                <h3 className="text-xs md:text-sm font-light text-[var(--color-text)] transition-all">
                   {processingStages[processingStage]}
                 </h3>
               </div>
 
               {/* Infinite progress bar */}
-              <div className="mb-4 md:mb-6">
+              <div className="mb-4">
                 <div className="w-full bg-[var(--color-muted)]/10 rounded-full h-1 mb-2 overflow-hidden">
                   <div
                     className="bg-gradient-to-r from-[var(--color-gold)] via-[var(--color-gold)]/80 to-[var(--color-gold)] h-1 rounded-full animate-pulse"
                     style={{ width: '100%' }}
                   />
                 </div>
-                <div className="text-[var(--color-muted)]/70 text-xs md:text-sm font-light">
-                  יוצר את יצירת האמנות שלך... ({Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')})
+                <div className="text-[var(--color-muted)]/70 text-xs font-light">
+                  ({Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')})
                 </div>
-              </div>
-
-              <div className="text-[var(--color-muted)]/50 text-xs font-light tracking-wide mb-8">
-                POWERED BY GOOGLE GEMINI 2.5 FLASH IMAGE
               </div>
 
               {/* Inspiration Gallery */}
               {inspirationArtworks.length > 0 && (
-                <div className="mt-12 pt-8 border-t border-[var(--color-gold)]/20">
-                  <h3 className="text-sm md:text-base font-heebo font-light text-[var(--color-gold)] mb-4">
-                    בזמן שאנחנו יוצרים, קבל השראה מיצירות אחרות:
+                <div className="mt-6 pt-4 border-t border-[var(--color-gold)]/20">
+                  <h3 className="text-xs md:text-sm font-heebo font-light text-[var(--color-gold)] mb-3">
+                    השראה מיצירות אחרות:
                   </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-                    {inspirationArtworks.map((artwork, index) => (
+                  <div className="grid grid-cols-3 gap-2">
+                    {inspirationArtworks.slice(0, 3).map((artwork, index) => (
                       <div 
                         key={artwork.id || index} 
-                        className="relative aspect-square rounded-lg overflow-hidden border border-[var(--color-gold)]/20 hover:border-[var(--color-gold)]/40 transition-all group"
+                        className="relative aspect-square rounded overflow-hidden border border-[var(--color-gold)]/20"
                       >
                         <img
                           src={artwork.image_url}
                           alt={artwork.prompt || 'יצירת אמנות'}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-cover"
                           onError={(e) => {
-                            e.currentTarget.src = `https://picsum.photos/300/300?random=${index}`
+                            e.currentTarget.src = `https://picsum.photos/200/200?random=${index}`
                           }}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="absolute bottom-2 left-2 right-2">
-                            <p className="text-white text-xs font-heebo font-light line-clamp-2">
-                              {artwork.prompt || 'יצירה מרהיבה'}
-                            </p>
-                          </div>
-                        </div>
                       </div>
                     ))}
                   </div>
