@@ -42,11 +42,14 @@ export default function HomePage() {
   }, [])
 
   const handlePromptSubmit = (promptText) => {
+    console.log('handlePromptSubmit called with:', promptText)
     setPrompt(promptText)
     setIsModalOpen(true)
   }
 
   const handleUserDetailsSubmit = async (userData) => {
+    console.log('handleUserDetailsSubmit called with:', userData)
+    console.log('Current prompt:', prompt)
     setIsLoading(true)
     
     try {
@@ -56,9 +59,25 @@ export default function HomePage() {
         status: 'pending'
       }
       
-      await addToQueue(queueData)
+      console.log('Adding to queue:', queueData)
+      const result = await addToQueue(queueData)
+      console.log('Queue result:', result)
+      
       setIsModalOpen(false)
-      router.push('/create')
+      
+      // Trigger the worker to start processing
+      try {
+        console.log('Triggering worker...')
+        const workerResponse = await fetch('/api/worker')
+        const workerResult = await workerResponse.json()
+        console.log('Worker triggered:', workerResult)
+      } catch (workerError) {
+        console.error('Error triggering worker:', workerError)
+      }
+      
+      // Show success message and stay on page
+      alert('היצירה נשלחה לעיבוד! תוכל לראות אותה בגלריה בקרוב.')
+      
     } catch (error) {
       console.error('Error submitting:', error)
       alert('שגיאה בשליחת הבקשה. אנא נסה שוב.')
