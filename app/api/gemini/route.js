@@ -80,22 +80,36 @@ Create a premium product photograph where the ENSŌ device appears naturally int
     // Generate content using OLD SDK (works!)
     const result = await model.generateContent([fullPrompt, objectImage])
     const response = await result.response
+    
+    console.log('Gemini response received, checking structure...')
+    console.log('Response has candidates:', !!response.candidates)
+    
+    if (!response || !response.candidates || response.candidates.length === 0) {
+      console.error('No candidates in response')
+      console.error('Full response:', JSON.stringify(response, null, 2))
+      throw new Error('No candidates returned from Gemini API')
+    }
 
     const candidate = response.candidates[0]
-    if (!candidate.content || !candidate.content.parts) {
+    console.log('Candidate structure:', !!candidate.content)
+    
+    if (!candidate || !candidate.content || !candidate.content.parts) {
       console.error('Invalid candidate structure')
+      console.error('Candidate:', JSON.stringify(candidate, null, 2))
       throw new Error('Invalid response structure from Gemini API')
     }
 
     // Find the image part in the response
     const imagePart = candidate.content.parts.find(part => part.inlineData)
+    console.log('Found image part:', !!imagePart)
 
     if (!imagePart || !imagePart.inlineData) {
       console.error('No image data found in response')
+      console.error('Parts:', JSON.stringify(candidate.content.parts, null, 2))
       throw new Error('No image returned from Gemini API')
     }
 
-    console.log('Successfully received image from Gemini!')
+    console.log('✅ Successfully received image from Gemini!')
     const generatedImageBuffer = Buffer.from(imagePart.inlineData.data, 'base64')
 
     return new Response(generatedImageBuffer, {
