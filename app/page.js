@@ -136,15 +136,32 @@ export default function HomePage() {
       setProcessingStage(0)
       setElapsedTime(0)
       
-      // Trigger the worker to start processing
-      try {
-        console.log('Triggering worker...')
-        const workerResponse = await fetch('/api/worker')
-        const workerResult = await workerResponse.json()
-        console.log('Worker triggered:', workerResult)
-      } catch (workerError) {
-        console.error('Error triggering worker:', workerError)
+      // Trigger the worker to start processing - with retry
+      const triggerWorkerWithRetry = async (retries = 3) => {
+        for (let i = 0; i < retries; i++) {
+          try {
+            console.log(`Triggering worker... (attempt ${i + 1}/${retries})`)
+            const workerResponse = await fetch('/api/worker')
+            const workerResult = await workerResponse.json()
+            console.log('Worker triggered:', workerResult)
+            
+            // אם הצליח - עצור
+            if (workerResponse.ok) break
+            
+            // אם לא הצליח - המתן ונסה שוב
+            if (i < retries - 1) {
+              await new Promise(resolve => setTimeout(resolve, 2000))
+            }
+          } catch (workerError) {
+            console.error(`Error triggering worker (attempt ${i + 1}):`, workerError)
+            if (i < retries - 1) {
+              await new Promise(resolve => setTimeout(resolve, 2000))
+            }
+          }
+        }
       }
+      
+      triggerWorkerWithRetry()
       
     } catch (error) {
       console.error('Error submitting:', error)
