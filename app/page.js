@@ -483,10 +483,15 @@ export default function HomePage() {
             <span className="text-[var(--color-gold)]">המקום שבו עיצוב פוגש חדשנות</span>
           </h1>
           
-          <div className="space-y-4 text-[var(--color-text)] font-heebo font-light text-lg md:text-xl leading-relaxed mb-12" dir="rtl">
-            <p>כאן אתם לא רק צופים - אתם יוצרים.</p>
-            <p className="text-[var(--color-gold)] font-medium">זו ההזדמנות שלכם לקחת חלק במהלך עולמי שמטשטש גבולות בין מוצר, אמנות וחדשנות.</p>
-               </div>
+          <div className="space-y-6 text-[var(--color-text)] font-heebo font-light text-base md:text-lg leading-relaxed mb-12 max-w-3xl mx-auto" dir="rtl">
+            <p>כאן אתם לא רק צופים - אתם יוצרים. בלחיצה אחת המכשיר מתמזג עם רקעים שנולדו בבינה מלאכותית, ואתם מעניקים לו פרשנות אישית משלכם.</p>
+            
+            <p>היצירה שלכם תצטרף לגלריה החיה בהמשך העמוד ותהפוך לחלק מהמהלך הכי מדובר בעולמות העיצוב והטכנולוגיה.</p>
+            
+            <p>בכל שבוע ייבחר עיצוב זוכה, שיזכה באחד מהפרסים הנחשקים שלנו. ובסוף - נבחרת השופטים שלנו תבחר את היצירה הייחודית ביותר, והיוצר שלה יקבל במתנה את מכשיר ה־ENSŌ היוקרתי.</p>
+            
+            <p className="text-[var(--color-gold)] font-medium pt-4">זו ההזדמנות שלכם לקחת חלק במהלך עולמי שמטשטש גבולות בין מוצר, אמנות וחדשנות.</p>
+          </div>
         </div>
       </section>
 
