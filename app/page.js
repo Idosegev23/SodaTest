@@ -387,17 +387,47 @@ export default function HomePage() {
 
       {/* Section 1 - Welcome Opening (replaces Hero) */}
       <section className="relative min-h-screen flex items-center justify-center px-4">
-        {/* ENSŌ Visual Background */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-radial from-[var(--color-gold)]/20 via-transparent to-transparent"></div>
-          {/* Large ENSŌ Product Visual */}
-          <div className="absolute right-4 md:right-16 top-1/2 -translate-y-1/2 z-0">
-            <img 
-              src="/file.png" 
-              alt="SodaStream ENSŌ Product" 
-              className="w-64 md:w-96 lg:w-[500px] h-auto object-contain opacity-30 transform rotate-12"
-            />
-          </div>
+        {/* Geometric Sketch Pattern Background */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          {/* SVG Geometric Pattern */}
+          <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="geometric-sketch" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+                {/* Circles */}
+                <circle cx="100" cy="100" r="80" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
+                <circle cx="100" cy="100" r="60" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
+                <circle cx="100" cy="100" r="40" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
+                
+                {/* Connecting Lines */}
+                <line x1="20" y1="100" x2="180" y2="100" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,2" />
+                <line x1="100" y1="20" x2="100" y2="180" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,2" />
+                <line x1="35" y1="35" x2="165" y2="165" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,2" />
+                <line x1="165" y1="35" x2="35" y2="165" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,2" />
+                
+                {/* Geometric Shapes */}
+                <polygon points="100,30 130,50 130,80 100,100 70,80 70,50" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
+                <rect x="60" y="120" width="80" height="60" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" transform="rotate(15 100 150)" />
+                
+                {/* Small Details */}
+                <circle cx="50" cy="50" r="3" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
+                <circle cx="150" cy="50" r="3" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
+                <circle cx="50" cy="150" r="3" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
+                <circle cx="150" cy="150" r="3" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#geometric-sketch)" />
+          </svg>
+          
+          {/* Radial Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-radial from-transparent via-[var(--color-bg)]/30 to-[var(--color-bg)]"></div>
+          
+          {/* Large Geometric Accent Lines */}
+          <svg className="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0" y1="20%" x2="100%" y2="20%" stroke="var(--color-gold)" strokeWidth="1" strokeDasharray="10,10" />
+            <line x1="0" y1="80%" x2="100%" y2="80%" stroke="var(--color-gold)" strokeWidth="1" strokeDasharray="10,10" />
+            <circle cx="20%" cy="50%" r="15%" fill="none" stroke="var(--color-gold)" strokeWidth="1" />
+            <circle cx="80%" cy="50%" r="15%" fill="none" stroke="var(--color-gold)" strokeWidth="1" />
+          </svg>
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
