@@ -189,7 +189,7 @@ export default function HomePage() {
       {/* Processing Screen Overlay */}
       {isProcessing && (
         <div className="fixed inset-0 z-[9999] bg-[var(--color-bg)]/95 backdrop-blur-sm flex items-center justify-center">
-          <div className="max-w-3xl w-full mx-auto px-4 text-center relative">
+          <div className="max-w-xl w-full mx-auto px-4 text-center relative">
             {/* כפתור סגירה */}
             <button
               onClick={() => {
@@ -203,12 +203,12 @@ export default function HomePage() {
               className="absolute top-0 right-4 md:right-0 text-[var(--color-muted)] hover:text-[var(--color-gold)] transition-colors z-10"
               aria-label="סגור"
             >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
 
-            <div className="bg-[var(--color-bg)] rounded-lg border border-[var(--color-gold)]/20 p-8 md:p-16">
+            <div className="bg-[var(--color-bg)] rounded-lg border border-[var(--color-gold)]/20 p-6 md:p-8">
               <div className="mb-6 md:mb-8">
                 <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">יוצר את יצירת האמנות שלך</h2>
                 <p className="text-[var(--color-muted)] text-sm mb-3">זמן משוער: 1-3 דקות</p>
@@ -216,18 +216,18 @@ export default function HomePage() {
               </div>
 
               {/* Premium AI animation */}
-              <div className="relative w-24 md:w-32 h-24 md:h-32 mx-auto mb-8 md:mb-12">
+              <div className="relative w-20 md:w-24 h-20 md:h-24 mx-auto mb-6">
                 <div className="absolute inset-0 border border-[var(--color-gold)]/30 rounded-full animate-spin" style={{ animationDuration: '3s' }}></div>
                 <div className="absolute inset-2 border border-[var(--color-gold)]/20 rounded-full animate-spin" style={{ animationDuration: '2s', animationDirection: 'reverse' }}></div>
                 <div className="absolute inset-4 border border-[var(--color-gold)]/10 rounded-full animate-spin" style={{ animationDuration: '4s' }}></div>
-                <div className="absolute inset-6 md:inset-8 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/30 rounded-full flex items-center justify-center">
-                  <span className="text-xl md:text-2xl font-light text-[var(--color-gold)] tracking-wider font-heebo">AI</span>
+                <div className="absolute inset-6 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/30 rounded-full flex items-center justify-center">
+                  <span className="text-lg md:text-xl font-light text-[var(--color-gold)] tracking-wider font-heebo">AI</span>
                 </div>
               </div>
 
               {/* Process stage */}
-              <div className="mb-6 md:mb-8">
-                <h3 className="text-base md:text-lg font-light text-[var(--color-text)] mb-4 transition-all">
+              <div className="mb-4">
+                <h3 className="text-sm md:text-base font-light text-[var(--color-text)] transition-all">
                   {processingStages[processingStage]}
                 </h3>
               </div>

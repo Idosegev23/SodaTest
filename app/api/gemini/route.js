@@ -1,14 +1,8 @@
-import { GoogleGenAI } from '@google/genai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import fs from 'fs'
 import path from 'path'
 
 export async function POST(request) {
-  const apiKey = process.env.GEMINI_API_KEY
-  console.log('Gemini API Key exists:', !!apiKey)
-  console.log('Gemini API Key prefix:', apiKey ? apiKey.substring(0, 10) + '...' : 'undefined')
-
-  // Initialize SDK with API key
-  const genAI = new GoogleGenAI({ apiKey })
   try {
     const { prompt } = await request.json()
 
@@ -16,16 +10,18 @@ export async function POST(request) {
       return Response.json({ error: 'Prompt is required' }, { status: 400 })
     }
 
+    const apiKey = process.env.GEMINI_API_KEY
     if (!apiKey) {
       console.error('GEMINI_API_KEY is not set!')
       return Response.json({ error: 'Gemini API key not configured' }, { status: 500 })
     }
 
-    // Using Gemini 2.0 Flash Experimental - verified working model
-    const modelName = "gemini-2.0-flash-exp"
+    // Initialize with old SDK that works
+    const genAI = new GoogleGenerativeAI(apiKey)
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" })
 
-    console.log(`✅ Using Gemini model: ${modelName} for image generation`)
-    console.log('🔧 Configuration: Gemini 2.0 Flash Experimental with @google/genai SDK (verified working)')
+    console.log('✅ Using Gemini 2.0 Flash Experimental (old SDK - verified working)')
+    console.log('Generating image with Gemini...')
 
     const fullPrompt = `A high-resolution, studio-quality photorealistic image of ${prompt}. 
 
@@ -81,62 +77,9 @@ Create a premium product photograph where the ENSŌ device appears naturally int
       },
     }
 
-    console.log('Generating image with Gemini using new SDK...')
-
-    // Build the prompt - mix of text and image as shown in docs
-    const contents = [
-      objectImage,
-      { text: fullPrompt }
-    ]
-
-    // Safety settings to avoid blocking
-    const safetySettings = [
-      {
-        category: "HARM_CATEGORY_HARASSMENT",
-        threshold: "BLOCK_ONLY_HIGH"
-      },
-      {
-        category: "HARM_CATEGORY_HATE_SPEECH",
-        threshold: "BLOCK_ONLY_HIGH"
-      },
-      {
-        category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-        threshold: "BLOCK_ONLY_HIGH"
-      },
-      {
-        category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-        threshold: "BLOCK_ONLY_HIGH"
-      }
-    ]
-
-    // Generate content using the new @google/genai SDK (exact format from docs)
-    const response = await genAI.models.generateContent({
-      model: modelName,
-      contents: contents,
-      safetySettings: safetySettings,
-      generationConfig: {
-        temperature: 0.7,
-        topP: 0.9,
-        maxOutputTokens: 4096
-      }
-    })
-    
-    // Enhanced logging for debugging
-    console.log('Gemini API response received')
-    console.log('Candidates:', response.candidates?.length || 0)
-
-    // Better error handling
-    if (!response.candidates || response.candidates.length === 0) {
-      console.error('No candidates returned from Gemini API')
-      console.error('Prompt feedback:', JSON.stringify(response.promptFeedback, null, 2))
-
-      // Check if content was blocked
-      if (response.promptFeedback?.blockReason) {
-        throw new Error(`Content blocked: ${response.promptFeedback.blockReason}. Safety ratings: ${JSON.stringify(response.promptFeedback.safetyRatings)}`)
-      }
-
-      throw new Error('No candidates returned - content may have been filtered')
-    }
+    // Generate content using OLD SDK (works!)
+    const result = await model.generateContent([fullPrompt, objectImage])
+    const response = await result.response
 
     const candidate = response.candidates[0]
     if (!candidate.content || !candidate.content.parts) {
