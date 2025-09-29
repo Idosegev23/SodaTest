@@ -42,19 +42,12 @@ export async function POST(request) {
     }
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-pro-image-preview", 
+      model: "gemini-2.5-flash-image-preview", 
       safetySettings,
-      generationConfig: {
-        temperature: 0.8,
-        topK: 32,
-        topP: 1,
-        maxOutputTokens: 4096,
-        candidateCount: 1
-      }
     })
     
-    console.log('✅ Using Gemini 2.5 Pro model: gemini-2.5-pro-image-preview for image generation')
-    console.log('🔧 Configuration: Most advanced Gemini model with enhanced image capabilities')
+    console.log('✅ Using Gemini 2.5 Flash Image Preview: gemini-2.5-flash-image-preview')
+    console.log('🔧 Configuration: Official image generation model per Google documentation')
 
     const fullPrompt = `A high-resolution, studio-quality photorealistic image of ${prompt}. 
 
@@ -161,14 +154,21 @@ Create a premium product photograph where the ENSŌ device appears naturally int
 
   } catch (error) {
     console.error('Error generating image:', error)
+    console.error('Error name:', error.name)
+    console.error('Error message:', error.message)
+    console.error('Error stack:', error.stack)
     
     // Enhanced error handling based on Gemini documentation
     let errorMessage = 'Failed to generate image'
     let statusCode = 500
     
+    // Check for specific error types
     if (error.message?.includes('API key')) {
       errorMessage = 'API configuration error'
       statusCode = 500
+    } else if (error.message?.includes('404') || error.message?.includes('not found')) {
+      errorMessage = 'Model not available - please check model name'
+      statusCode = 404
     } else if (error.message?.includes('quota') || error.message?.includes('rate limit')) {
       errorMessage = 'Service temporarily unavailable due to high demand'
       statusCode = 429
@@ -182,7 +182,8 @@ Create a premium product photograph where the ENSŌ device appears naturally int
     
     return Response.json({ 
       error: errorMessage,
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      details: error.message,
+      model: "gemini-2.5-flash-image-preview",
       timestamp: new Date().toISOString()
     }, { status: statusCode })
   }
