@@ -7,7 +7,7 @@ import PromptForm from '../../components/PromptForm'
 import UserDetailsModal from '../../components/UserDetailsModal'
 import PremiumButton from '../../components/PremiumButton'
 import LightRays from '../../components/LightRays'
-import { addToQueue, checkQueueStatus, getCompletedArtwork } from '../../lib/supabaseClient'
+import { addToQueue, checkQueueStatus, getCompletedArtwork, getArtworks } from '../../lib/supabaseClient'
 
 export default function CreatePage() {
   const router = useRouter()
@@ -21,6 +21,7 @@ export default function CreatePage() {
   const [elapsedTime, setElapsedTime] = useState(0)
   const [queueLength, setQueueLength] = useState(0)
   const [validationError, setValidationError] = useState(null)
+  const [inspirationArtworks, setInspirationArtworks] = useState([])
 
   const processingStages = [
     'מאמתים את הפרטים שלך...',
@@ -28,7 +29,7 @@ export default function CreatePage() {
     'מלטשים את יצירת האומנות...'
   ]
 
-  // טיימר לשלבי העיבוד
+  // טיימר לשלבי העיבוד - רק משנה את השלב, לא מגביל זמן
   useEffect(() => {
     let interval
     if (step === 'processing') {
@@ -39,11 +40,7 @@ export default function CreatePage() {
           // שינוי שלב כל 5-10 שניות
           if (newTime === 5) setProcessingStage(1)
           else if (newTime === 15) setProcessingStage(2)
-          else if (newTime >= 30) {
-            // אחרי 30 שניות עוברים למצב המתנה
-            setStep('waiting')
-            return 0
-          }
+          // הסרנו את ההגבלה של 30 שניות - ממשיך עד שהתמונה מוכנה
           
           return newTime
         })
@@ -53,7 +50,18 @@ export default function CreatePage() {
     return () => clearInterval(interval)
   }, [step])
 
-  // בדיקת סטטוס תור כל 5 שניות
+  // טעינת יצירות השראה כשמתחילים עיבוד
+  useEffect(() => {
+    if (step === 'processing') {
+      getArtworks().then(artworks => {
+        // בחירת 6 יצירות אקראיות
+        const shuffled = artworks.sort(() => 0.5 - Math.random())
+        setInspirationArtworks(shuffled.slice(0, 6))
+      })
+    }
+  }, [step])
+
+  // בדיקת סטטוס תור כל 3 שניות (יותר מהיר!)
   useEffect(() => {
     let interval
     if (queueId && (step === 'processing' || step === 'waiting')) {
@@ -70,7 +78,7 @@ export default function CreatePage() {
         } catch (error) {
           console.error('Error checking status:', error)
         }
-      }, 5000)
+      }, 3000) // שינוי מ-5000 ל-3000 - יותר responsive
     }
     
     return () => clearInterval(interval)
@@ -297,22 +305,58 @@ export default function CreatePage() {
                   </div>
                 </div>
 
-                {/* Premium progress bar */}
+                {/* Infinite progress bar (no time limit) */}
                 <div className="mb-4 md:mb-6">
-                  <div className="w-full bg-[var(--color-muted)]/10 rounded-full h-1 mb-2">
+                  <div className="w-full bg-[var(--color-muted)]/10 rounded-full h-1 mb-2 overflow-hidden">
                     <div
-                      className="bg-gradient-to-r from-[var(--color-gold)] to-[var(--color-gold)]/80 h-1 rounded-full transition-all duration-500"
-                      style={{ width: `${(elapsedTime / 30) * 100}%` }}
+                      className="bg-gradient-to-r from-[var(--color-gold)] via-[var(--color-gold)]/80 to-[var(--color-gold)] h-1 rounded-full animate-pulse"
+                      style={{ 
+                        width: '100%',
+                        animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+                      }}
                     />
                   </div>
                   <div className="text-[var(--color-muted)]/70 text-xs md:text-sm font-light">
-                    Processing: {Math.max(30 - elapsedTime, 0)}s remaining
+                    יוצר את יצירת האמנות שלך...
                   </div>
                 </div>
 
-                <div className="text-[var(--color-muted)]/50 text-xs font-light tracking-wide">
+                <div className="text-[var(--color-muted)]/50 text-xs font-light tracking-wide mb-8">
                   POWERED BY GOOGLE GEMINI 2.5 FLASH IMAGE
                 </div>
+
+                {/* Inspiration Gallery */}
+                {inspirationArtworks.length > 0 && (
+                  <div className="mt-12 pt-8 border-t border-[var(--color-gold)]/20">
+                    <h3 className="text-sm md:text-base font-heebo font-light text-[var(--color-gold)] mb-4">
+                      בזמן שאנחנו יוצרים, קבל השראה מיצירות אחרות:
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                      {inspirationArtworks.map((artwork, index) => (
+                        <div 
+                          key={artwork.id || index} 
+                          className="relative aspect-square rounded-lg overflow-hidden border border-[var(--color-gold)]/20 hover:border-[var(--color-gold)]/40 transition-all group"
+                        >
+                          <img
+                            src={artwork.image_url}
+                            alt={artwork.prompt || 'יצירת אמנות'}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            onError={(e) => {
+                              e.currentTarget.src = `https://picsum.photos/300/300?random=${index}`
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="absolute bottom-2 left-2 right-2">
+                              <p className="text-white text-xs font-heebo font-light line-clamp-2">
+                                {artwork.prompt || 'יצירה מרהיבה'}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
