@@ -173,14 +173,14 @@ export default function HomePage() {
       {/* Animated Light Rays Background */}
       <LightRays
         raysOrigin="top-center"
-        raysColor="#8e7845"
-        raysSpeed={0.8}
-        lightSpread={0.6}
-        rayLength={1.5}
+        raysColor="#d4af37"
+        raysSpeed={1.0}
+        lightSpread={0.9}
+        rayLength={2.5}
         followMouse={true}
-        mouseInfluence={0.08}
-        noiseAmount={0.05}
-        distortion={0.02}
+        mouseInfluence={0.15}
+        noiseAmount={0.02}
+        distortion={0.01}
         className="background-rays"
       />
 
