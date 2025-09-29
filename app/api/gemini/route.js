@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { GoogleGenAI } from '@google/genai'
 import fs from 'fs'
 import path from 'path'
 
@@ -6,27 +6,7 @@ const apiKey = process.env.GEMINI_API_KEY
 console.log('Gemini API Key exists:', !!apiKey)
 console.log('Gemini API Key prefix:', apiKey ? apiKey.substring(0, 10) + '...' : 'undefined')
 
-const genAI = new GoogleGenerativeAI(apiKey)
-
-// Safety settings for content generation - more lenient for creative content
-const safetySettings = [
-  {
-    category: 'HARM_CATEGORY_HARASSMENT',
-    threshold: 'BLOCK_ONLY_HIGH',
-  },
-  {
-    category: 'HARM_CATEGORY_HATE_SPEECH',
-    threshold: 'BLOCK_ONLY_HIGH',
-  },
-  {
-    category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-    threshold: 'BLOCK_ONLY_HIGH',
-  },
-  {
-    category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
-    threshold: 'BLOCK_ONLY_HIGH',
-  },
-]
+const genAI = new GoogleGenAI({ apiKey })
 
 export async function POST(request) {
   try {
@@ -41,16 +21,11 @@ export async function POST(request) {
       return Response.json({ error: 'Gemini API key not configured' }, { status: 500 })
     }
 
-    // Try different model names - Gemini image generation is in preview
-    let modelName = "gemini-2.0-flash-exp"
-    
-    const model = genAI.getGenerativeModel({
-      model: modelName, 
-      safetySettings,
-    })
+    // Using the latest Gemini 2.5 Flash Image Preview model
+    const modelName = "gemini-2.5-flash-image-preview"
     
     console.log(`✅ Using Gemini model: ${modelName} for image generation`)
-    console.log('🔧 Configuration: Experimental image generation with native multimodal support')
+    console.log('🔧 Configuration: Latest image generation model with @google/genai SDK')
 
     const fullPrompt = `A high-resolution, studio-quality photorealistic image of ${prompt}. 
 
@@ -106,45 +81,45 @@ Create a premium product photograph where the ENSŌ device appears naturally int
       },
     }
 
-    console.log('Generating image with Gemini...')
+    console.log('Generating image with Gemini using new SDK...')
     
-    // Generate content using the new API format (per latest documentation)
-    const result = await model.generateContent([
-      fullPrompt,
+    // Build the prompt array with text and image (new SDK format)
+    const promptParts = [
+      { text: fullPrompt },
       objectImage
-    ])
+    ]
     
-    const response = await result.response
+    // Generate content using the new @google/genai SDK
+    const response = await genAI.models.generateContent({
+      model: modelName,
+      contents: promptParts,
+    })
     
     // Enhanced logging for debugging
-    console.log('Gemini API response status:', response.candidates?.length || 0, 'candidates')
-    console.log('Full response:', JSON.stringify({
-      candidates: response.candidates?.length || 0,
-      safetyRatings: response.candidates?.[0]?.safetyRatings || 'none'
-    }, null, 2))
+    console.log('Gemini API response received')
+    console.log('Candidates:', response.candidates?.length || 0)
     
-    // Better error handling with safety ratings check
+    // Better error handling
     if (!response.candidates || response.candidates.length === 0) {
       console.error('No candidates returned from Gemini API')
-      console.error('This might be due to safety filters or prompt issues')
-      throw new Error('No candidates returned - content may have been filtered by safety settings')
+      throw new Error('No candidates returned - content may have been filtered')
     }
 
     const candidate = response.candidates[0]
     if (!candidate.content || !candidate.content.parts) {
-      console.error('Invalid candidate structure:', JSON.stringify(candidate, null, 2))
+      console.error('Invalid candidate structure')
       throw new Error('Invalid response structure from Gemini API')
     }
 
+    // Find the image part in the response
     const imagePart = candidate.content.parts.find(part => part.inlineData)
 
     if (!imagePart || !imagePart.inlineData) {
-      console.error('No image data found in response parts')
-      console.error('Available parts:', candidate.content.parts.map(p => Object.keys(p)))
+      console.error('No image data found in response')
       throw new Error('No image returned from Gemini API')
     }
 
-    console.log('Successfully received image from Gemini, size:', imagePart.inlineData.data.length, 'characters')
+    console.log('Successfully received image from Gemini!')
     const generatedImageBuffer = Buffer.from(imagePart.inlineData.data, 'base64')
 
     return new Response(generatedImageBuffer, {
