@@ -10,13 +10,77 @@ import LightRaysAdvanced from '../components/LightRaysAdvanced'
 import WeeklyWinner from '../components/WeeklyWinner'
 import PromptForm from '../components/PromptForm'
 import UserDetailsModal from '../components/UserDetailsModal'
-import { addToQueue } from '../lib/supabaseClient'
+import { addToQueue, checkQueueStatus, getCompletedArtwork, getArtworks } from '../lib/supabaseClient'
 
 export default function HomePage() {
   const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [prompt, setPrompt] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [queueId, setQueueId] = useState(null)
+  const [inspirationArtworks, setInspirationArtworks] = useState([])
+  const [completedArtwork, setCompletedArtwork] = useState(null)
+  const [processingStage, setProcessingStage] = useState(0)
+  const [elapsedTime, setElapsedTime] = useState(0)
+
+  const processingStages = [
+    'מאמתים את הפרטים שלך...',
+    'ממקמים את המכשיר בסצנה...',
+    'מלטשים את יצירת האומנות...'
+  ]
+
+  // טיימר לשלבי העיבוד
+  useEffect(() => {
+    let interval
+    if (isProcessing) {
+      interval = setInterval(() => {
+        setElapsedTime(prev => {
+          const newTime = prev + 1
+          if (newTime === 5) setProcessingStage(1)
+          else if (newTime === 15) setProcessingStage(2)
+          return newTime
+        })
+      }, 1000)
+    }
+    return () => clearInterval(interval)
+  }, [isProcessing])
+
+  // טעינת יצירות השראה
+  useEffect(() => {
+    if (isProcessing) {
+      getArtworks().then(artworks => {
+        const shuffled = artworks.sort(() => 0.5 - Math.random())
+        setInspirationArtworks(shuffled.slice(0, 6))
+      })
+    }
+  }, [isProcessing])
+
+  // בדיקת סטטוס כל 3 שניות
+  useEffect(() => {
+    let interval
+    if (queueId && isProcessing) {
+      interval = setInterval(async () => {
+        try {
+          const status = await checkQueueStatus(queueId)
+          if (status === 'done') {
+            const artwork = await getCompletedArtwork(queueId)
+            if (artwork) {
+              setCompletedArtwork(artwork)
+              setIsProcessing(false)
+              // הודעת הצלחה
+              alert('🎨 יצירת האמנות שלך מוכנה! תוכל למצוא אותה בגלריה.')
+              // רענון הדף כדי להציג את היצירה החדשה
+              window.location.reload()
+            }
+          }
+        } catch (error) {
+          console.error('Error checking status:', error)
+        }
+      }, 3000)
+    }
+    return () => clearInterval(interval)
+  }, [queueId, isProcessing])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +127,14 @@ export default function HomePage() {
       const result = await addToQueue(queueData)
       console.log('Queue result:', result)
       
+      setQueueId(result.id)
       setIsModalOpen(false)
+      setIsLoading(false)
+      
+      // התחלת מסך טעינה
+      setIsProcessing(true)
+      setProcessingStage(0)
+      setElapsedTime(0)
       
       // Trigger the worker to start processing
       try {
@@ -75,13 +146,9 @@ export default function HomePage() {
         console.error('Error triggering worker:', workerError)
       }
       
-      // Show success message and stay on page
-      alert('היצירה נשלחה לעיבוד! תוכל לראות אותה בגלריה בקרוב.')
-      
     } catch (error) {
       console.error('Error submitting:', error)
       alert('שגיאה בשליחת הבקשה. אנא נסה שוב.')
-    } finally {
       setIsLoading(false)
     }
   }
@@ -101,6 +168,87 @@ export default function HomePage() {
         distortion={0.02}
         className="background-rays"
       />
+
+      {/* Processing Screen Overlay */}
+      {isProcessing && (
+        <div className="fixed inset-0 z-[9999] bg-[var(--color-bg)] flex items-center justify-center">
+          <div className="max-w-3xl w-full mx-auto px-4 text-center">
+            <div className="bg-[var(--color-bg)] rounded-lg border border-[var(--color-gold)]/20 p-8 md:p-16">
+              <div className="mb-6 md:mb-8">
+                <h2 className="text-xl md:text-2xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">יוצר את יצירת האמנות שלך</h2>
+                <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
+              </div>
+
+              {/* Premium AI animation */}
+              <div className="relative w-24 md:w-32 h-24 md:h-32 mx-auto mb-8 md:mb-12">
+                <div className="absolute inset-0 border border-[var(--color-gold)]/30 rounded-full animate-spin" style={{ animationDuration: '3s' }}></div>
+                <div className="absolute inset-2 border border-[var(--color-gold)]/20 rounded-full animate-spin" style={{ animationDuration: '2s', animationDirection: 'reverse' }}></div>
+                <div className="absolute inset-4 border border-[var(--color-gold)]/10 rounded-full animate-spin" style={{ animationDuration: '4s' }}></div>
+                <div className="absolute inset-6 md:inset-8 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/30 rounded-full flex items-center justify-center">
+                  <span className="text-xl md:text-2xl font-light text-[var(--color-gold)] tracking-wider font-heebo">AI</span>
+                </div>
+              </div>
+
+              {/* Process stage */}
+              <div className="mb-6 md:mb-8">
+                <h3 className="text-base md:text-lg font-light text-[var(--color-text)] mb-4 transition-all">
+                  {processingStages[processingStage]}
+                </h3>
+              </div>
+
+              {/* Infinite progress bar */}
+              <div className="mb-4 md:mb-6">
+                <div className="w-full bg-[var(--color-muted)]/10 rounded-full h-1 mb-2 overflow-hidden">
+                  <div
+                    className="bg-gradient-to-r from-[var(--color-gold)] via-[var(--color-gold)]/80 to-[var(--color-gold)] h-1 rounded-full animate-pulse"
+                    style={{ width: '100%' }}
+                  />
+                </div>
+                <div className="text-[var(--color-muted)]/70 text-xs md:text-sm font-light">
+                  יוצר את יצירת האמנות שלך...
+                </div>
+              </div>
+
+              <div className="text-[var(--color-muted)]/50 text-xs font-light tracking-wide mb-8">
+                POWERED BY GOOGLE GEMINI 2.5 FLASH IMAGE
+              </div>
+
+              {/* Inspiration Gallery */}
+              {inspirationArtworks.length > 0 && (
+                <div className="mt-12 pt-8 border-t border-[var(--color-gold)]/20">
+                  <h3 className="text-sm md:text-base font-heebo font-light text-[var(--color-gold)] mb-4">
+                    בזמן שאנחנו יוצרים, קבל השראה מיצירות אחרות:
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                    {inspirationArtworks.map((artwork, index) => (
+                      <div 
+                        key={artwork.id || index} 
+                        className="relative aspect-square rounded-lg overflow-hidden border border-[var(--color-gold)]/20 hover:border-[var(--color-gold)]/40 transition-all group"
+                      >
+                        <img
+                          src={artwork.image_url}
+                          alt={artwork.prompt || 'יצירת אמנות'}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          onError={(e) => {
+                            e.currentTarget.src = `https://picsum.photos/300/300?random=${index}`
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="absolute bottom-2 left-2 right-2">
+                            <p className="text-white text-xs font-heebo font-light line-clamp-2">
+                              {artwork.prompt || 'יצירה מרהיבה'}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Section 1 - Welcome Opening (replaces Hero) */}
       <section className="relative min-h-screen flex items-center justify-center px-4">
