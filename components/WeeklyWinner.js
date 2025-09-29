@@ -48,34 +48,14 @@ export default function WeeklyWinner() {
   if (loading) {
     return (
       <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
-              זוכה השבוע
-            </h3>
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-8"></div>
-            <p className="text-lg text-[var(--color-text)] font-heebo font-light leading-relaxed" dir="rtl">
-              היצירה שקיבלה את מירב הלייקים השבוע
-            </p>
-          </div>
+        <div className="max-w-4xl mx-auto text-center">
+          <h3 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-8 tracking-wide">
+            הזוכה השבועי
+          </h3>
+          <div className="w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-12"></div>
           
-          {/* Loading State */}
-          <div className="relative max-w-sm md:max-w-lg mx-auto mt-8 px-4 md:px-0">
-            <div className="relative p-3 md:p-6 bg-gradient-to-br from-[var(--color-gold)]/30 via-[var(--color-gold-dark)]/30 to-[var(--color-gold)]/30 rounded-sm shadow-2xl animate-pulse">
-              <div className="relative p-2 md:p-4 bg-gradient-to-br from-[var(--color-gold-dark)]/30 to-[var(--color-gold)]/30 rounded-sm">
-                <div className="relative bg-gradient-to-br from-[var(--color-gold)]/10 via-[var(--color-gold)]/5 to-[var(--color-gold)]/10 p-1 md:p-2 rounded-sm">
-                  <div className="aspect-square bg-gradient-to-br from-[var(--color-gold)]/20 to-transparent flex items-center justify-center">
-                    <span className="text-[var(--color-gold)] font-heebo font-light text-sm md:text-lg">טוען...</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="absolute -bottom-3 md:-bottom-4 left-1/2 transform -translate-x-1/2">
-                <div className="bg-gradient-to-br from-[var(--color-gold)]/50 to-[var(--color-gold-dark)]/50 px-3 md:px-6 py-1 md:py-2 rounded shadow-lg">
-                  <div className="h-3 md:h-4 bg-[var(--color-gold)]/30 rounded animate-pulse w-16 md:w-24"></div>
-                </div>
-              </div>
-            </div>
+          <div className="flex justify-center">
+            <span className="text-[var(--color-gold)] font-heebo font-light text-lg">טוען...</span>
           </div>
         </div>
       </section>
@@ -85,40 +65,14 @@ export default function WeeklyWinner() {
   if (!winner) {
     return (
       <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8 md:mb-12">
-            <h3 className="text-2xl md:text-3xl lg:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide px-4">
-              זוכה השבוע
-            </h3>
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-6 md:mb-8"></div>
-            <p className="text-base md:text-lg text-[var(--color-text)] font-heebo font-light leading-relaxed px-4 max-w-2xl mx-auto" dir="rtl">
-              היצירה שקיבלה את מירב הלייקים השבוע
-            </p>
-          </div>
+        <div className="max-w-4xl mx-auto text-center">
+          <h3 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-8 tracking-wide">
+            הזוכה השבועי
+          </h3>
+          <div className="w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-12"></div>
           
-          {/* No Winner State */}
-          <div className="relative max-w-sm md:max-w-lg mx-auto mt-8 px-4 md:px-0">
-            <div className="relative p-3 md:p-6 bg-gradient-to-br from-[var(--color-gold)] via-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm shadow-2xl">
-              <div className="relative p-2 md:p-4 bg-gradient-to-br from-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm">
-                <div className="relative bg-gradient-to-br from-[var(--color-gold)]/10 via-[var(--color-gold)]/5 to-[var(--color-gold)]/10 p-1 md:p-2 rounded-sm shadow-inner">
-                  <div className="aspect-square bg-gradient-to-br from-[var(--color-gold)]/10 to-transparent flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-4 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/5 rounded flex items-center justify-center">
-                        <span className="text-[var(--color-gold)] font-heebo font-light text-xs md:text-sm">יצירה זוכה בקרוב</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="absolute -bottom-3 md:-bottom-4 left-1/2 transform -translate-x-1/2">
-                <div className="bg-gradient-to-br from-[var(--color-gold)] to-[var(--color-gold-dark)] px-3 md:px-6 py-1 md:py-2 rounded shadow-lg border border-[var(--color-gold-dark)]">
-                  <span className="text-[var(--color-bg)] font-heebo font-semibold text-xs md:text-sm tracking-wide">
-                    Creator of the Week
-                  </span>
-                </div>
-              </div>
-            </div>
+          <div className="flex justify-center">
+            <span className="text-[var(--color-muted)] font-heebo font-light text-lg">בקרוב ייבחר הזוכה השבועי</span>
           </div>
         </div>
       </section>
@@ -127,70 +81,50 @@ export default function WeeklyWinner() {
 
   return (
     <section className="py-16 px-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8 md:mb-12">
-          <h3 className="text-2xl md:text-3xl lg:text-4xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide px-4">
-            זוכה השבוע
-          </h3>
-          <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-6 md:mb-8"></div>
-          <p className="text-base md:text-lg text-[var(--color-text)] font-heebo font-light leading-relaxed px-4 max-w-2xl mx-auto" dir="rtl">
-            היצירה שקיבלה את מירב הלייקים השבוע
-          </p>
-        </div>
+      <div className="max-w-4xl mx-auto text-center">
+        {/* כותרת הזוכה השבועי */}
+        <h3 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-8 tracking-wide">
+          הזוכה השבועי
+        </h3>
+        <div className="w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-12"></div>
         
-        {/* Winner Card Container */}
-        <div className="relative max-w-sm md:max-w-lg mx-auto mt-8 px-4 md:px-0">
-          {/* Museum-Style Gold Frame */}
-          <div className="relative p-3 md:p-6 bg-gradient-to-br from-[var(--color-gold)] via-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm shadow-2xl">
-            {/* Inner Frame */}
-            <div className="relative p-2 md:p-4 bg-gradient-to-br from-[var(--color-gold-dark)] to-[var(--color-gold)] rounded-sm">
-              {/* Frame Border Details */}
-              <div className="absolute inset-1 md:inset-2 border border-[var(--color-gold)]/60 md:border-2 rounded-sm"></div>
-              <div className="absolute inset-0.5 md:inset-1 border border-[var(--color-gold)]/30 rounded-sm"></div>
-              
-              {/* Image Container */}
-              <div className="relative bg-gradient-to-br from-[var(--color-gold)]/10 via-[var(--color-gold)]/5 to-[var(--color-gold)]/10 p-1 md:p-2 rounded-sm shadow-inner">
-                <div className="relative overflow-hidden rounded-sm">
-                  <img
-                    src={winner.image_url}
-                    alt={winner.prompt || 'יצירת אמנות זוכה'}
-                    className="w-full h-auto aspect-square object-cover"
-                    onError={(e) => {
-                      e.currentTarget.src = `https://picsum.photos/400/400?random=${Math.floor(Math.random() * 200)}`
-                    }}
-                  />
-                  
-                  {/* Winner Info Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-2 md:p-4">
-                    <div className="text-center w-full">
-                      <h4 className="text-sm md:text-lg lg:text-xl font-heebo font-medium text-white mb-1">
-                        {winner.user_name || 'אמן אנונימי'}
-                      </h4>
-                      <p className="text-white/90 font-heebo font-light mb-2 md:mb-3 text-xs md:text-sm line-clamp-2">
-                        {winner.prompt || 'יצירת אמנות מרהיבה'}
-                      </p>
-                      <div className="flex items-center justify-center gap-1 md:gap-2 text-[var(--color-gold)]">
-                        <svg className="w-3 h-3 md:w-4 md:h-4 fill-current" viewBox="0 0 24 24">
-                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                        <span className="font-heebo font-medium text-xs md:text-sm">
-                          {winner.likes || 0} לייקים
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Museum Plaque */}
-            <div className="absolute -bottom-3 md:-bottom-4 left-1/2 transform -translate-x-1/2">
-              <div className="bg-gradient-to-br from-[var(--color-gold)] to-[var(--color-gold-dark)] px-3 md:px-6 py-1 md:py-2 rounded shadow-lg border border-[var(--color-gold-dark)]">
-                <span className="text-[var(--color-bg)] font-heebo font-semibold text-xs md:text-sm tracking-wide">
-                  Creator of the Week
-                </span>
-              </div>
-            </div>
+        {/* מסגרת עם תמונה */}
+        <div className="relative max-w-lg mx-auto">
+          {/* תמונת המסגרת כרקע */}
+          <img 
+            src="/imgs/frame.png" 
+            alt="מסגרת זהב" 
+            className="w-full h-auto"
+          />
+          
+          {/* התמונה של הזוכה בתוך המסגרת */}
+          <div className="absolute inset-0 flex items-center justify-center p-8 md:p-12">
+            <img
+              src={winner.image_url}
+              alt={winner.prompt || 'יצירת אמנות זוכה'}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.currentTarget.src = `https://picsum.photos/400/400?random=${Math.floor(Math.random() * 200)}`
+              }}
+            />
+          </div>
+        </div>
+
+        {/* פרטי הזוכה */}
+        <div className="mt-8">
+          <h4 className="text-xl md:text-2xl font-heebo font-medium text-[var(--color-text)] mb-2">
+            {winner.user_name || 'אמן אנונימי'}
+          </h4>
+          <p className="text-[var(--color-muted)] font-heebo font-light mb-4 max-w-2xl mx-auto" dir="rtl">
+            {winner.prompt || 'יצירת אמנות מרהיבה'}
+          </p>
+          <div className="flex items-center justify-center gap-2 text-[var(--color-gold)]">
+            <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span className="font-heebo font-medium text-lg">
+              {winner.likes || 0} לייקים
+            </span>
           </div>
         </div>
       </div>
