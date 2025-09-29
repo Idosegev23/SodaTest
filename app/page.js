@@ -165,19 +165,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section 3 - Weekly Winner (Compact) */}
-      <section className="py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
-              יוצר השבוע
-            </h3>
-            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
-          </div>
-          
-          <WeeklyWinner />
-        </div>
-      </section>
+      {/* Section 3 - Weekly Winner */}
+      <WeeklyWinner />
 
       {/* Section 4 - Selected Artworks (Compact Row) */}
       <section className="py-12 px-4">
@@ -199,7 +188,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section 5 - Judges (Compact Banner) */}
+      {/* Section 5 - Marquee Gallery - גלריית יצירות הגולשים */}
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto text-center mb-8 px-4">
+          <h3 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
+            גלריית יצירות הגולשים
+          </h3>
+          <div className="w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
+        </div>
+        
+        <MarqueeGallery />
+      </section>
+
+      {/* Section 6 - Judges (Compact Banner) */}
       <section className="py-12 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
@@ -262,7 +263,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section 6 - Hero Section (moved to bottom) */}
+      {/* Section 7 - Hero Section (moved to bottom) */}
       <section id="final-section" className="relative min-h-screen flex flex-col">
         {/* Light Rays Effect */}
         <div className="absolute inset-0 z-1">
