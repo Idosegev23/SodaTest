@@ -90,15 +90,8 @@ export default function WeeklyWinner() {
         
         {/* מסגרת עם תמונה */}
         <div className="relative max-w-lg mx-auto">
-          {/* תמונת המסגרת כרקע */}
-          <img 
-            src="/imgs/frame.png" 
-            alt="מסגרת זהב" 
-            className="w-full h-auto"
-          />
-          
-          {/* התמונה של הזוכה בתוך המסגרת */}
-          <div className="absolute inset-0 flex items-center justify-center p-8 md:p-12">
+          {/* התמונה של הזוכה ברקע */}
+          <div className="absolute inset-0 flex items-center justify-center p-8 md:p-12 z-0">
             <img
               src={winner.image_url}
               alt={winner.prompt || 'יצירת אמנות זוכה'}
@@ -108,6 +101,13 @@ export default function WeeklyWinner() {
               }}
             />
           </div>
+          
+          {/* תמונת המסגרת מעל */}
+          <img 
+            src="/imgs/frame.png" 
+            alt="מסגרת זהב" 
+            className="w-full h-auto relative z-10"
+          />
         </div>
 
         {/* פרטי הזוכה */}
