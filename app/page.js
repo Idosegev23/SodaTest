@@ -93,11 +93,11 @@ export default function HomePage() {
           {/* Logo - Centered */}
           <div className="flex-1 flex justify-center">
             <div className="text-center">
-              <img 
+                 <img 
                    src="/logo.png" 
                    alt="SodaStream ENSŌ" 
                    className="h-8 md:h-10 w-auto mb-3"
-              />
+                 />
               <p className="text-[var(--color-gold)] text-xs md:text-sm font-heebo font-light tracking-wide">
                 ההרמוניה שבין עיצוב לטכנולוgiה פורצת דרך
               </p>
@@ -130,8 +130,8 @@ export default function HomePage() {
           <div className="space-y-4 text-[var(--color-text)] font-heebo font-light text-lg md:text-xl leading-relaxed mb-12" dir="rtl">
             <p>כאן אתם לא רק צופים - אתם יוצרים.</p>
             <p className="text-[var(--color-gold)] font-medium">זו ההזדמנות שלכם לקחת חלק במהלך עולמי שמטשטש גבולות בין מוצר, אמנות וחדשנות.</p>
-          </div>
-
+               </div>
+        
           {/* Call to Action Button */}
           <PremiumButton
             variant="primary"
@@ -301,8 +301,8 @@ export default function HomePage() {
         {/* Logo and Product - Centered */}
         <div className="relative z-10 flex-1 flex items-center justify-center pt-32 md:pt-40">
           <div className="text-center px-4">
-            <img 
-              src="/logo.png" 
+                   <img 
+                     src="/logo.png" 
               alt="SodaStream ENSŌ" 
               className="h-16 md:h-24 lg:h-32 w-auto drop-shadow-2xl mx-auto mb-8"
             />
@@ -311,15 +311,15 @@ export default function HomePage() {
             <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 md:p-8 max-w-2xl mx-auto mb-8">
               <p className="text-white/80 font-heebo font-light text-sm md:text-base leading-relaxed tracking-wider italic text-center" dir="rtl">
                 "ENSŌ<sup className="text-[var(--color-gold)] text-xs">®</sup> חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת."
-              </p>
-              
-              {/* Signature */}
+            </p>
+            
+            {/* Signature */}
               <div className="flex justify-center mt-6">
-                <img
-                  src="/imgs/Signature.png"
-                  alt="חתימה"
+              <img
+                src="/imgs/Signature.png"
+                alt="חתימה"
                   className="h-8 md:h-12 w-auto filter invert"
-                />
+              />
               </div>
             </div>
 
