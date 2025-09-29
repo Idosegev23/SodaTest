@@ -10,6 +10,7 @@ import LightRaysAdvanced from '../components/LightRaysAdvanced'
 import WeeklyWinner from '../components/WeeklyWinner'
 import PromptForm from '../components/PromptForm'
 import UserDetailsModal from '../components/UserDetailsModal'
+import Threads from '../components/Threads'
 import { addToQueue, checkQueueStatus, getCompletedArtwork, getArtworks } from '../lib/supabaseClient'
 
 export default function HomePage() {
@@ -387,6 +388,16 @@ export default function HomePage() {
 
       {/* Section 1 - Welcome Opening (replaces Hero) */}
       <section className="relative min-h-screen flex items-center justify-center px-4">
+        {/* Threads Animation Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+          <Threads
+            color={[0.83, 0.69, 0.27]}
+            amplitude={5}
+            distance={1.2}
+            enableMouseInteraction={true}
+          />
+        </div>
+        
         {/* Technical Illustration Background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           {/* Blueprint Grid Background */}
