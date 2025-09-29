@@ -452,6 +452,55 @@ export default function HomePage() {
           
           {/* Radial Fade Overlay */}
           <div className="absolute inset-0 bg-gradient-radial from-transparent via-[var(--color-bg)]/40 to-[var(--color-bg)]"></div>
+          
+          {/* Product Blueprint - Right Side */}
+          <div className="absolute right-0 md:right-10 top-1/2 -translate-y-1/2 z-0 hidden md:block">
+            <div className="relative">
+              {/* Product Image with Blueprint Style */}
+              <img 
+                src="/file.png" 
+                alt="SodaStream ENSŌ Technical Drawing" 
+                className="w-64 lg:w-80 h-auto object-contain opacity-20 mix-blend-luminosity"
+                style={{ filter: 'contrast(1.5) brightness(1.2)' }}
+              />
+              
+              {/* Technical Overlay Lines on Product */}
+              <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+                {/* Dimension Lines Around Product */}
+                <line x1="10%" y1="20%" x2="90%" y2="20%" stroke="var(--color-gold)" strokeWidth="0.5" strokeDasharray="3,3" opacity="0.6" />
+                <line x1="10%" y1="80%" x2="90%" y2="80%" stroke="var(--color-gold)" strokeWidth="0.5" strokeDasharray="3,3" opacity="0.6" />
+                <line x1="20%" y1="10%" x2="20%" y2="90%" stroke="var(--color-gold)" strokeWidth="0.5" strokeDasharray="3,3" opacity="0.6" />
+                <line x1="80%" y1="10%" x2="80%" y2="90%" stroke="var(--color-gold)" strokeWidth="0.5" strokeDasharray="3,3" opacity="0.6" />
+                
+                {/* Annotation Arrows */}
+                <g opacity="0.5">
+                  <line x1="85%" y1="30%" x2="95%" y2="25%" stroke="var(--color-gold)" strokeWidth="0.5" />
+                  <line x1="85%" y1="50%" x2="95%" y2="50%" stroke="var(--color-gold)" strokeWidth="0.5" />
+                  <line x1="85%" y1="70%" x2="95%" y2="75%" stroke="var(--color-gold)" strokeWidth="0.5" />
+                </g>
+                
+                {/* Corner Registration Marks */}
+                <g stroke="var(--color-gold)" strokeWidth="1" fill="none" opacity="0.4">
+                  <path d="M 5% 5% L 5% 15% M 5% 5% L 15% 5%" />
+                  <path d="M 95% 5% L 95% 15% M 95% 5% L 85% 5%" />
+                  <path d="M 5% 95% L 5% 85% M 5% 95% L 15% 95%" />
+                  <path d="M 95% 95% L 95% 85% M 95% 95% L 85% 95%" />
+                </g>
+              </svg>
+            </div>
+          </div>
+          
+          {/* Product Blueprint - Left Side (Mobile Alternative) */}
+          <div className="absolute left-0 md:left-10 bottom-20 z-0 md:hidden">
+            <div className="relative opacity-30">
+              <img 
+                src="/file.png" 
+                alt="SodaStream ENSŌ" 
+                className="w-32 h-auto object-contain mix-blend-luminosity"
+                style={{ filter: 'contrast(1.5) brightness(1.2)' }}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
