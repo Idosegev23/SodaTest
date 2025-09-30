@@ -326,10 +326,10 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Processing Screen Overlay */}
+      {/* Processing Screen Overlay - Premium Design */}
       {isProcessing && (
-        <div className="fixed inset-0 z-[9999] bg-[var(--color-bg)]/95 backdrop-blur-sm flex items-center justify-center">
-          <div className="max-w-xl w-full mx-auto px-4 text-center relative">
+        <div className="fixed inset-0 z-[9999] bg-gradient-to-br from-[var(--color-bg)] via-[var(--color-bg)]/98 to-[var(--color-bg)]/95 backdrop-blur-md flex items-center justify-center">
+          <div className="max-w-2xl w-full mx-auto px-4 text-center relative">
             {/* כפתור סגירה */}
             <button
               onClick={() => {
@@ -340,75 +340,128 @@ export default function HomePage() {
                   setProcessingStage(0)
                 }
               }}
-              className="absolute top-0 right-4 md:right-0 text-[var(--color-muted)] hover:text-[var(--color-gold)] transition-colors z-10"
+              className="absolute -top-12 left-1/2 -translate-x-1/2 md:top-0 md:left-auto md:right-0 md:translate-x-0 text-[var(--color-muted)] hover:text-[var(--color-gold)] transition-colors z-10 group"
               aria-label="סגור"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <div className="w-10 h-10 rounded-full border border-[var(--color-gold)]/20 group-hover:border-[var(--color-gold)]/40 flex items-center justify-center transition-all">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
             </button>
 
-            <div className="bg-[var(--color-bg)] rounded-lg border border-[var(--color-gold)]/20 p-6">
-              <div className="mb-4">
-                <h2 className="text-lg md:text-xl font-light text-[var(--color-text)] mb-2 tracking-wide font-heebo">יוצר את יצירת האמנות שלך</h2>
-                <p className="text-[var(--color-muted)] text-xs mb-2">זמן משוער: 1-3 דקות</p>
-                <div className="w-12 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
-              </div>
-
-              {/* Premium AI animation */}
-              <div className="relative w-16 md:w-20 h-16 md:h-20 mx-auto mb-4">
-                <div className="absolute inset-0 border border-[var(--color-gold)]/30 rounded-full animate-spin" style={{ animationDuration: '3s' }}></div>
-                <div className="absolute inset-2 border border-[var(--color-gold)]/20 rounded-full animate-spin" style={{ animationDuration: '2s', animationDirection: 'reverse' }}></div>
-                <div className="absolute inset-4 bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-gold)]/30 rounded-full flex items-center justify-center">
-                  <span className="text-sm md:text-base font-light text-[var(--color-gold)] tracking-wider font-heebo">AI</span>
-                </div>
-              </div>
-
-              {/* Process stage */}
-              <div className="mb-3">
-                <h3 className="text-xs md:text-sm font-light text-[var(--color-text)] transition-all">
-                  {processingStages[processingStage]}
-                </h3>
-              </div>
-
-              {/* Infinite progress bar */}
-              <div className="mb-4">
-                <div className="w-full bg-[var(--color-muted)]/10 rounded-full h-1 mb-2 overflow-hidden">
-                  <div
-                    className="bg-gradient-to-r from-[var(--color-gold)] via-[var(--color-gold)]/80 to-[var(--color-gold)] h-1 rounded-full animate-pulse"
-                    style={{ width: '100%' }}
+            {/* Main Card */}
+            <div className="bg-[var(--color-bg)]/50 backdrop-blur-sm rounded-2xl border border-[var(--color-gold)]/30 p-8 md:p-10 shadow-2xl">
+              
+              {/* Premium Circular Timer */}
+              <div className="relative w-40 h-40 md:w-48 md:h-48 mx-auto mb-8">
+                {/* Outer rotating ring */}
+                <svg className="absolute inset-0 w-full h-full -rotate-90">
+                  <circle
+                    cx="50%"
+                    cy="50%"
+                    r="45%"
+                    fill="none"
+                    stroke="var(--color-gold)"
+                    strokeWidth="2"
+                    strokeOpacity="0.1"
                   />
+                  <circle
+                    cx="50%"
+                    cy="50%"
+                    r="45%"
+                    fill="none"
+                    stroke="var(--color-gold)"
+                    strokeWidth="2"
+                    strokeDasharray="283"
+                    strokeDashoffset="0"
+                    className="animate-spin origin-center"
+                    style={{ animationDuration: '3s', strokeLinecap: 'round' }}
+                  >
+                    <animate attributeName="stroke-dashoffset" from="0" to="283" dur="3s" repeatCount="indefinite" />
+                  </circle>
+                </svg>
+
+                {/* Middle pulsing circle */}
+                <div className="absolute inset-8 rounded-full bg-gradient-to-br from-[var(--color-gold)]/20 via-[var(--color-gold)]/10 to-transparent animate-pulse" style={{ animationDuration: '2s' }}></div>
+
+                {/* Inner content */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <div className="text-4xl md:text-5xl font-poppins font-light text-[var(--color-gold)] mb-1 tabular-nums">
+                    {Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')}
+                  </div>
+                  <div className="text-xs md:text-sm font-rubik font-light text-[var(--color-muted)]">
+                    דקות
+                  </div>
                 </div>
-                <div className="text-[var(--color-muted)]/70 text-xs font-light">
-                  ({Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')})
+
+                {/* Orbiting dots */}
+                <div className="absolute inset-0">
+                  <div className="absolute top-0 left-1/2 w-2 h-2 bg-[var(--color-gold)] rounded-full -translate-x-1/2 animate-ping"></div>
+                  <div className="absolute top-0 left-1/2 w-2 h-2 bg-[var(--color-gold)] rounded-full -translate-x-1/2"></div>
                 </div>
+              </div>
+
+              {/* Title & Status */}
+              <div className="mb-6">
+                <h2 className="text-2xl md:text-3xl font-rubik font-light text-[var(--color-text)] mb-3 tracking-wide">
+                  יוצר את יצירת האמנות שלך
+                </h2>
+                <div className="w-20 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-4"></div>
+                
+                {/* Process stage with smooth transition */}
+                <div className="relative h-8 overflow-hidden">
+                  <p className="text-sm md:text-base font-rubik font-light text-[var(--color-gold)] transition-all duration-500 animate-pulse">
+                    {processingStages[processingStage]}
+                  </p>
+                </div>
+              </div>
+
+              {/* Animated progress dots */}
+              <div className="flex justify-center gap-2 mb-8">
+                {[0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className="w-2 h-2 rounded-full bg-[var(--color-gold)]"
+                    style={{
+                      animation: 'pulse 1.5s ease-in-out infinite',
+                      animationDelay: `${i * 0.2}s`
+                    }}
+                  />
+                ))}
               </div>
 
               {/* Inspiration Gallery */}
               {inspirationArtworks.length > 0 && (
-                <div className="mt-6 pt-4 border-t border-[var(--color-gold)]/20">
-                  <h3 className="text-xs md:text-sm font-heebo font-light text-[var(--color-gold)] mb-3">
-                    השראה מיצירות אחרות:
+                <div className="mt-8 pt-6 border-t border-[var(--color-gold)]/20">
+                  <h3 className="text-sm md:text-base font-rubik font-light text-[var(--color-text)]/80 mb-4">
+                    בזמן ההמתנה • השראה מיצירות אחרות:
                   </h3>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-3 gap-3 md:gap-4">
                     {inspirationArtworks.slice(0, 3).map((artwork, index) => (
                       <div 
                         key={artwork.id || index} 
-                        className="relative aspect-square rounded overflow-hidden border border-[var(--color-gold)]/20"
+                        className="group relative aspect-square rounded-lg overflow-hidden border-2 border-[var(--color-gold)]/20 hover:border-[var(--color-gold)]/40 transition-all duration-300"
                       >
                         <img
                           src={artwork.image_url}
                           alt={artwork.prompt || 'יצירת אמנות'}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           onError={(e) => {
                             e.currentTarget.src = `https://picsum.photos/200/200?random=${index}`
                           }}
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
+
+              {/* Bottom hint */}
+              <div className="mt-6 text-xs md:text-sm text-[var(--color-muted)]/60 font-rubik font-light">
+                זמן יצירה משוער: 1-3 דקות
+              </div>
             </div>
           </div>
         </div>
