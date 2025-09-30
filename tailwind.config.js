@@ -15,9 +15,9 @@ module.exports = {
         'gold': 'var(--color-gold)',
       },
       fontFamily: {
-        'heebo': ['var(--font-heebo)', 'sans-serif'],
-        'playfair': ['var(--font-playfair)', 'serif'],
-        'inter': ['var(--font-inter)', 'sans-serif'],
+        'poppins': ['var(--font-poppins)', 'sans-serif'],
+        'rubik': ['var(--font-rubik)', 'sans-serif'],
+        'heebo': ['var(--font-rubik)', 'sans-serif'], // Backwards compatibility
       },
       keyframes: {
         scroll: {
