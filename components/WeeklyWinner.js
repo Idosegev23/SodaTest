@@ -93,7 +93,7 @@ export default function WeeklyWinner() {
           <img
             src={winner.image_url}
             alt={winner.prompt || 'יצירת אמנות זוכה'}
-            className="w-full aspect-square object-cover border-4 border-[var(--color-gold)] shadow-2xl shadow-[var(--color-gold)]/20"
+            className="w-full aspect-square object-cover border-8 border-[var(--color-gold)] shadow-2xl shadow-[var(--color-gold)]/20"
             onError={(e) => {
               e.currentTarget.src = `https://picsum.photos/400/400?random=${Math.floor(Math.random() * 200)}`
             }}
