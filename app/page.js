@@ -782,7 +782,16 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="bg-[var(--color-bg)] border-t border-[var(--color-gold-border)] py-8 px-4 relative z-20">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="mt-6 text-[var(--color-muted)]/60 text-xs font-heebo font-light">
+          {/* SodaStream Logo */}
+          <div className="mb-4">
+            <img 
+              src="/imgs/SodaLogo.png" 
+              alt="SodaStream" 
+              className="h-6 md:h-8 w-auto mx-auto opacity-70"
+            />
+          </div>
+          
+          <div className="text-[var(--color-muted)]/60 text-xs font-rubik font-light">
             © 2025 SodaStream ensō Campaign • Powered by AI
           </div>
         </div>
