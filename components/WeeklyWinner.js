@@ -88,25 +88,15 @@ export default function WeeklyWinner() {
         </h3>
         <div className="w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-12"></div>
         
-        {/* מסגרת עם תמונה */}
+        {/* מסגרת זהב פשוטה */}
         <div className="relative max-w-lg mx-auto">
-          {/* התמונה של הזוכה ברקע */}
-          <div className="absolute inset-0 flex items-center justify-center p-8 md:p-12 z-0">
-            <img
-              src={winner.image_url}
-              alt={winner.prompt || 'יצירת אמנות זוכה'}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.currentTarget.src = `https://picsum.photos/400/400?random=${Math.floor(Math.random() * 200)}`
-              }}
-            />
-          </div>
-          
-          {/* תמונת המסגרת מעל */}
-          <img 
-            src="/imgs/frame.png" 
-            alt="מסגרת זהב" 
-            className="w-full h-auto relative z-10"
+          <img
+            src={winner.image_url}
+            alt={winner.prompt || 'יצירת אמנות זוכה'}
+            className="w-full aspect-square object-cover rounded-lg border-4 border-[var(--color-gold)] shadow-2xl shadow-[var(--color-gold)]/20"
+            onError={(e) => {
+              e.currentTarget.src = `https://picsum.photos/400/400?random=${Math.floor(Math.random() * 200)}`
+            }}
           />
         </div>
 
