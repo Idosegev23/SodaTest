@@ -549,12 +549,23 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Logo and Tagline */}
           <div className="mb-12">
+            {/* SodaStream Main Logo */}
+            <div className="mb-8">
+              <img 
+                src="/imgs/SodaLogo.png" 
+                alt="SodaStream" 
+                className="h-8 md:h-10 w-auto mx-auto opacity-90"
+              />
+            </div>
+            
+            {/* ENSŌ Logo */}
                  <img 
                    src="/logo.png" 
-              alt="SodaStream ENSŌ" 
+              alt="SodaStream ensō" 
               className="h-16 md:h-20 lg:h-24 w-auto mx-auto mb-6"
                  />
-            <p className="text-[var(--color-gold)] text-base md:text-lg font-heebo font-light tracking-wide">
+            
+            <p className="text-[var(--color-gold)] text-base md:text-lg font-rubik font-light tracking-wide">
                    ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
                  </p>
                </div>
