@@ -687,17 +687,19 @@ export default function HomePage() {
 
           {/* CTA Button */}
           <div className="text-center mt-12">
-            <button
+          <PremiumButton
+            variant="primary"
               onClick={() => {
                 const createSection = document.querySelector('section.py-12.px-4.bg-gradient-to-b')
                 if (createSection) {
                   createSection.scrollIntoView({ behavior: 'smooth', block: 'center' })
                 }
               }}
-              className="px-8 py-4 bg-[var(--color-gold)] text-black font-rubik font-bold text-lg rounded-lg hover:bg-[var(--color-gold)]/90 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-[var(--color-gold)]/30 hover:scale-105"
+              className="text-lg font-rubik font-medium tracking-wide px-12 py-4"
+              aria-label="גלול לסקשן יצירה"
             >
               צור את היצירה שלך עכשיו →
-            </button>
+          </PremiumButton>
           </div>
         </div>
       </section>
