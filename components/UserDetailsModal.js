@@ -184,8 +184,9 @@ export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading 
                         disabled={isLoading}
                         aria-describedby={errors.consent ? "consent-error" : "consent-help"}
                       />
-                      <span className="text-sm font-heebo text-[var(--color-muted)] leading-relaxed">
-                        אני מאשר/ת קבלת עדכונים ושיווק מ-SodaStream, ומסכים/ה ל
+                      <span className="text-sm font-rubik text-[var(--color-muted)] leading-relaxed" dir="rtl">
+                        ההרשמה להשתתפות בתחרות מהווה הסכמה לקבלת דיוור שיווקי מסודהסטרים. באפשרותך לבקש את הסרתך מרשימת התפוצה בכל עת.
+                        {' '}
                         <a 
                           href="/terms" 
                           className="text-[var(--color-gold)] hover:underline focus:underline focus:outline-none"
@@ -194,7 +195,7 @@ export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading 
                         >
                           תנאי השימוש
                         </a>
-                        {' '}ול
+                        {' '}•{' '}
                         <a 
                           href="/privacy" 
                           className="text-[var(--color-gold)] hover:underline focus:underline focus:outline-none"
@@ -208,9 +209,6 @@ export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading 
                     {errors.consent && (
                       <p id="consent-error" className="mt-2 text-sm text-red-400">{errors.consent}</p>
                     )}
-                    <p id="consent-help" className="mt-2 text-xs text-[var(--color-muted)]/70 font-heebo">
-                      * נדרש לצורך יצירת האמנות ושליחתה אליך
-                    </p>
                   </div>
 
                   <div className="flex gap-4 pt-6">

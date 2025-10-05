@@ -611,6 +611,97 @@ export default function HomePage() {
       {/* Section 3 - Weekly Winner */}
       <WeeklyWinner />
 
+      {/* Section 3.5 - Promotion & Prizes - הנחה ופרסים */}
+      <section className="py-16 px-4 bg-gradient-to-br from-[var(--color-gold)]/10 via-[var(--color-bg)] to-[var(--color-gold)]/5 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-10 right-10 w-64 h-64 bg-[var(--color-gold)] rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 left-10 w-64 h-64 bg-[var(--color-gold)] rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          {/* Main Announcement */}
+          <div className="text-center mb-12">
+            <div className="inline-block mb-6 px-6 py-3 bg-[var(--color-gold)]/20 border-2 border-[var(--color-gold)] rounded-full">
+              <span className="text-[var(--color-gold)] font-rubik font-bold text-lg md:text-xl">
+                🎁 השתתפות בפעילות מזכה!
+              </span>
+            </div>
+            
+            <h3 className="text-3xl md:text-5xl font-rubik font-bold text-[var(--color-text)] mb-6 leading-tight" dir="rtl">
+              קבלו <span className="text-[var(--color-gold)]">10% הנחה</span> על רכישת ensō
+            </h3>
+            
+            <p className="text-[var(--color-muted)] font-rubik text-lg md:text-xl mb-2" dir="rtl">
+              הנחה חד פעמית • לתקופה מוגבלת
+            </p>
+            <p className="text-[var(--color-gold)] font-rubik text-sm md:text-base" dir="rtl">
+              ⏰ ההצעה בתוקף עד סוף התחרות
+            </p>
+          </div>
+
+          {/* Prizes Grid */}
+          <div className="mt-12">
+            <h4 className="text-2xl md:text-3xl font-rubik font-light text-[var(--color-text)] text-center mb-8" dir="rtl">
+              הפרסים השווים שמחכים לכם
+            </h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Prize 1 - Weekly Winner */}
+              <div className="bg-[var(--color-bg)] border-2 border-[var(--color-gold)] rounded-lg p-6 text-center hover:shadow-2xl hover:shadow-[var(--color-gold)]/20 transition-all duration-300 hover:scale-105">
+                <div className="text-4xl mb-4">🏆</div>
+                <h5 className="text-xl font-rubik font-bold text-[var(--color-gold)] mb-3" dir="rtl">
+                  זוכה שבועי
+                </h5>
+                <p className="text-[var(--color-text)] font-rubik text-sm leading-relaxed" dir="rtl">
+                  כל שבוע נבחר עיצוב זוכה שיזכה באחד מהפרסים הנחשקים שלנו
+                </p>
+              </div>
+
+              {/* Prize 2 - Grand Prize */}
+              <div className="bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-bg)] border-2 border-[var(--color-gold)] rounded-lg p-6 text-center hover:shadow-2xl hover:shadow-[var(--color-gold)]/30 transition-all duration-300 hover:scale-105 relative">
+                <div className="absolute -top-3 -right-3 bg-[var(--color-gold)] text-black text-xs font-rubik font-bold px-3 py-1 rounded-full">
+                  הפרס הגדול
+                </div>
+                <div className="text-4xl mb-4">⭐</div>
+                <h5 className="text-xl font-rubik font-bold text-[var(--color-gold)] mb-3" dir="rtl">
+                  היצירה הייחודית ביותר
+                </h5>
+                <p className="text-[var(--color-text)] font-rubik text-sm leading-relaxed" dir="rtl">
+                  נבחרת השופטים תבחר את היצירה הייחודית ביותר והיוצר יקבל במתנה מכשיר ensō יוקרתי
+                </p>
+              </div>
+
+              {/* Prize 3 - Discount */}
+              <div className="bg-[var(--color-bg)] border-2 border-[var(--color-gold)] rounded-lg p-6 text-center hover:shadow-2xl hover:shadow-[var(--color-gold)]/20 transition-all duration-300 hover:scale-105">
+                <div className="text-4xl mb-4">🎟️</div>
+                <h5 className="text-xl font-rubik font-bold text-[var(--color-gold)] mb-3" dir="rtl">
+                  הנחה לכולם
+                </h5>
+                <p className="text-[var(--color-text)] font-rubik text-sm leading-relaxed" dir="rtl">
+                  כל משתתף מקבל קוד הנחה של 10% לרכישת מכשיר ensō
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <div className="text-center mt-12">
+            <button
+              onClick={() => {
+                const createSection = document.querySelector('section.py-12.px-4.bg-gradient-to-b')
+                if (createSection) {
+                  createSection.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                }
+              }}
+              className="px-8 py-4 bg-[var(--color-gold)] text-black font-rubik font-bold text-lg rounded-lg hover:bg-[var(--color-gold)]/90 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-[var(--color-gold)]/30 hover:scale-105"
+            >
+              צור את היצירה שלך עכשיו →
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Section 4 - Judges Panel - נבחרת השופטים היוקרתית */}
       <section className="py-16 px-4 bg-gradient-to-b from-transparent via-[var(--color-gold)]/5 to-transparent">
         <div className="max-w-6xl mx-auto">
@@ -783,12 +874,18 @@ export default function HomePage() {
       <footer className="bg-[var(--color-bg)] border-t border-[var(--color-gold-border)] py-8 px-4 relative z-20">
         <div className="max-w-4xl mx-auto text-center">
           {/* SodaStream Logo */}
-          <div className="mb-4">
+          <div className="mb-6">
             <img 
               src="/imgs/SodaLogo.png" 
               alt="SodaStream" 
               className="h-6 md:h-8 w-auto mx-auto opacity-70"
             />
+          </div>
+          
+          {/* Disclaimer */}
+          <div className="mb-4 text-[var(--color-muted)]/70 text-xs font-rubik font-light leading-relaxed max-w-3xl mx-auto" dir="rtl">
+            עמוד זה משתמש ביצירת תמונות באמצעות בינה מלאכותית המופעלת על ידי חברת אל.די.אר.אס גרופ בע"מ, ח.פ. 51559692. 
+            התמונה שלך עשויה להיות מוצגת באופן פומבי לצורך הצבעה, והיא נשמרת רק למשך תקופת התחרות.
           </div>
           
           <div className="text-[var(--color-muted)]/60 text-xs font-rubik font-light">
