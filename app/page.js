@@ -801,7 +801,7 @@ export default function HomePage() {
         ></div>
         
         {/* Logo and Product - Centered */}
-        <div className="relative z-10 flex-1 flex items-center justify-center pt-32 md:pt-40">
+        <div className="relative z-10 flex-1 flex items-center justify-center" style={{ paddingRight: '390px', paddingTop: '182px' }}>
           <div className="text-center px-4">
                    <img 
                      src="/logo.png" 
