@@ -106,18 +106,13 @@ export default function PromptForm({ onSubmit, isLoading, compact = false }) {
     <div className="w-full max-w-3xl mx-auto">
       <form onSubmit={handleSubmit} className={compact ? "space-y-4" : "space-y-8"}>
         <div>
-          <label 
-            htmlFor="artwork-prompt"
-            className="block text-xl font-heebo font-light text-[var(--color-text)] mb-6 text-center"
-          >
-            תאר את היצירה שתרצה ליצור
-          </label>
-          <div className="relative">
+          <div className="relative" style={{ padding: '10px' }}>
             <textarea
               id="artwork-prompt"
               value={prompt}
               onChange={(e) => handleInputChange(e.target.value)}
-              className="w-full px-6 py-4 text-lg font-heebo border-2 border-[var(--color-gold-border)] rounded bg-[var(--color-bg)] text-[var(--color-text)] placeholder-[var(--color-muted)]/60 focus:outline-none focus:border-[var(--color-gold)] focus:ring-2 focus:ring-[var(--color-gold)]/30 transition-all resize-none"
+              className="w-full px-6 py-4 text-lg font-heebo border-2 border-[var(--color-gold-border)] text-[var(--color-text)] placeholder-[var(--color-muted)]/60 focus:outline-none focus:border-[var(--color-gold)] focus:ring-2 focus:ring-[var(--color-gold)]/30 transition-all resize-none"
+              style={{ borderRadius: '46px', background: '#12294A' }}
               rows="5"
               placeholder="לדוגמה: חוף ים בשקיעה עם גלים זהובים, עצים ירוקים ופרחים צבעוניים..."
               disabled={isLoading}
@@ -126,7 +121,8 @@ export default function PromptForm({ onSubmit, isLoading, compact = false }) {
             />
             <div 
               id="prompt-counter"
-              className="absolute bottom-4 left-4 text-sm text-[var(--color-muted)]/60 font-heebo"
+              className="absolute bottom-4 text-sm text-[var(--color-muted)]/60 font-heebo"
+              style={{ left: '50%', transform: 'translateX(-50%)' }}
             >
               {prompt.length}/500
             </div>
@@ -165,22 +161,25 @@ export default function PromptForm({ onSubmit, isLoading, compact = false }) {
           </div>
         )}
 
-        <PremiumButton
-          type="submit"
-          variant="primary"
-          disabled={isLoading || !prompt.trim()}
-          className="w-full text-lg md:text-xl font-heebo font-medium tracking-wide py-4 md:py-5 min-h-[56px]"
-          aria-label={isLoading ? 'יוצר יצירת אמנות...' : 'צור יצירת אמנות'}
-        >
-          {isLoading ? (
-            <div className="flex items-center justify-center gap-3">
-              <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
-              <span>יוצר...</span>
-            </div>
-          ) : (
-            'צור יצירת אמנות'
-          )}
-        </PremiumButton>
+        <div style={{ padding: '0 10px 10px 10px', background: 'transparent' }}>
+          <PremiumButton
+            type="submit"
+            variant="primary"
+            disabled={isLoading || !prompt.trim()}
+            className="w-full text-base md:text-lg font-heebo font-medium tracking-wide py-3 md:py-4"
+            style={{ backgroundColor: 'var(--color-gold)', color: 'black' }}
+            aria-label={isLoading ? 'יוצר יצירת אמנות...' : 'צור יצירת אמנות'}
+          >
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-3">
+                <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+                <span>יוצר...</span>
+              </div>
+            ) : (
+              'צור יצירת אמנות'
+            )}
+          </PremiumButton>
+        </div>
       </form>
 
       {/* הנחיות מעודכנות - רק במצב רגיל */}

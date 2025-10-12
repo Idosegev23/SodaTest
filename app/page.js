@@ -22,6 +22,7 @@ export default function HomePage() {
   const [processingStage, setProcessingStage] = useState(0)
   const [elapsedTime, setElapsedTime] = useState(0)
   const [showSuccessPopup, setShowSuccessPopup] = useState(false)
+  const [marqueeArtworks, setMarqueeArtworks] = useState([])
 
   const processingStages = [
     'מאמתים את הפרטים שלך...',
@@ -54,6 +55,13 @@ export default function HomePage() {
       })
     }
   }, [isProcessing])
+
+  // טעינת יצירות למארקי
+  useEffect(() => {
+    getArtworks().then(artworks => {
+      setMarqueeArtworks(artworks.slice(0, 20))
+    })
+  }, [])
 
   // בדיקת סטטוס כל 3 שניות
   useEffect(() => {
@@ -205,9 +213,9 @@ export default function HomePage() {
               <div className="mb-6 p-4 bg-[var(--color-bg)] border border-[var(--color-gold)]/20 rounded-lg">
                 <p className="text-sm text-[var(--color-muted)] font-heebo font-light">
                   {completedArtwork.prompt}
-                </p>
-              </div>
-
+                 </p>
+               </div>
+        
               {/* Share Buttons */}
               <div className="space-y-3">
                 <h3 className="text-lg font-rubik font-light text-[var(--color-text)] mb-6">
@@ -452,77 +460,182 @@ export default function HomePage() {
       )}
 
       {/* Section 1 - Welcome Opening (replaces Hero) */}
-      <section className="relative min-h-screen flex items-center justify-center px-4">
+      <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <img
+            <img
             src="/imgs/hero.jpg"
             alt="SodaStream ENSŌ"
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
+              className="w-full h-full object-cover"
+              loading="eager"
+            />
           {/* Dark Overlay for Text Readability */}
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          {/* Logo and Tagline */}
-          <div className="mb-12">
-            {/* SodaStream Main Logo */}
-            <div className="mb-8">
-              <img 
-                src="/imgs/SodaLogo.png" 
-                alt="SodaStream" 
-                className="h-8 md:h-10 w-auto mx-auto opacity-90"
-              />
-            </div>
-            
-            {/* ENSŌ Logo */}
-                 <img 
-                   src="/logo.png" 
-              alt="SodaStream ensō" 
-              className="h-16 md:h-20 lg:h-24 w-auto mx-auto mb-6"
-                 />
-            
-            <p className="text-[var(--color-gold)] text-base md:text-lg font-rubik font-light tracking-wide">
-                   ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
-                 </p>
-               </div>
-        
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-heebo font-light text-white mb-8 tracking-wide leading-relaxed drop-shadow-2xl" dir="rtl">
-            ברוכים הבאים ל־ensō Gallery<br />
-            <span className="text-[var(--color-gold)]">המקום שבו עיצוב פוגש חדשנות</span>
+        <div className="max-w-4xl text-center relative z-10" style={{ paddingRight: '390px', paddingTop: '182px' }}>
+          {/* 1. SodaStream Main Logo */}
+          <div className="mb-6">
+            <img 
+              src="/imgs/SodaLogo.png" 
+              alt="SodaStream" 
+              className="h-10 w-auto mx-auto"
+            />
+          </div>
+
+          {/* 2. ההרמוניה - לבן */}
+          <p className="text-white text-[26px] font-rubik font-light italic tracking-wide mb-8">
+            ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
+          </p>
+
+          {/* 3. ברוכים הבאים ל- */}
+          <h1 className="text-[68px] font-rubik font-light text-white -mb-2 leading-tight" dir="rtl">
+            ברוכים הבאים ל-
           </h1>
+
+          {/* 4. ENSŌ Logo */}
+          <div className="-mb-2">
+                   <img 
+                     src="/logo.png" 
+              alt="ensō" 
+              className="h-48 w-auto mx-auto"
+                   />
+                 </div>
+
+          {/* 5. Gallery - זהב */}
+          <h2 className="text-[74px] font-rubik text-[var(--color-gold)] mb-8 leading-tight uppercase tracking-wider" style={{ fontWeight: 100 }}>
+            Gallery
+          </h2>
           
-          <div className="space-y-6 text-white/90 font-heebo font-light text-base md:text-lg leading-relaxed mb-12 max-w-3xl mx-auto drop-shadow-lg" dir="rtl">
-            <p>כאן אתם לא רק צופים - אתם יוצרים. בלחיצה אחת המכשיר מתמזג עם רקעים שנולדו בבינה מלאכותית, ואתם מעניקים לו פרשנות אישית משלכם.</p>
-            
-            <p>היצירה שלכם תצטרף לגלריה החיה בהמשך העמוד ותהפוך לחלק מהמהלך הכי מדובר בעולמות העיצוב והטכנולוגיה.</p>
-            
-            <p>בכל שבוע ייבחר עיצוב זוכה, שיזכה באחד מהפרסים הנחשקים שלנו.</p>
-            
-            <p className="text-[var(--color-gold)] font-medium pt-4">זו ההזדמנות שלכם לקחת חלק במהלך עולמי שמטשטש גבולות בין מוצר, אמנות וחדשנות.</p>
+          {/* Subtitle */}
+          <div className="text-white text-center mb-4" dir="rtl">
+            <p className="text-2xl md:text-3xl font-rubik font-light mb-2">
+              המקום שבו עיצוב
+            </p>
+            <p className="text-2xl md:text-3xl font-rubik font-bold">
+              פוגש חדשנות
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Section 2 - Creation Interface (Optional - if feasible) */}
-      <section className="py-12 px-4 bg-gradient-to-b from-transparent to-[var(--color-bg)]/50">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-heebo font-light text-[var(--color-text)] mb-4 tracking-wide">
-              צור כאן את היצירה שלך
-            </h2>
-            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
+      {/* Marquee Strip - Single Row of Artworks */}
+      <section className="py-8 overflow-hidden" style={{ transform: 'rotate(3.78deg)', transformOrigin: 'center' }}>
+        <div className="flex gap-2 animate-scroll" style={{ width: 'fit-content' }}>
+          {/* First set of artworks */}
+          {marqueeArtworks.concat(marqueeArtworks).map((artwork, index) => (
+            <div 
+              key={`marquee-${index}`}
+              className="flex-shrink-0 overflow-hidden bg-[var(--color-bg)]/50 backdrop-blur-sm border border-[var(--color-gold)]/20"
+              style={{ 
+                width: '197.82px', 
+                height: '197.82px',
+                borderRadius: '26px'
+              }}
+            >
+              <img 
+                src={artwork.image_url} 
+                alt="Artwork"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Decorative Ellipse - covers sections 2,3,4 */}
+      <div 
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '75vw',
+          height: '75vw',
+          top: '100vh',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: '#12294A',
+          filter: 'blur(150px)',
+          opacity: 0.6,
+          zIndex: -1
+        }}
+      ></div>
+
+      {/* Section 2 - Creation Interface */}
+      <section className="py-16 px-4 relative">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Stars Icon */}
+          <div className="mb-8 flex justify-center">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M30 5L32.5 20L40 15L35 22.5L50 25L35 27.5L40 35L32.5 30L30 45L27.5 30L20 35L25 27.5L10 25L25 22.5L20 15L27.5 20L30 5Z" fill="var(--color-gold)"/>
+              <circle cx="15" cy="15" r="2" fill="var(--color-gold)"/>
+              <circle cx="45" cy="15" r="2" fill="var(--color-gold)"/>
+              <circle cx="45" cy="45" r="2" fill="var(--color-gold)"/>
+              <circle cx="15" cy="45" r="2" fill="var(--color-gold)"/>
+            </svg>
+          </div>
+
+          {/* Main Text */}
+          <h2 className="text-[60px] font-rubik text-white mb-6 leading-tight" dir="rtl">
+            כאן אתם לא רק <span className="font-light">צופים</span> <span className="font-bold">אתם יוצרים</span>
+          </h2>
+
+          {/* Subtitle */}
+          <p className="text-[30px] font-rubik font-light text-white/80 mb-12 max-w-3xl mx-auto leading-relaxed" dir="rtl">
+            בלחיצה אחת המכשיר מתמזג עם רקעים שנולדו בבינה מלאכותית, ואתם מעניקים לו פרשנות אישית משלכם.
+          </p>
+
+          {/* Image */}
+          <div className="mb-12">
+            <img 
+              src="/imgs/Group 27.png" 
+              alt="Product showcase" 
+              className="w-full max-w-3xl mx-auto"
+            />
+               </div>
+
+          {/* Additional Text */}
+          <div className="max-w-3xl mx-auto mb-12 space-y-6 text-white" dir="rtl">
+            <p className="text-lg md:text-xl font-rubik font-light leading-relaxed">
+              היצירה שלכם תצטרף לגלריה החיה בהמשך העמוד ותהפוך לחלק מהמהלך הכי מדובר בעולמות העיצוב והטכנולוגיה.
+            </p>
+
+            <p className="text-lg md:text-xl font-rubik font-light leading-relaxed">
+              בכל שבוע ייבחר עיצוב זוכה, שיזכה באחד מהפרסים הנחשקים שלנו.
+            </p>
+
+            <p className="text-lg md:text-xl font-rubik font-bold leading-relaxed">
+              זו ההזדמנות שלכם לקחת חלק במהלך עולמי שמטשטש גבולות בין מוצר, אמנות וחדשנות.
+            </p>
           </div>
           
+          {/* Divider */}
+          <div className="my-16">
+            <div className="w-full max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent opacity-30"></div>
+          </div>
+
+          {/* Form Header */}
+          <div className="mb-8">
+            <h3 className="text-[60px] font-rubik text-white mb-4 leading-tight" dir="rtl">
+              <span className="font-light">העיצוב שלכם</span> <span className="font-bold">מתחיל כאן</span>
+            </h3>
+            <p className="text-[30px] font-rubik font-light text-white/80 leading-relaxed" dir="rtl">
+              תארו את העולם שהייתם רוצים לראות סביב מכשיר ה־ENSŌ
+            </p>
+          </div>
+
           {/* Compact Creation Form */}
-          <div className="bg-[var(--color-bg)] border border-[var(--color-gold-border)] rounded-lg p-6">
-            <PromptForm 
-              onSubmit={handlePromptSubmit}
-              isLoading={isLoading}
-              compact={true}
-            />
+          <div className="max-w-2xl mx-auto" style={{ borderRadius: '56px', padding: '10px', background: '#12294A' }}>
+            <div style={{ borderRadius: '46px', overflow: 'hidden' }}>
+              <PromptForm 
+                onSubmit={handlePromptSubmit}
+                isLoading={isLoading}
+                compact={true}
+              />
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="my-16">
+            <div className="w-full max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent opacity-30"></div>
           </div>
         </div>
       </section>
@@ -530,178 +643,135 @@ export default function HomePage() {
       {/* Section 3 - Weekly Winner */}
       <WeeklyWinner />
 
-      {/* Section 3.5 - Promotion & Prizes - הנחה ופרסים */}
-      <section className="py-16 px-4 bg-gradient-to-br from-[var(--color-gold)]/10 via-[var(--color-bg)] to-[var(--color-gold)]/5 relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-10 right-10 w-64 h-64 bg-[var(--color-gold)] rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 left-10 w-64 h-64 bg-[var(--color-gold)] rounded-full blur-3xl"></div>
-        </div>
+      {/* Section 4 - Judges Panel - נבחרת השופטים היוקרתית */}
+      <section className="py-16 px-4 relative">
+        {/* Decorative Ellipse Background */}
+        <div
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            width: '90vw',
+            height: '90vw',
+            top: '30%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: '#12294A',
+            filter: 'blur(150px)',
+            opacity: 0.6,
+            zIndex: 0
+          }}
+        ></div>
 
         <div className="max-w-6xl mx-auto relative z-10">
-          {/* Main Announcement */}
           <div className="text-center mb-12">
-            <div className="inline-block mb-6 px-6 py-3 bg-[var(--color-gold)]/20 border-2 border-[var(--color-gold)] rounded-full">
-              <span className="text-[var(--color-gold)] font-rubik font-bold text-lg md:text-xl">
-                🎁 השתתפות בפעילות מזכה!
-              </span>
-            </div>
-            
-            <h3 className="text-3xl md:text-5xl font-rubik font-bold text-[var(--color-text)] mb-6 leading-tight" dir="rtl">
-              קבלו <span className="text-[var(--color-gold)]">10% הנחה</span> על רכישת ensō
-            </h3>
-            
-            <p className="text-[var(--color-muted)] font-rubik text-lg md:text-xl mb-2" dir="rtl">
-              הנחה חד פעמית • לתקופה מוגבלת
-            </p>
-            <p className="text-[var(--color-gold)] font-rubik text-sm md:text-base" dir="rtl">
-              ⏰ ההצעה בתוקף עד סוף התחרות
-            </p>
-          </div>
-
-          {/* Prizes Grid */}
-          <div className="mt-12">
-            <h4 className="text-2xl md:text-3xl font-rubik font-light text-[var(--color-text)] text-center mb-8" dir="rtl">
-              הפרסים השווים שמחכים לכם
-            </h4>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Prize 1 - Weekly Winner */}
-              <div className="bg-[var(--color-bg)] border-2 border-[var(--color-gold)] rounded-lg p-6 text-center hover:shadow-2xl hover:shadow-[var(--color-gold)]/20 transition-all duration-300 hover:scale-105">
-                <div className="text-4xl mb-4">🏆</div>
-                <h5 className="text-xl font-rubik font-bold text-[var(--color-gold)] mb-3" dir="rtl">
-                  זוכה שבועי
-                </h5>
-                <p className="text-[var(--color-text)] font-rubik text-sm leading-relaxed" dir="rtl">
-                  כל שבוע נבחר עיצוב זוכה שיזכה באחד מהפרסים הנחשקים שלנו
-                </p>
-              </div>
-
-              {/* Prize 2 - Grand Prize */}
-              <div className="bg-gradient-to-br from-[var(--color-gold)]/20 to-[var(--color-bg)] border-2 border-[var(--color-gold)] rounded-lg p-6 text-center hover:shadow-2xl hover:shadow-[var(--color-gold)]/30 transition-all duration-300 hover:scale-105 relative">
-                <div className="absolute -top-3 -right-3 bg-[var(--color-gold)] text-black text-xs font-rubik font-bold px-3 py-1 rounded-full">
-                  הפרס הגדול
-                </div>
-                <div className="text-4xl mb-4">⭐</div>
-                <h5 className="text-xl font-rubik font-bold text-[var(--color-gold)] mb-3" dir="rtl">
-                  היצירה הייחודית ביותר
-                </h5>
-                <p className="text-[var(--color-text)] font-rubik text-sm leading-relaxed" dir="rtl">
-                  נבחרת השופטים תבחר את היצירה הייחודית ביותר והיוצר יקבל במתנה מכשיר ensō יוקרתי
-                </p>
-              </div>
-
-              {/* Prize 3 - Discount */}
-              <div className="bg-[var(--color-bg)] border-2 border-[var(--color-gold)] rounded-lg p-6 text-center hover:shadow-2xl hover:shadow-[var(--color-gold)]/20 transition-all duration-300 hover:scale-105">
-                <div className="text-4xl mb-4">🎟️</div>
-                <h5 className="text-xl font-rubik font-bold text-[var(--color-gold)] mb-3" dir="rtl">
-                  הנחה לכולם
-                </h5>
-                <p className="text-[var(--color-text)] font-rubik text-sm leading-relaxed" dir="rtl">
-                  כל משתתף מקבל קוד הנחה של 10% לרכישת מכשיר ensō
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA Button */}
-          <div className="text-center mt-12">
-          <PremiumButton
-            variant="primary"
-              onClick={() => {
-                const createSection = document.querySelector('section.py-12.px-4.bg-gradient-to-b')
-                if (createSection) {
-                  createSection.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                }
-              }}
-              className="text-lg font-rubik font-medium tracking-wide px-12 py-4"
-              aria-label="גלול לסקשן יצירה"
-            >
-              צור את היצירה שלך עכשיו →
-          </PremiumButton>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 4 - Judges Panel - נבחרת השופטים היוקרתית */}
-      <section className="py-16 px-4 bg-gradient-to-b from-transparent via-[var(--color-gold)]/5 to-transparent">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl md:text-4xl font-rubik font-light text-[var(--color-gold)] mb-4 tracking-wide">
+            <h3 className="text-[45px] font-rubik font-light text-white mb-6 tracking-wide">
               נבחרת השופטים
-            </h3>
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-6"></div>
-            <p className="text-[var(--color-text)] font-rubik font-light text-base md:text-lg max-w-3xl mx-auto leading-relaxed" dir="rtl">
-              מובילי עולמות האמנות והעיצוב בישראל • יוצרים שעיצבו את פני התרבות הויזואלית
+          </h3>
+            
+            <p className="text-[30px] font-rubik font-light text-white max-w-5xl mx-auto leading-relaxed mb-6" dir="rtl">
+              מובילי עולמות האמנות והעיצוב בישראל, יוצרים שעיצבו את פני התרבות החזותית. כל אחד מהם מביא פרספקטיבה ייחודית על עיצוב, חדשנות ויצירתיות.
+            </p>
+            
+            <p className="text-[22px] font-rubik font-light text-white/80 max-w-5xl mx-auto leading-relaxed" dir="rtl">
+              בסיום הפעילות, נבחרת השופטים תבחר את היצירה הייחודית והמעוררת ביותר - זו שתזכה בפרס הגדול של התחרות.
             </p>
           </div>
           
           {/* Premium Judges Display */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-4">
             {/* Judge 1 - Shai Franco */}
             <div className="text-center group">
-              <div className="relative mb-4">
-                <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-gold)]/20 to-transparent blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-                <div className="relative w-24 md:w-32 h-24 md:h-32 mx-auto rounded-full overflow-hidden border-4 border-[var(--color-gold)] shadow-2xl shadow-[var(--color-gold)]/30 group-hover:scale-105 transition-transform duration-300">
-                  <img 
-                    src="/imgs/franco.jpeg" 
-                    alt="Shai Franco" 
-              className="w-full h-full object-cover"
-                  />
+              <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
+                <img 
+                  src="/imgs/franco.jpeg" 
+                  alt="Shai Franco" 
+                  className="w-full h-full object-cover"
+                />
+                {/* Gradient Overlay */}
+                <div 
+                  className="absolute bottom-0 left-0 right-0 p-4 text-center"
+                  style={{
+                    background: 'linear-gradient(to top, #12294A 0%, rgba(18, 41, 74, 0.8) 30%, rgba(18, 41, 74, 0.4) 60%, transparent 100%)',
+                    borderBottomRightRadius: '26px'
+                  }}
+                >
+                  <h4 className="text-lg font-rubik font-bold text-white mb-1">Shai Franco</h4>
+                  <p className="text-sm font-rubik font-light text-white/80" dir="rtl">צלם ואמן ויזואלי</p>
                 </div>
               </div>
-              <h4 className="text-base md:text-lg font-rubik font-medium text-[var(--color-text)] mb-1">Shai Franco</h4>
-              <p className="text-xs md:text-sm font-rubik font-light text-[var(--color-gold)]">צלם ואמן ויזואלי</p>
         </div>
-
+        
             {/* Judge 2 - Shira Barzilay */}
             <div className="text-center group">
-              <div className="relative mb-4">
-                <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-gold)]/20 to-transparent blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-                <div className="relative w-24 md:w-32 h-24 md:h-32 mx-auto rounded-full overflow-hidden border-4 border-[var(--color-gold)] shadow-2xl shadow-[var(--color-gold)]/30 group-hover:scale-105 transition-transform duration-300">
-                  <img 
-                    src="/imgs/shira.jpeg" 
-                    alt="Shira Barzilay" 
-                    className="w-full h-full object-cover"
-                   />
-                 </div>
+              <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
+                <img 
+                  src="/imgs/shira.jpeg" 
+                  alt="Shira Barzilay" 
+                  className="w-full h-full object-cover"
+                />
+                {/* Gradient Overlay */}
+                <div 
+                  className="absolute bottom-0 left-0 right-0 p-4 text-center"
+                  style={{
+                    background: 'linear-gradient(to top, #12294A 0%, rgba(18, 41, 74, 0.8) 30%, rgba(18, 41, 74, 0.4) 60%, transparent 100%)',
+                    borderBottomRightRadius: '26px'
+                  }}
+                >
+                  <h4 className="text-lg font-rubik font-bold text-white mb-1">Shira Barzilay</h4>
+                  <p className="text-sm font-rubik font-light text-white/80" dir="rtl">מעצבת דיגיטלית</p>
+                </div>
               </div>
-              <h4 className="text-base md:text-lg font-rubik font-medium text-[var(--color-text)] mb-1">Shira Barzilay</h4>
-              <p className="text-xs md:text-sm font-rubik font-light text-[var(--color-gold)]">מעצבת דיגיטלית</p>
-               </div>
+            </div>
 
             {/* Judge 3 - Alon Shabo */}
             <div className="text-center group">
-              <div className="relative mb-4">
-                <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-gold)]/20 to-transparent blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-                <div className="relative w-24 md:w-32 h-24 md:h-32 mx-auto rounded-full overflow-hidden border-4 border-[var(--color-gold)] shadow-2xl shadow-[var(--color-gold)]/30 group-hover:scale-105 transition-transform duration-300">
-                  <img 
-                    src="/imgs/shebo.jpeg" 
-                    alt="Alon Shabo" 
-                    className="w-full h-full object-cover"
-                  />
+              <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
+                <img 
+                  src="/imgs/shebo.jpeg" 
+                  alt="Alon Shabo" 
+                  className="w-full h-full object-cover"
+                />
+                {/* Gradient Overlay */}
+                <div 
+                  className="absolute bottom-0 left-0 right-0 p-4 text-center"
+                  style={{
+                    background: 'linear-gradient(to top, #12294A 0%, rgba(18, 41, 74, 0.8) 30%, rgba(18, 41, 74, 0.4) 60%, transparent 100%)',
+                    borderBottomRightRadius: '26px'
+                  }}
+                >
+                  <h4 className="text-lg font-rubik font-bold text-white mb-1">Alon Shabo</h4>
+                  <p className="text-sm font-rubik font-light text-white/80" dir="rtl">אמן מולטי-דיסציפלינרי</p>
                 </div>
               </div>
-              <h4 className="text-base md:text-lg font-rubik font-medium text-[var(--color-text)] mb-1">Alon Shabo</h4>
-              <p className="text-xs md:text-sm font-rubik font-light text-[var(--color-gold)]">אמן מולטי-דיסציפלינרי</p>
             </div>
 
             {/* Judge 4 - Dede Bandaid */}
             <div className="text-center group">
-              <div className="relative mb-4">
-                <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-gold)]/20 to-transparent blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-                <div className="relative w-24 md:w-32 h-24 md:h-32 mx-auto rounded-full overflow-hidden border-4 border-[var(--color-gold)] shadow-2xl shadow-[var(--color-gold)]/30 group-hover:scale-105 transition-transform duration-300">
-                  <img 
-                    src="/imgs/dede.jpeg" 
-                    alt="Dede Bandaid" 
-                    className="w-full h-full object-cover"
-                  />
+              <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
+                <img 
+                  src="/imgs/dede.jpeg" 
+                  alt="Dede Bandaid" 
+                  className="w-full h-full object-cover"
+                />
+                {/* Gradient Overlay */}
+                <div 
+                  className="absolute bottom-0 left-0 right-0 p-4 text-center"
+                  style={{
+                    background: 'linear-gradient(to top, #12294A 0%, rgba(18, 41, 74, 0.8) 30%, rgba(18, 41, 74, 0.4) 60%, transparent 100%)',
+                    borderBottomRightRadius: '26px'
+                  }}
+                >
+                  <h4 className="text-lg font-rubik font-bold text-white mb-1">Dede Bandaid</h4>
+                  <p className="text-sm font-rubik font-light text-white/80" dir="rtl">אמן רחוב</p>
                 </div>
               </div>
-              <h4 className="text-base md:text-lg font-rubik font-medium text-[var(--color-text)] mb-1">Dede Bandaid</h4>
-              <p className="text-xs md:text-sm font-rubik font-light text-[var(--color-gold)]">אמנית רחוב</p>
             </div>
           </div>
+
+          {/* מרווח */}
+          <div className="mt-16"></div>
+
+          {/* Divider */}
+          <div className="w-full max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent opacity-30"></div>
         </div>
       </section>
 
@@ -719,6 +789,17 @@ export default function HomePage() {
 
       {/* Section 7 - Hero Section (moved to bottom) */}
       <section id="final-section" className="relative min-h-screen flex flex-col">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: 'url(/hero.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        ></div>
+        
         {/* Logo and Product - Centered */}
         <div className="relative z-10 flex-1 flex items-center justify-center pt-32 md:pt-40">
           <div className="text-center px-4">
