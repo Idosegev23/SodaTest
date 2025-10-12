@@ -801,7 +801,7 @@ export default function HomePage() {
         ></div>
         
         {/* Content - Positioned like hero */}
-        <div className="relative z-10 flex-1 flex items-center justify-start" style={{ paddingRight: '390px', paddingTop: '182px' }}>
+        <div className="relative z-10 flex-1 flex items-start justify-start" style={{ paddingLeft: '100px', paddingTop: '150px' }}>
           <div className="text-right px-4 max-w-3xl">
             {/* Large Quote Mark */}
             <div className="text-[var(--color-gold)] font-serif mb-6" style={{ fontSize: '120px', lineHeight: '0.8' }}>
