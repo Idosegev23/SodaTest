@@ -801,8 +801,8 @@ export default function HomePage() {
         ></div>
         
         {/* Content - Positioned like hero */}
-        <div className="relative z-10 flex-1 flex items-center justify-end" style={{ paddingRight: '100px' }}>
-          <div className="text-right px-4 max-w-3xl">
+        <div className="relative z-10 flex-1 flex items-center justify-center px-8 md:px-16">
+          <div className="text-center max-w-2xl">
             {/* Large Quote Mark */}
             <div className="text-[var(--color-gold)] font-serif mb-6" style={{ fontSize: '120px', lineHeight: '0.8' }}>
               ״
@@ -814,7 +814,7 @@ export default function HomePage() {
             </p>
             
             {/* Signature */}
-            <div className="flex justify-end mb-12">
+            <div className="flex justify-center mb-12">
               <img
                 src="/imgs/Signature.png"
                 alt="חתימה"
