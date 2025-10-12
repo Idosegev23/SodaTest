@@ -5,8 +5,6 @@ import { useEffect, useState } from 'react'
 import BentoGallery from '../components/BentoGalleryNew'
 import MarqueeGallery from '../components/MarqueeGallery'
 import { PremiumButton } from '../components/ui/PremiumButton'
-import LightRays from '../components/LightRays'
-import LightRaysAdvanced from '../components/LightRaysAdvanced'
 import WeeklyWinner from '../components/WeeklyWinner'
 import PromptForm from '../components/PromptForm'
 import UserDetailsModal from '../components/UserDetailsModal'
@@ -171,19 +169,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen overflow-hidden flex flex-col relative" style={{backgroundColor: 'var(--color-bg)'}} lang="he">
-      {/* Animated Light Rays Background */}
-      <LightRays
-        raysOrigin="top-center"
-        raysColor="#d4af37"
-        raysSpeed={1.0}
-        lightSpread={0.9}
-        rayLength={2.5}
-        followMouse={true}
-        mouseInfluence={0.15}
-        noiseAmount={0.02}
-        distortion={0.01}
-        className="background-rays"
-      />
 
       {/* Success Popup with Share Options */}
       {showSuccessPopup && completedArtwork && (
@@ -800,36 +785,14 @@ export default function HomePage() {
 
       {/* Section 7 - Hero Section (moved to bottom) */}
       <section id="final-section" className="relative min-h-screen flex flex-col">
-        {/* Light Rays Effect */}
-        <div className="absolute inset-0 z-1">
-          <LightRaysAdvanced
-            rayPos={{ x: 0.5, y: 1.0 }}
-            rayDir={{ x: 0, y: -1 }}
-            raysColor={[1.0, 0.8, 0.4]}
-            raysSpeed={0.3}
-            lightSpread={0.3}
-            rayLength={0.8}
-            pulsating={0.0}
-            fadeDistance={0.6}
-            saturation={1.2}
-            mouseInfluence={0.0}
-            noiseAmount={0.0}
-            distortion={0.0}
-            className="w-full h-full"
-          />
-        </div>
-
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <picture>
-            <source srcSet="/hero.webp" type="image/webp" />
-            <img
-              src="/hero.jpg"
-              alt="SodaStream ENSŌ"
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </picture>
+          <img
+            src="/imgs/hero.jpg"
+            alt="SodaStream ENSŌ"
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
           {/* Dark Overlay for Text Readability */}
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
