@@ -4,7 +4,9 @@
 
 /* SodaStream ENSŌ Design System - Updated Color Palette */
 :root {
-  --color-bg: #13294b;
+  --color-bg: #030919;
+  --color-bg-gradient-start: #030919;
+  --color-bg-gradient-end: #061126;
   --bg-image: url('/Bg.png');      /* כחול כהה - רקע ראשי */
   --color-text: #D9d8d6;    /* בז' בהיר - טקסט ראשי */
   --color-muted: #Bbbbbb;   /* אפור בהיר - טקסט משני */
@@ -15,6 +17,12 @@
   --color-gold-border: rgba(142, 120, 69, 0.3); /* זהב שקוף לגבולות */
   --color-accent-muted: rgba(127, 38, 41, 0.1); /* אדום שקוף לרקעים */
   --color-accent-border: rgba(127, 38, 41, 0.3); /* אדום שקוף לגבולות */
+}
+
+/* Background Gradient for all sections */
+body {
+  background: linear-gradient(135deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 100%);
+  background-attachment: fixed;
 }
 
 @layer utilities {

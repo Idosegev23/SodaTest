@@ -8,7 +8,6 @@ import { PremiumButton } from '../components/ui/PremiumButton'
 import WeeklyWinner from '../components/WeeklyWinner'
 import PromptForm from '../components/PromptForm'
 import UserDetailsModal from '../components/UserDetailsModal'
-import Threads from '../components/Threads'
 import { addToQueue, checkQueueStatus, getCompletedArtwork, getArtworks } from '../lib/supabaseClient'
 
 export default function HomePage() {
@@ -168,7 +167,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen overflow-hidden flex flex-col relative" style={{backgroundColor: 'var(--color-bg)'}} lang="he">
+    <div className="min-h-screen overflow-hidden flex flex-col relative" lang="he">
 
       {/* Success Popup with Share Options */}
       {showSuccessPopup && completedArtwork && (
@@ -454,81 +453,16 @@ export default function HomePage() {
 
       {/* Section 1 - Welcome Opening (replaces Hero) */}
       <section className="relative min-h-screen flex items-center justify-center px-4">
-        {/* Threads Animation Background */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
-          <Threads
-            color={[0.83, 0.69, 0.27]}
-            amplitude={5}
-            distance={1.2}
-            enableMouseInteraction={true}
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/imgs/hero.jpg"
+            alt="SodaStream ENSŌ"
+            className="w-full h-full object-cover"
+            loading="eager"
           />
-        </div>
-        
-        {/* Technical Illustration Background */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          {/* Blueprint Grid Background */}
-          <svg className="absolute inset-0 w-full h-full opacity-15" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              {/* Grid Pattern */}
-              <pattern id="blueprint-grid" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
-                <path d="M 50 0 L 0 0 0 50" fill="none" stroke="var(--color-gold)" strokeWidth="0.3" opacity="0.3"/>
-              </pattern>
-              
-              {/* Major Grid */}
-              <pattern id="major-grid" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
-                <rect width="200" height="200" fill="url(#blueprint-grid)"/>
-                <path d="M 200 0 L 0 0 0 200" fill="none" stroke="var(--color-gold)" strokeWidth="0.5"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#major-grid)" />
-          </svg>
-          
-          {/* Technical Drawing Elements */}
-          <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
-            {/* Center Crosshair */}
-            <line x1="50%" y1="30%" x2="50%" y2="70%" stroke="var(--color-gold)" strokeWidth="0.5" strokeDasharray="5,5" />
-            <line x1="30%" y1="50%" x2="70%" y2="50%" stroke="var(--color-gold)" strokeWidth="0.5" strokeDasharray="5,5" />
-            <circle cx="50%" cy="50%" r="100" fill="none" stroke="var(--color-gold)" strokeWidth="0.5" />
-            <circle cx="50%" cy="50%" r="150" fill="none" stroke="var(--color-gold)" strokeWidth="0.3" />
-            
-            {/* Dimension Lines */}
-            <g>
-              {/* Horizontal Dimension */}
-              <line x1="20%" y1="20%" x2="80%" y2="20%" stroke="var(--color-gold)" strokeWidth="0.5" />
-              <line x1="20%" y1="19%" x2="20%" y2="21%" stroke="var(--color-gold)" strokeWidth="0.5" />
-              <line x1="80%" y1="19%" x2="80%" y2="21%" stroke="var(--color-gold)" strokeWidth="0.5" />
-              
-              {/* Vertical Dimension */}
-              <line x1="85%" y1="25%" x2="85%" y2="75%" stroke="var(--color-gold)" strokeWidth="0.5" />
-              <line x1="84%" y1="25%" x2="86%" y2="25%" stroke="var(--color-gold)" strokeWidth="0.5" />
-              <line x1="84%" y1="75%" x2="86%" y2="75%" stroke="var(--color-gold)" strokeWidth="0.5" />
-            </g>
-            
-            {/* Technical Annotations */}
-            <g opacity="0.6">
-              <circle cx="15%" cy="15%" r="3" fill="var(--color-gold)" />
-              <circle cx="85%" cy="15%" r="3" fill="var(--color-gold)" />
-              <circle cx="15%" cy="85%" r="3" fill="var(--color-gold)" />
-              <circle cx="85%" cy="85%" r="3" fill="var(--color-gold)" />
-            </g>
-            
-            {/* Corner Marks */}
-            <g stroke="var(--color-gold)" strokeWidth="0.5" fill="none">
-              <path d="M 5% 5% L 5% 10% M 5% 5% L 10% 5%" />
-              <path d="M 95% 5% L 95% 10% M 95% 5% L 90% 5%" />
-              <path d="M 5% 95% L 5% 90% M 5% 95% L 10% 95%" />
-              <path d="M 95% 95% L 95% 90% M 95% 95% L 90% 95%" />
-            </g>
-            
-            {/* Construction Lines */}
-            <line x1="25%" y1="35%" x2="75%" y2="35%" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,3" opacity="0.5" />
-            <line x1="25%" y1="65%" x2="75%" y2="65%" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,3" opacity="0.5" />
-            <line x1="35%" y1="25%" x2="35%" y2="75%" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,3" opacity="0.5" />
-            <line x1="65%" y1="25%" x2="65%" y2="75%" stroke="var(--color-gold)" strokeWidth="0.3" strokeDasharray="2,3" opacity="0.5" />
-          </svg>
-          
-          {/* Radial Fade Overlay */}
-          <div className="absolute inset-0 bg-gradient-radial from-transparent via-[var(--color-bg)]/40 to-[var(--color-bg)]"></div>
+          {/* Dark Overlay for Text Readability */}
+          <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -555,12 +489,12 @@ export default function HomePage() {
                  </p>
                </div>
         
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-heebo font-light text-[var(--color-text)] mb-8 tracking-wide leading-relaxed" dir="rtl">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-heebo font-light text-white mb-8 tracking-wide leading-relaxed drop-shadow-2xl" dir="rtl">
             ברוכים הבאים ל־ensō Gallery<br />
             <span className="text-[var(--color-gold)]">המקום שבו עיצוב פוגש חדשנות</span>
           </h1>
           
-          <div className="space-y-6 text-[var(--color-text)] font-heebo font-light text-base md:text-lg leading-relaxed mb-12 max-w-3xl mx-auto" dir="rtl">
+          <div className="space-y-6 text-white/90 font-heebo font-light text-base md:text-lg leading-relaxed mb-12 max-w-3xl mx-auto drop-shadow-lg" dir="rtl">
             <p>כאן אתם לא רק צופים - אתם יוצרים. בלחיצה אחת המכשיר מתמזג עם רקעים שנולדו בבינה מלאכותית, ואתם מעניקים לו פרשנות אישית משלכם.</p>
             
             <p>היצירה שלכם תצטרף לגלריה החיה בהמשך העמוד ותהפוך לחלק מהמהלך הכי מדובר בעולמות העיצוב והטכנולוגיה.</p>
@@ -712,13 +646,13 @@ export default function HomePage() {
                   <img 
                     src="/imgs/franco.jpeg" 
                     alt="Shai Franco" 
-                    className="w-full h-full object-cover"
+              className="w-full h-full object-cover"
                   />
                 </div>
               </div>
               <h4 className="text-base md:text-lg font-rubik font-medium text-[var(--color-text)] mb-1">Shai Franco</h4>
               <p className="text-xs md:text-sm font-rubik font-light text-[var(--color-gold)]">צלם ואמן ויזואלי</p>
-            </div>
+        </div>
 
             {/* Judge 2 - Shira Barzilay */}
             <div className="text-center group">
@@ -729,12 +663,12 @@ export default function HomePage() {
                     src="/imgs/shira.jpeg" 
                     alt="Shira Barzilay" 
                     className="w-full h-full object-cover"
-                  />
-                </div>
+                   />
+                 </div>
               </div>
               <h4 className="text-base md:text-lg font-rubik font-medium text-[var(--color-text)] mb-1">Shira Barzilay</h4>
               <p className="text-xs md:text-sm font-rubik font-light text-[var(--color-gold)]">מעצבת דיגיטלית</p>
-            </div>
+               </div>
 
             {/* Judge 3 - Alon Shabo */}
             <div className="text-center group">
@@ -785,18 +719,6 @@ export default function HomePage() {
 
       {/* Section 7 - Hero Section (moved to bottom) */}
       <section id="final-section" className="relative min-h-screen flex flex-col">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/imgs/hero.jpg"
-            alt="SodaStream ENSŌ"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
-          {/* Dark Overlay for Text Readability */}
-          <div className="absolute inset-0 bg-black/40"></div>
-        </div>
-
         {/* Logo and Product - Centered */}
         <div className="relative z-10 flex-1 flex items-center justify-center pt-32 md:pt-40">
           <div className="text-center px-4">
@@ -823,14 +745,14 @@ export default function HomePage() {
             </div>
 
             {/* CTA Button */}
-            <PremiumButton
-              variant="secondary"
+        <PremiumButton
+          variant="secondary"
               onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
               className="text-xl font-heebo font-light tracking-wide group px-12 py-4"
               aria-label="לפרטים נוספים על מכשיר SodaStream ensō"
             >
               לפרטים נוספים לחצו כאן
-            </PremiumButton>
+        </PremiumButton>
           </div>
         </div>
       </section>
