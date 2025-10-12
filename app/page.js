@@ -800,40 +800,37 @@ export default function HomePage() {
           }}
         ></div>
         
-        {/* Logo and Product - Centered */}
-        <div className="relative z-10 flex-1 flex items-center justify-center" style={{ paddingRight: '390px', paddingTop: '182px' }}>
-          <div className="text-center px-4">
-                   <img 
-                     src="/logo.png" 
-              alt="SodaStream ENSŌ" 
-              className="h-16 md:h-24 lg:h-32 w-auto drop-shadow-2xl mx-auto mb-8"
-            />
+        {/* Content - Positioned like hero */}
+        <div className="relative z-10 flex-1 flex items-center justify-start" style={{ paddingRight: '390px', paddingTop: '182px' }}>
+          <div className="text-right px-4 max-w-3xl">
+            {/* Large Quote Mark */}
+            <div className="text-[var(--color-gold)] font-serif mb-6" style={{ fontSize: '120px', lineHeight: '0.8' }}>
+              ״
+            </div>
             
-            {/* Quote */}
-            <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 md:p-8 max-w-2xl mx-auto mb-8">
-              <p className="text-white/80 font-heebo font-light text-sm md:text-base leading-relaxed tracking-wider italic text-center" dir="rtl">
-                "ensō<sup className="text-[var(--color-gold)] text-xs">®</sup> חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת."
+            {/* Quote Text */}
+            <p className="text-white font-rubik font-light text-2xl md:text-3xl leading-relaxed mb-8" dir="rtl">
+              ensō<sup className="text-[var(--color-gold)] text-sm">®</sup> חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת.
             </p>
             
             {/* Signature */}
-              <div className="flex justify-center mt-6">
+            <div className="flex justify-end mb-12">
               <img
                 src="/imgs/Signature.png"
                 alt="חתימה"
-                  className="h-8 md:h-12 w-auto filter invert"
+                className="h-12 md:h-16 w-auto"
+                style={{ filter: 'brightness(0) saturate(100%) invert(77%) sepia(52%) saturate(408%) hue-rotate(357deg) brightness(98%) contrast(87%)' }}
               />
-              </div>
             </div>
 
-            {/* CTA Button */}
-        <PremiumButton
-          variant="secondary"
+            {/* CTA Button - Transparent with Gold Border */}
+            <button
               onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
-              className="text-xl font-heebo font-light tracking-wide group px-12 py-4"
+              className="border-2 border-[var(--color-gold)] bg-transparent text-white font-rubik font-light text-xl px-12 py-4 rounded-full hover:bg-[var(--color-gold)]/10 transition-all duration-300"
               aria-label="לפרטים נוספים על מכשיר SodaStream ensō"
             >
               לפרטים נוספים לחצו כאן
-        </PremiumButton>
+            </button>
           </div>
         </div>
       </section>
