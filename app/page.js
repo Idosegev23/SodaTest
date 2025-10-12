@@ -801,7 +801,7 @@ export default function HomePage() {
         ></div>
         
         {/* Content - Positioned like hero */}
-        <div className="relative z-10 flex-1 flex items-center justify-center pl-8 md:pl-16" style={{ paddingRight: '280px' }}>
+        <div className="relative z-10 flex-1 flex items-start justify-center pl-8 md:pl-16" style={{ paddingRight: '650px', paddingTop: '40px' }}>
           <div className="text-center max-w-xl">
             {/* Large Quote Mark */}
             <div className="text-[var(--color-gold)] font-serif mb-6" style={{ fontSize: '120px', lineHeight: '0.8' }}>
@@ -848,7 +848,7 @@ export default function HomePage() {
           </div>
           
           {/* Disclaimer */}
-          <div className="mb-4 text-[var(--color-muted)]/70 text-xs font-rubik font-light leading-relaxed max-w-3xl mx-auto" dir="rtl">
+          <div className="mb-4 text-white text-xs font-rubik font-light leading-relaxed max-w-3xl mx-auto" dir="rtl">
             עמוד זה משתמש ביצירת תמונות באמצעות בינה מלאכותית המופעלת על ידי חברת אל.די.אר.אס גרופ בע"מ, ח.פ. 51559692. 
             התמונה שלך עשויה להיות מוצגת באופן פומבי לצורך הצבעה, והיא נשמרת רק למשך תקופת התחרות.
           </div>
