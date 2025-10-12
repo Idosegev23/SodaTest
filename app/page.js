@@ -793,7 +793,7 @@ export default function HomePage() {
         <div 
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: 'url(/hero.jpg)',
+            backgroundImage: 'url(/imgs/hero.png)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat'
