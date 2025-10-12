@@ -464,7 +464,7 @@ export default function HomePage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
             <img
-            src="/imgs/hero.jpg"
+            src="/imgs/ed232edd3950d0c53f128176fe79794c12a1eafb.jpg"
             alt="SodaStream ENSŌ"
               className="w-full h-full object-cover"
               loading="eager"
@@ -801,7 +801,7 @@ export default function HomePage() {
         ></div>
         
         {/* Content - Positioned like hero */}
-        <div className="relative z-10 flex-1 flex items-center justify-center px-8 md:px-16">
+        <div className="relative z-10 flex-1 flex items-center justify-center pr-32 md:pr-48 pl-8 md:pl-16">
           <div className="text-center max-w-2xl">
             {/* Large Quote Mark */}
             <div className="text-[var(--color-gold)] font-serif mb-6" style={{ fontSize: '120px', lineHeight: '0.8' }}>
