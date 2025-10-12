@@ -801,8 +801,8 @@ export default function HomePage() {
         ></div>
         
         {/* Content - Positioned like hero */}
-        <div className="relative z-10 flex-1 flex items-center justify-center pr-32 md:pr-48 pl-8 md:pl-16">
-          <div className="text-center max-w-2xl">
+        <div className="relative z-10 flex-1 flex items-center justify-center pl-8 md:pl-16" style={{ paddingRight: '280px' }}>
+          <div className="text-center max-w-xl">
             {/* Large Quote Mark */}
             <div className="text-[var(--color-gold)] font-serif mb-6" style={{ fontSize: '120px', lineHeight: '0.8' }}>
               ״
