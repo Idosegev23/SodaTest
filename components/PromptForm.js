@@ -5,16 +5,46 @@ export default function PromptForm({ onSubmit, isLoading, compact = false }) {
   const [prompt, setPrompt] = useState('')
   const [error, setError] = useState('')
 
-  // מילים וביטויים אסורים
+  // מילים וביטויים אסורים - למשוב מיידי למשתמש
   const forbiddenTerms = [
+    // אנשים וגוף
     'אדם', 'אנשים', 'איש', 'אישה', 'ילד', 'ילדה', 'בן אדם',
     'person', 'people', 'man', 'woman', 'child', 'human',
+    'דמות', 'צללית', 'silhouette', 'figure', 'character',
+    'ראש', 'פנים', 'יד', 'רגל', 'head', 'face', 'hand', 'body',
+    'משפחה', 'זוג', 'family', 'couple',
+    
+    // פוליטיקה
     'פוליטיקה', 'מדינה', 'ממשלה', 'בחירות', 'politics', 'government',
+    'דיפלומט', 'diplomat', 'נשיא', 'president', 'שר', 'minister',
+    'מחאה', 'הפגנה', 'protest', 'demonstration',
+    'מלחמה', 'צבא', 'war', 'military', 'army',
+    'פלסטין', 'palestine', 'עזה', 'gaza',
+    
+    // דת וסמלים
+    'דת', 'religion', 'מסגד', 'כנסייה', 'mosque', 'church',
+    'מגן דוד', 'צלב', 'cross',
+    
+    // סלבריטאים
     'סלבריטי', 'מפורסם', 'celebrity', 'famous person',
+    'שחקן', 'זמר', 'actor', 'singer',
+    
+    // טקסט וכתיבה
     'טקסט', 'כתובת', 'מלים', 'text', 'writing', 'words',
+    'כתוב', 'הוסף טקסט', 'add text', 'with text',
+    'כיתוב', 'caption', 'font',
+    
+    // תוכן לא הולם
     'מין', 'עירום', 'sexy', 'nude', 'nsfw',
     'אלימות', 'דם', 'violence', 'blood', 'death', 'kill',
-    'סמים', 'drugs', 'alcohol', 'cigarette'
+    'סמים', 'drugs', 'alcohol', 'cigarette',
+    
+    // דמויות מצוירות
+    'cartoon', 'anime', 'אנימציה', 'comic',
+    
+    // מותגים מסחריים
+    'apple', 'iphone', 'nike', 'adidas', 'samsung',
+    'mcdonalds', 'coca cola', 'pepsi', 'starbucks'
   ]
 
   const validatePrompt = (text) => {

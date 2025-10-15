@@ -50,10 +50,47 @@ LIGHTING & ATMOSPHERE:
 - Subtle atmospheric effects that enhance mood without distraction
 - Color temperature optimized for the described environment
 
-CONTENT RESTRICTIONS:
-Absolutely no people, faces, human figures, text, writing, logos, or inappropriate content.
+STRICT CONTENT RESTRICTIONS - ABSOLUTELY CRITICAL:
+The generated image must NEVER, under ANY circumstances, contain:
 
-Create a premium product photograph where the ENSŌ device appears naturally integrated into this beautiful setting.`
+FORBIDDEN - HUMANS & BODY PARTS:
+- Any humans, people, persons, or human-like figures
+- Human silhouettes, shadows, or outlines
+- ANY body parts: hands, feet, faces, heads, eyes, arms, legs, skin, hair
+- Human-like cartoon characters, anime figures, or avatars
+- Mannequins or human-shaped objects
+
+FORBIDDEN - TEXT & WRITING:
+- Any text, writing, letters, words, or captions in ANY language
+- Typography, fonts, calligraphy, or inscriptions
+- Signs, labels, or titles with readable text
+- Numbers or symbols that form text
+
+FORBIDDEN - POLITICAL & CONTROVERSIAL:
+- Political symbols, flags, or emblems
+- Religious symbols (crosses, stars, crescents, etc.)
+- Military equipment or imagery
+- Protest or demonstration imagery
+
+FORBIDDEN - COMMERCIAL BRANDS:
+- Brand logos, trademarks, or branded products
+- Recognizable commercial packaging or products
+- Competitor products or logos
+
+FORBIDDEN - INAPPROPRIATE CONTENT:
+- Violence, weapons, blood, or gore
+- Sexual, nude, or NSFW content
+- Drugs, alcohol, or cigarettes
+
+ONLY ALLOWED IN IMAGE:
+- The SodaStream ENSŌ device (as provided in reference image)
+- Natural landscapes, scenery, and environments
+- Animals, plants, flowers, and trees
+- Abstract patterns and artistic elements
+- Generic objects and decorative elements
+- Natural lighting and atmospheric effects
+
+Create a premium product photograph where ONLY the ENSŌ device and allowed natural/abstract elements appear.`
 
     // קריאת קובץ התמונה
     const imagePath = path.join(process.cwd(), 'public', 'file.png')
