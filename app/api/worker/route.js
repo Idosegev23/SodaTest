@@ -103,12 +103,30 @@ export async function GET() {
       const imageBuffer = await geminiResponse.arrayBuffer()
       const imageData = Buffer.from(imageBuffer)
 
+      // המרה ל-WebP עם Sharp לאופטימיזציה
+      let finalImageData = imageData
+      let contentType = 'image/png'
+      let fileExtension = 'png'
+      
+      try {
+        const sharp = require('sharp')
+        finalImageData = await sharp(imageData)
+          .webp({ quality: 85, effort: 6 })
+          .toBuffer()
+        contentType = 'image/webp'
+        fileExtension = 'webp'
+        console.log('Image converted to WebP successfully')
+      } catch (sharpError) {
+        console.error('Error converting to WebP, using original:', sharpError)
+        // נשתמש בתמונה המקורית אם ההמרה נכשלה
+      }
+
       // העלאה ל-Supabase Storage
-      const fileName = `artwork_${item.id}_${Date.now()}.png`
+      const fileName = `artwork_${item.id}_${Date.now()}.${fileExtension}`
       const { data: _uploadData, error: uploadError } = await supabase.storage
         .from('artworks')
-        .upload(fileName, imageData, {
-          contentType: 'image/png',
+        .upload(fileName, finalImageData, {
+          contentType: contentType,
         })
 
       if (uploadError) {

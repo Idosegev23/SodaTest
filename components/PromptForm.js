@@ -5,46 +5,29 @@ export default function PromptForm({ onSubmit, isLoading, compact = false }) {
   const [prompt, setPrompt] = useState('')
   const [error, setError] = useState('')
 
-  // מילים וביטויים אסורים - למשוב מיידי למשתמש
+  // מילים וביטויים אסורים - רק מילים ספציפיות שבאמת בעייתיות
   const forbiddenTerms = [
-    // אנשים וגוף
+    // אנשים וגוף - רק מילים ברורות
     'אדם', 'אנשים', 'איש', 'אישה', 'ילד', 'ילדה', 'בן אדם',
     'person', 'people', 'man', 'woman', 'child', 'human',
-    'דמות', 'צללית', 'silhouette', 'figure', 'character',
-    'ראש', 'פנים', 'יד', 'רגל', 'head', 'face', 'hand', 'body',
+    'פנים', 'face', 'body', 'גוף',
     'משפחה', 'זוג', 'family', 'couple',
     
-    // פוליטיקה
-    'פוליטיקה', 'מדינה', 'ממשלה', 'בחירות', 'politics', 'government',
-    'דיפלומט', 'diplomat', 'נשיא', 'president', 'שר', 'minister',
-    'מחאה', 'הפגנה', 'protest', 'demonstration',
+    // פוליטיקה - רק ברורים
+    'פוליטיקה', 'ממשלה', 'בחירות', 'politics', 'government',
+    'נתניהו', 'ביבי', 'netanyahu', 'trump', 'biden',
     'מלחמה', 'צבא', 'war', 'military', 'army',
-    'פלסטין', 'palestine', 'עזה', 'gaza',
+    'פלסטין', 'palestine', 'עזה', 'gaza', 'חמאס', 'hamas',
     
-    // דת וסמלים
-    'דת', 'religion', 'מסגד', 'כנסייה', 'mosque', 'church',
-    'מגן דוד', 'צלב', 'cross',
-    
-    // סלבריטאים
-    'סלבריטי', 'מפורסם', 'celebrity', 'famous person',
-    'שחקן', 'זמר', 'actor', 'singer',
-    
-    // טקסט וכתיבה
-    'טקסט', 'כתובת', 'מלים', 'text', 'writing', 'words',
-    'כתוב', 'הוסף טקסט', 'add text', 'with text',
-    'כיתוב', 'caption', 'font',
+    // טקסט וכתיבה - רק בקשות מפורשות
+    'טקסט', 'text', 'writing',
+    'כתוב', 'add text', 'with text',
+    'כיתוב', 'caption',
     
     // תוכן לא הולם
-    'מין', 'עירום', 'sexy', 'nude', 'nsfw',
+    'מין', 'עירום', 'sexy', 'nude', 'nsfw', 'porn',
     'אלימות', 'דם', 'violence', 'blood', 'death', 'kill',
-    'סמים', 'drugs', 'alcohol', 'cigarette',
-    
-    // דמויות מצוירות
-    'cartoon', 'anime', 'אנימציה', 'comic',
-    
-    // מותגים מסחריים
-    'apple', 'iphone', 'nike', 'adidas', 'samsung',
-    'mcdonalds', 'coca cola', 'pepsi', 'starbucks'
+    'סמים', 'drugs'
   ]
 
   const validatePrompt = (text) => {
@@ -81,7 +64,9 @@ export default function PromptForm({ onSubmit, isLoading, compact = false }) {
     }
     
     setError('')
-    onSubmit(prompt)
+    // הוספת "בהשראת..." אוטומטית לפני הפרומפט
+    const finalPrompt = `בהשראת ${prompt}`
+    onSubmit(finalPrompt)
   }
 
   const handleInputChange = (value) => {

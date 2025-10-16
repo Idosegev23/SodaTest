@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { getArtworks } from '../lib/supabaseClient'
+import { getArtworks, supabase } from '../lib/supabaseClient'
 
 export default function WeeklyWinner() {
   const [winner, setWinner] = useState(null)
@@ -14,6 +14,14 @@ export default function WeeklyWinner() {
   const loadWinner = async () => {
     try {
       const artworks = await getArtworks()
+      
+      // רשימת מיילים של שופטים שלא יכולים לזכות
+      const judgesEmails = [
+        'dede.confidential@gmail.com',
+        'shai.franco@gmail.com',
+        'shabo.alon@gmail.com',
+        'koketit.us@gmail.com'
+      ]
       
       if (artworks && artworks.length > 0) {
         // Sort by likes (most liked first), then by creation date
@@ -32,8 +40,20 @@ export default function WeeklyWinner() {
           return (b.id || '').toString().localeCompare((a.id || '').toString())
         })
         
-        // Get the winner (first place)
-        setWinner(sortedByLikes[0] || null)
+        // בדיקה מי זכה בעבר (קריאה ל-Supabase)
+        const { data: previousWinners } = await supabase
+          .from('weekly_winners')
+          .select('user_email')
+        
+        const previousWinnersEmails = previousWinners ? previousWinners.map(w => w.user_email.toLowerCase()) : []
+        
+        // סינון: מחפשים את הזוכה הראשון שלא זכה בעבר ולא שופט
+        const eligibleWinner = sortedByLikes.find(artwork => {
+          const email = (artwork.user_email || '').toLowerCase()
+          return !judgesEmails.includes(email) && !previousWinnersEmails.includes(email)
+        })
+        
+        setWinner(eligibleWinner || null)
       } else {
         setWinner(null)
       }
@@ -228,7 +248,7 @@ export default function WeeklyWinner() {
         <div className="mt-16 text-center">
           {/* כותרת */}
           <h3 className="text-[30px] font-rubik font-light text-white mb-8" dir="rtl">
-            הצטרפו לחוויה ונהנו מהטבה ייחודית
+            הצטרפו לחוויה ותהנו מהטבה ייחודית
           </h3>
 
           {/* קו זהב קצר */}
@@ -257,49 +277,18 @@ export default function WeeklyWinner() {
 
           {/* כותרת פרסים */}
           <h4 className="text-[40px] font-rubik font-bold text-white mb-12" dir="rtl">
-            הפרסים שמחכים למעצבים של ה-ENSŌ
+            הפרסים שמחכים ליוצרים של ה-®ensō
           </h4>
 
           {/* כרטיסיות פרסים */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
-            {/* כרטיסייה 1 */}
+            {/* כרטיסייה 1 - עיצוב זוכה (Desktop: מרכז, Mobile: ראשון) */}
             <div 
-              className="p-8 flex flex-col items-center text-center"
+              className="p-8 flex flex-col items-center text-center border-2 border-[var(--color-gold)] md:order-2 order-1"
               style={{
                 background: '#12294A',
                 borderRadius: '56px',
-                minHeight: '400px',
-                marginTop: '60px'
-              }}
-            >
-              <div className="relative mb-6">
-                <img src="/imgs/Group.png" alt="Prize" className="w-48 h-48" />
-                <img 
-                  src="/imgs/crown.png" 
-                  alt="Crown" 
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-contain"
-                  style={{ width: '160px', height: '160px', maxWidth: 'none' }}
-                />
-              </div>
-              
-              <h5 className="text-2xl font-rubik font-bold text-white mb-4" dir="rtl">
-                הזוכים השבועיים
-              </h5>
-              
-              <p className="text-base font-rubik font-light text-white/80 leading-relaxed" dir="rtl">
-                בכל שבוע תיבחר יצירה נוספת - זו שזכתה למספר הלייקים הגבוה ביותר בגלריה.
-                היוצרים הזוכים ייחשפו בעמוד הגלריה ויקבלו פרסים ייחודיים מבית סודהסטרים.
-              </p>
-            </div>
-
-            {/* כרטיסייה 2 - למעלה יותר */}
-            <div 
-              className="p-8 flex flex-col items-center text-center border-2 border-[var(--color-gold)]"
-              style={{
-                background: '#12294A',
-                borderRadius: '56px',
-                minHeight: '400px',
-                marginTop: '-20px'
+                minHeight: '400px'
               }}
             >
               <div className="relative mb-6">
@@ -321,14 +310,41 @@ export default function WeeklyWinner() {
               </p>
             </div>
 
-            {/* כרטיסייה 3 */}
+            {/* כרטיסייה 2 - זוכה שבועי (Desktop: שמאל, Mobile: שני) */}
             <div 
-              className="p-8 flex flex-col items-center text-center"
+              className="p-8 flex flex-col items-center text-center md:order-1 order-2"
               style={{
                 background: '#12294A',
                 borderRadius: '56px',
-                minHeight: '400px',
-                marginTop: '60px'
+                minHeight: '400px'
+              }}
+            >
+              <div className="relative mb-6">
+                <img src="/imgs/Group.png" alt="Prize" className="w-48 h-48" />
+                <img 
+                  src="/imgs/crown.png" 
+                  alt="Crown" 
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-contain"
+                  style={{ width: '160px', height: '160px', maxWidth: 'none' }}
+                />
+              </div>
+              
+              <h5 className="text-2xl font-rubik font-bold text-white mb-4" dir="rtl">
+                זוכים שבועיים
+              </h5>
+              
+              <p className="text-base font-rubik font-light text-white/80 leading-relaxed" dir="rtl">
+                בכל שבוע תיבחר יצירה - זו שזכתה למספר הלייקים הגבוה ביותר בגלריה. היוצרים הזוכים ייחשפו בעמוד הגלריה ויקבלו סדנת קוקטיילים זוגית.
+              </p>
+            </div>
+
+            {/* כרטיסייה 3 - הנחה קבועה (Desktop: ימין, Mobile: שלישי) */}
+            <div 
+              className="p-8 flex flex-col items-center text-center md:order-3 order-3"
+              style={{
+                background: '#12294A',
+                borderRadius: '56px',
+                minHeight: '400px'
               }}
             >
               <div className="relative mb-6">
@@ -346,7 +362,7 @@ export default function WeeklyWinner() {
               </h5>
               
               <p className="text-base font-rubik font-light text-white/80 leading-relaxed" dir="rtl">
-                כל משתתף בגלריה יקבל קוד הנחה של 10% לרכישת מכשיר ה־ENSŌ.
+                כל משתתף בגלריה יקבל הטבה של 10% לרכישת מכשיר ®ensō.
               </p>
             </div>
           </div>

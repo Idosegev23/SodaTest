@@ -9,13 +9,18 @@
 - 🎯 שילוב מושלם של האובייקט שלכם בכל סצנה
 - 📱 ממשק משתמש מותאם למובייל עם Tailwind CSS
 - ⚡ עיבוד אוטומטי ברקע עם Vercel Cron Jobs
+- 👑 בחירת זוכה שבועי אוטומטית (כל שבת 20:00)
+- 📊 דוחות לידים יומיים עם CSV (כל יום 17:00)
+- 📧 מערכת מיילים אוטומטית עם Nodemailer
 - 🔗 וובהוקים לעדכונים בזמן אמת
 
 ## 🛠️ טכנולוגיות
 
-- **Frontend**: Next.js 14, Tailwind CSS, Framer Motion
+- **Frontend**: Next.js 15, Tailwind CSS, Framer Motion
 - **Backend**: Supabase (Database + Storage), Google Gemini AI
-- **Deployment**: Vercel עם Cron Jobs
+- **Email**: Nodemailer (Gmail/SendGrid)
+- **Image Processing**: Sharp (WebP conversion)
+- **Deployment**: Vercel עם Cron Jobs (Pro)
 - **UI Components**: Headless UI, Heroicons
 
 ## 🚀 התקנה מקומית
