@@ -210,7 +210,7 @@ export default function PromptForm({ onSubmit, isLoading, compact = false }) {
             <li>• תאר נופים, חפצים, בעלי חיים או סצנות טבע</li>
             <li>• השתמש בצבעים, תאורה ואווירות מיוחדות</li>
             <li>• ציין פרטים כמו זמן יום, מזג אוויר או עונה</li>
-            <li>• <strong className="text-[var(--color-gold)]">זכור: מכשיר ENSŌ יופיע תמיד ביצירה</strong></li>
+            <li>• <strong className="text-[var(--color-gold)]">זכור: מכשיר ®ensō יופיע תמיד ביצירה</strong></li>
             <li>• ככל שהתיאור יותר מפורט, היצירה תהיה יותר מדויקת</li>
           </ul>
         </div>

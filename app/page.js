@@ -672,7 +672,7 @@ export default function HomePage() {
           </div>
           
           {/* Premium Judges Display */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-4">
             {/* Judge 1 - Shai Franco */}
             <div className="text-center group">
               <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
@@ -695,12 +695,12 @@ export default function HomePage() {
               </div>
         </div>
         
-            {/* Judge 2 - Shira Barzilay */}
+            {/* Judge 2 - Koketit */}
             <div className="text-center group">
               <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
                 <img 
                   src="/imgs/shira.jpeg" 
-                  alt="Shira Barzilay" 
+                  alt="Koketit" 
                   className="w-full h-full object-cover"
                 />
                 {/* Gradient Overlay */}
@@ -711,8 +711,8 @@ export default function HomePage() {
                     borderBottomRightRadius: '26px'
                   }}
                 >
-                  <h4 className="text-lg font-rubik font-bold text-white mb-1">Shira Barzilay</h4>
-                  <p className="text-sm font-rubik font-light text-white/80" dir="rtl">מעצבת דיגיטלית</p>
+                  <h4 className="text-lg font-rubik font-bold text-white mb-1">Koketit</h4>
+                  <p className="text-sm font-rubik font-light text-white/80" dir="rtl">אמנית ויוצרת</p>
                 </div>
               </div>
             </div>
@@ -757,6 +757,28 @@ export default function HomePage() {
                 >
                   <h4 className="text-lg font-rubik font-bold text-white mb-1">Dede Bandaid</h4>
                   <p className="text-sm font-rubik font-light text-white/80" dir="rtl">אמן רחוב</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Judge 5 - Amir Bavler */}
+            <div className="text-center group">
+              <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
+                <img 
+                  src="/imgs/amir.jpeg" 
+                  alt="Amir Bavler" 
+                  className="w-full h-full object-cover"
+                />
+                {/* Gradient Overlay */}
+                <div 
+                  className="absolute bottom-0 left-0 right-0 p-4 text-center"
+                  style={{
+                    background: 'linear-gradient(to top, #12294A 0%, rgba(18, 41, 74, 0.8) 30%, rgba(18, 41, 74, 0.4) 60%, transparent 100%)',
+                    borderBottomRightRadius: '26px'
+                  }}
+                >
+                  <h4 className="text-lg font-rubik font-bold text-white mb-1">Amir Bavler</h4>
+                  <p className="text-sm font-rubik font-light text-white/80" dir="rtl">מומחה לחדשנות שיווק וחווית לקוח</p>
                 </div>
               </div>
             </div>
@@ -805,7 +827,7 @@ export default function HomePage() {
             
             {/* Quote Text */}
             <p className="text-white font-rubik font-light text-2xl md:text-3xl leading-relaxed mb-8" dir="rtl">
-              ensō<sup className="text-[var(--color-gold)] text-sm">®</sup> חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת.
+              ®ensō חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת.
             </p>
             
             {/* Signature */}
@@ -822,7 +844,7 @@ export default function HomePage() {
             <button
               onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
               className="border-2 border-[var(--color-gold)] bg-transparent text-white font-rubik font-light text-xl px-12 py-4 rounded-full hover:bg-[var(--color-gold)]/10 transition-all duration-300"
-              aria-label="לפרטים נוספים על מכשיר SodaStream ensō"
+              aria-label="לפרטים נוספים על מכשיר SodaStream ®ensō"
             >
               לפרטים נוספים לחצו כאן
             </button>
@@ -847,9 +869,30 @@ export default function HomePage() {
             עמוד זה משתמש ביצירת תמונות באמצעות בינה מלאכותית המופעלת על ידי חברת אל.די.אר.אס גרופ בע"מ, ח.פ. 51559692. 
             התמונה שלך עשויה להיות מוצגת באופן פומבי לצורך הצבעה, והיא נשמרת רק למשך תקופת התחרות.
           </div>
+
+          {/* Links */}
+          <div className="mb-4 flex justify-center gap-6 flex-wrap">
+            <a 
+              href="https://sodastream.co.il/pages/%D7%9E%D7%93%D7%99%D7%A0%D7%99%D7%95%D7%AA-%D7%A4%D7%A8%D7%98%D7%99%D7%95%D7%AA-%D7%90%D7%AA%D7%A8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--color-gold)] hover:text-[var(--color-gold)]/70 text-xs font-rubik font-light transition-colors"
+            >
+              מדיניות פרטיות
+            </a>
+            <span className="text-[var(--color-muted)]/40">|</span>
+            <a 
+              href="/terms.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--color-gold)] hover:text-[var(--color-gold)]/70 text-xs font-rubik font-light transition-colors"
+            >
+              תנאי השתתפות
+            </a>
+          </div>
           
           <div className="text-[var(--color-muted)]/60 text-xs font-rubik font-light">
-            © 2025 SodaStream ensō Campaign • Powered by AI
+            © 2025 SodaStream ®ensō Campaign • Powered by AI
           </div>
         </div>
       </footer>

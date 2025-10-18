@@ -251,29 +251,8 @@ export default function WeeklyWinner() {
             הצטרפו לחוויה ותהנו מהטבה ייחודית
           </h3>
 
-          {/* קו זהב קצר */}
-          <div className="w-32 h-px bg-[var(--color-gold)] mx-auto mb-8 opacity-50"></div>
-
-          {/* טקסט עם לוגו */}
-          <div className="font-rubik text-white flex items-baseline justify-center gap-2 flex-wrap" style={{ fontSize: '60px' }} dir="rtl">
-            <span className="font-light">קבלו</span>
-            <span className="font-bold text-[var(--color-white)]">10% הנחה</span>
-            <span className="font-light">על רכישת</span>
-            <img src="/logo.png" alt="ensō" className="h-16 w-auto" style={{ transform: 'translateY(15px)' }} />
-          </div>
-
-          {/* טקסט משני */}
-          <p className="text-[30px] font-rubik font-light text-white/80 mt-6" dir="rtl">
-            הטבה בלעדית למשתתפים, לזמן מוגבל.
-          </p>
-
-          {/* טקסט תוקף */}
-          <p className="text-[22px] font-rubik font-light text-white/60 mt-3" dir="rtl">
-            ההצעה בתוקף עד סוף התחרות
-          </p>
-
-          {/* מרווח כפול */}
-          <div className="mt-16"></div>
+          {/* מרווח */}
+          <div className="mt-12"></div>
 
           {/* כותרת פרסים */}
           <h4 className="text-[40px] font-rubik font-bold text-white mb-12" dir="rtl">
