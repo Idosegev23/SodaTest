@@ -259,6 +259,11 @@ export default function WeeklyWinner() {
             הפרסים שמחכים ליוצרים של ה-®ensō
           </h4>
 
+          {/* תאריך סיום */}
+          <p className="text-[18px] font-rubik font-light text-[var(--color-gold)] mb-8" dir="rtl">
+            ההשתתפות והזכייה בפעילות עד 10.11.2025
+          </p>
+
           {/* כרטיסיות פרסים */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
             {/* כרטיסייה 1 - עיצוב זוכה (Desktop: מרכז גבוה - פודיום, Mobile: ראשון) */}
@@ -341,7 +346,7 @@ export default function WeeklyWinner() {
               </h5>
               
               <p className="text-base font-rubik font-light text-white/80 leading-relaxed" dir="rtl">
-                כל משתתף בגלריה יקבל הטבה של 10% לרכישת מכשיר ®ensō.
+                כל משתתף בגלריה יקבל הטבה של 10% לרכישת מכשיר ®ensō. לזמן מוגבל.
               </p>
             </div>
           </div>
