@@ -514,11 +514,9 @@ export default function HomePage() {
           {marqueeArtworks.concat(marqueeArtworks).map((artwork, index) => (
             <div 
               key={`marquee-${index}`}
-              className="flex-shrink-0 overflow-hidden bg-[var(--color-bg)]/50 backdrop-blur-sm"
+              className="flex-shrink-0 overflow-hidden bg-[var(--color-bg)]/50 backdrop-blur-sm w-[120px] h-[120px] md:w-[197.82px] md:h-[197.82px]"
               style={{ 
-                width: '197.82px', 
-                height: '197.82px',
-                borderRadius: '26px'
+                borderRadius: '20px'
               }}
             >
               <img 
@@ -672,9 +670,10 @@ export default function HomePage() {
           </div>
           
           {/* Premium Judges Display */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-4">
+          <div className="flex flex-wrap justify-center md:grid md:grid-cols-5 gap-4 md:gap-4">
+            {/* Mobile: flex wrap with center alignment, Desktop: grid with 5 columns */}
             {/* Judge 1 - Shai Franco */}
-            <div className="text-center group">
+            <div className="text-center group w-[45%] md:w-auto">
               <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
                 <img 
                   src="/imgs/franco.jpeg" 
@@ -696,7 +695,7 @@ export default function HomePage() {
         </div>
         
             {/* Judge 2 - Koketit */}
-            <div className="text-center group">
+            <div className="text-center group w-[45%] md:w-auto">
               <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
                 <img 
                   src="/imgs/shira.jpeg" 
@@ -718,7 +717,7 @@ export default function HomePage() {
             </div>
 
             {/* Judge 3 - Alon Shabo */}
-            <div className="text-center group">
+            <div className="text-center group w-[45%] md:w-auto">
               <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
                 <img 
                   src="/imgs/shebo.jpeg" 
@@ -740,7 +739,7 @@ export default function HomePage() {
             </div>
 
             {/* Judge 4 - Dede Bandaid */}
-            <div className="text-center group">
+            <div className="text-center group w-[45%] md:w-auto">
               <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
                 <img 
                   src="/imgs/dede.jpeg" 
@@ -762,7 +761,7 @@ export default function HomePage() {
             </div>
 
             {/* Judge 5 - Amir Bavler */}
-            <div className="text-center group">
+            <div className="text-center group w-[45%] md:w-auto">
               <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
                 <img 
                   src="/imgs/amir.jpeg" 
