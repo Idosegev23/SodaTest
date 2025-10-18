@@ -457,20 +457,20 @@ export default function HomePage() {
       )}
 
       {/* Section 1 - Welcome Opening (replaces Hero) */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
+      <section className="relative min-h-[60vh] md:min-h-screen flex items-center justify-center px-4 overflow-hidden py-8 md:py-0">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
             <img
             src="/imgs/ed232edd3950d0c53f128176fe79794c12a1eafb.jpg"
             alt="SodaStream ENSŌ"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-center md:object-[center_center]"
               loading="eager"
             />
           {/* Dark Overlay for Text Readability */}
-          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-black/60 md:bg-black/40"></div>
         </div>
 
-        <div className="max-w-4xl text-center relative z-10" style={{ paddingRight: '390px', paddingTop: '182px' }}>
+        <div className="max-w-4xl text-center relative z-10 md:pr-[390px] md:pt-[182px] w-full">
           {/* 1. SodaStream Main Logo */}
           <div className="mb-6">
             <img 
@@ -481,12 +481,12 @@ export default function HomePage() {
           </div>
 
           {/* 2. ההרמוניה - לבן */}
-          <p className="text-white text-[26px] font-rubik font-light italic tracking-wide mb-8">
+          <p className="text-white text-lg md:text-[26px] font-rubik font-light italic tracking-wide mb-4 md:mb-8">
             ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך
           </p>
 
           {/* 3. ברוכים הבאים ל- */}
-          <h1 className="text-[68px] font-rubik font-light text-white -mb-2 leading-tight" dir="rtl">
+          <h1 className="text-4xl md:text-[68px] font-rubik font-light text-white -mb-2 leading-tight" dir="rtl">
             ברוכים הבאים ל-
           </h1>
 
@@ -495,12 +495,12 @@ export default function HomePage() {
                    <img 
                      src="/logo.png" 
               alt="ensō" 
-              className="h-48 w-auto mx-auto"
+              className="h-32 md:h-48 w-auto mx-auto"
                    />
                  </div>
 
           {/* 5. Gallery - זהב */}
-          <h2 className="text-[74px] font-rubik text-[var(--color-gold)] mb-8 leading-tight uppercase tracking-wider" style={{ fontWeight: 100 }}>
+          <h2 className="text-5xl md:text-[74px] font-rubik text-[var(--color-gold)] mb-4 md:mb-8 leading-tight uppercase tracking-wider" style={{ fontWeight: 100 }}>
             Gallery
           </h2>
           
@@ -548,11 +548,11 @@ export default function HomePage() {
       ></div>
 
       {/* Section 2 - Creation Interface */}
-      <section className="py-8 px-4 relative">
+      <section className="py-6 md:py-8 px-4 relative">
         <div className="max-w-4xl mx-auto text-center">
           {/* Stars Icon */}
-          <div className="mb-8 flex justify-center">
-            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div className="mb-4 md:mb-8 flex justify-center">
+            <svg width="40" height="40" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="md:w-[60px] md:h-[60px]">
               <path d="M30 5L32.5 20L40 15L35 22.5L50 25L35 27.5L40 35L32.5 30L30 45L27.5 30L20 35L25 27.5L10 25L25 22.5L20 15L27.5 20L30 5Z" fill="var(--color-gold)"/>
               <circle cx="15" cy="15" r="2" fill="var(--color-gold)"/>
               <circle cx="45" cy="15" r="2" fill="var(--color-gold)"/>
@@ -562,17 +562,17 @@ export default function HomePage() {
           </div>
 
           {/* Main Text */}
-          <h2 className="text-[60px] font-rubik text-white mb-6 leading-tight" dir="rtl">
+          <h2 className="text-3xl md:text-[60px] font-rubik text-white mb-4 md:mb-6 leading-tight" dir="rtl">
             כאן אתם לא רק <span className="font-light">צופים</span> <span className="font-bold">אתם יוצרים</span>
           </h2>
 
           {/* Subtitle */}
-          <p className="text-[30px] font-rubik font-light text-white/80 mb-12 max-w-3xl mx-auto leading-relaxed" dir="rtl">
+          <p className="text-lg md:text-[30px] font-rubik font-light text-white/80 mb-6 md:mb-12 max-w-3xl mx-auto leading-relaxed" dir="rtl">
             כתבו כמה מילים על הסגנון, התחושה שתרצו ליצור סביב ה-®ensō, והבינה המלאכותית תהפוך את הרעיון שלכם ליצירה ויזואלית ייחודית.
           </p>
 
           {/* Image */}
-          <div className="mb-12">
+          <div className="mb-6 md:mb-12">
             <img 
               src="/imgs/Group 27.png" 
               alt="Product showcase" 
@@ -581,7 +581,7 @@ export default function HomePage() {
                </div>
 
           {/* Additional Text */}
-          <div className="max-w-3xl mx-auto mb-12 space-y-6 text-white" dir="rtl">
+          <div className="max-w-3xl mx-auto mb-6 md:mb-12 space-y-3 md:space-y-6 text-white" dir="rtl">
             <p className="text-lg md:text-xl font-rubik font-light leading-relaxed">
               היצירה שלכם תצטרף לגלריה החיה בהמשך העמוד ותהפוך לחלק מהמהלך הכי מדובר בעולמות העיצוב והטכנולוגיה.
             </p>
@@ -596,19 +596,19 @@ export default function HomePage() {
           </div>
           
           {/* Divider */}
-          <div className="my-16">
+          <div className="my-8 md:my-16">
             <div className="w-full max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent opacity-30"></div>
           </div>
 
           {/* Form Header */}
-          <div className="mb-8">
-            <h3 className="text-[60px] font-rubik text-white mb-4 leading-tight" dir="rtl">
+          <div className="mb-6 md:mb-8">
+            <h3 className="text-3xl md:text-[60px] font-rubik text-white mb-3 md:mb-4 leading-tight" dir="rtl">
               <span className="font-light">העיצוב שלכם</span> <span className="font-bold">מתחיל כאן</span>
             </h3>
-            <p className="text-[30px] font-rubik font-light text-white/80 leading-relaxed mb-4" dir="rtl">
+            <p className="text-lg md:text-[30px] font-rubik font-light text-white/80 leading-relaxed mb-3 md:mb-4" dir="rtl">
               תארו את העולם שהייתם רוצים לראות סביב מכשיר ה־®ensō
             </p>
-            <p className="text-[24px] font-rubik font-medium text-[var(--color-gold)] leading-relaxed" dir="rtl">
+            <p className="text-base md:text-[24px] font-rubik font-medium text-[var(--color-gold)] leading-relaxed" dir="rtl">
               השתתפו וקבלו 10% הנחה לרכישת מכשיר ®ensō לזמן מוגבל!
             </p>
           </div>
@@ -625,7 +625,7 @@ export default function HomePage() {
           </div>
 
           {/* Divider */}
-          <div className="my-16">
+          <div className="my-8 md:my-16">
             <div className="w-full max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent opacity-30"></div>
           </div>
         </div>
@@ -635,7 +635,7 @@ export default function HomePage() {
       <WeeklyWinner />
 
       {/* Section 4 - Judges Panel - נבחרת השופטים היוקרתית */}
-      <section className="py-8 px-4 relative">
+      <section className="py-6 md:py-8 px-4 relative">
         {/* Decorative Ellipse Background */}
         <div
           className="absolute rounded-full pointer-events-none"
@@ -653,20 +653,20 @@ export default function HomePage() {
         ></div>
 
         <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-12">
-            <h3 className="text-[45px] font-rubik font-light text-white mb-6 tracking-wide">
+          <div className="text-center mb-8 md:mb-12">
+            <h3 className="text-3xl md:text-[45px] font-rubik font-light text-white mb-4 md:mb-6 tracking-wide">
               נבחרת השופטים
           </h3>
             
-            <p className="text-[30px] font-rubik font-light text-white max-w-5xl mx-auto leading-relaxed mb-6" dir="rtl">
+            <p className="text-lg md:text-[30px] font-rubik font-light text-white max-w-5xl mx-auto leading-relaxed mb-3 md:mb-6" dir="rtl">
               נבחרת של אמנים ומעצבים פורצי דרך, שיצרו את השפה הוויזואלית של עולם העיצוב המקומי.
             </p>
             
-            <p className="text-[30px] font-rubik font-light text-white max-w-5xl mx-auto leading-relaxed mb-6" dir="rtl">
+            <p className="text-lg md:text-[30px] font-rubik font-light text-white max-w-5xl mx-auto leading-relaxed mb-3 md:mb-6" dir="rtl">
               כל אחד מהם מביא פרשנות אחרת למפגש שבין אמנות, טכנולוגיה וחדשנות.
             </p>
             
-            <p className="text-[22px] font-rubik font-light text-white/80 max-w-5xl mx-auto leading-relaxed" dir="rtl">
+            <p className="text-base md:text-[22px] font-rubik font-light text-white/80 max-w-5xl mx-auto leading-relaxed" dir="rtl">
               בסיום הפעילות, נבחרת השופטים תבחר את היצירה הייחודית ביותר - ותזכה בפרס הגדול של התחרות- זוג כרטיסי טיסה לאירופה וכניסה למוזיאון עיצוב נבחר.
             </p>
           </div>
@@ -785,7 +785,7 @@ export default function HomePage() {
           </div>
 
           {/* מרווח */}
-          <div className="mt-16"></div>
+          <div className="mt-8 md:mt-16"></div>
 
           {/* Divider */}
           <div className="w-full max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent opacity-30"></div>
@@ -793,9 +793,9 @@ export default function HomePage() {
       </section>
 
       {/* Section 5 - User Created Gallery */}
-      <section className="py-12">
-        <div className="max-w-7xl mx-auto text-center mb-8 px-4">
-          <h3 className="text-2xl md:text-3xl font-poppins font-light text-[var(--color-text)] mb-4 tracking-wide">
+      <section className="py-6 md:py-12">
+        <div className="max-w-7xl mx-auto text-center mb-4 md:mb-8 px-4">
+          <h3 className="text-xl md:text-3xl font-poppins font-light text-[var(--color-text)] mb-3 md:mb-4 tracking-wide">
             Created by You
           </h3>
           <div className="w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
@@ -805,33 +805,34 @@ export default function HomePage() {
       </section>
 
       {/* Section 7 - Hero Section (moved to bottom) */}
-      <section id="final-section" className="relative min-h-screen flex flex-col">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: 'url(/imgs/hero.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
-        ></div>
+      <section id="final-section" className="relative min-h-[60vh] md:min-h-screen flex flex-col py-12 md:py-0">
+        {/* Background Image - Responsive */}
+        <div className="absolute inset-0 z-0">
+          <div 
+            className="w-full h-full bg-cover bg-center md:bg-[center_center] bg-no-repeat"
+            style={{
+              backgroundImage: 'url(/imgs/hero.png)',
+            }}
+          ></div>
+          {/* Darker overlay for mobile readability */}
+          <div className="absolute inset-0 bg-black/50 md:bg-black/20"></div>
+        </div>
         
-        {/* Content - Positioned like hero */}
-        <div className="relative z-10 flex-1 flex items-start justify-center pl-8 md:pl-16" style={{ paddingRight: '650px', paddingTop: '40px' }}>
-          <div className="text-center max-w-xl">
+        {/* Content - Centered on mobile, positioned on desktop */}
+        <div className="relative z-10 flex-1 flex items-center md:items-start justify-center px-4 md:pl-16 md:pr-[650px] md:pt-10">
+          <div className="text-center max-w-xl w-full">
             {/* Large Quote Mark */}
-            <div className="text-[var(--color-gold)] font-serif mb-6" style={{ fontSize: '120px', lineHeight: '0.8' }}>
+            <div className="text-[var(--color-gold)] font-serif mb-4 md:mb-6 text-7xl md:text-[120px]" style={{ lineHeight: '0.8' }}>
               ״
             </div>
             
             {/* Quote Text */}
-            <p className="text-white font-rubik font-light text-2xl md:text-3xl leading-relaxed mb-8" dir="rtl">
+            <p className="text-white font-rubik font-light text-lg md:text-3xl leading-relaxed mb-6 md:mb-8" dir="rtl">
               ®ensō חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת.
             </p>
             
             {/* Signature */}
-            <div className="flex justify-center mb-12">
+            <div className="flex justify-center mb-6 md:mb-12">
               <img
                 src="/imgs/Signature.png"
                 alt="חתימה"
@@ -843,7 +844,7 @@ export default function HomePage() {
             {/* CTA Button - Transparent with Gold Border */}
             <button
               onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
-              className="border-2 border-[var(--color-gold)] bg-transparent text-white font-rubik font-light text-xl px-12 py-4 rounded-full hover:bg-[var(--color-gold)]/10 transition-all duration-300"
+              className="border-2 border-[var(--color-gold)] bg-transparent text-white font-rubik font-light text-base md:text-xl px-8 md:px-12 py-3 md:py-4 rounded-full hover:bg-[var(--color-gold)]/10 transition-all duration-300"
               aria-label="לפרטים נוספים על מכשיר SodaStream ®ensō"
             >
               לפרטים נוספים לחצו כאן

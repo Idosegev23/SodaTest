@@ -144,7 +144,7 @@ export default function WeeklyWinner() {
   }
 
   return (
-    <section className="py-16 px-4 relative overflow-hidden">
+    <section className="py-8 md:py-16 px-4 relative overflow-hidden">
       {/* Decorative Ellipse Background */}
       <div
         className="absolute rounded-full pointer-events-none"
@@ -163,13 +163,13 @@ export default function WeeklyWinner() {
 
       <div className="max-w-4xl mx-auto text-center relative z-10">
         {/* כותרת הזוכה השבועי */}
-        <div className="relative mb-12">
+        <div className="relative mb-6 md:mb-12">
           {/* אייקון כתר */}
-          <div className="mb-6 flex justify-center relative z-10">
-            <img src="/imgs/crown.png" alt="Crown" className="h-16 w-auto" />
+          <div className="mb-4 md:mb-6 flex justify-center relative z-10">
+            <img src="/imgs/crown.png" alt="Crown" className="h-12 md:h-16 w-auto" />
           </div>
           
-          <h3 className="text-4xl md:text-5xl font-rubik font-light text-white mb-6 tracking-wide relative z-10">
+          <h3 className="text-3xl md:text-5xl font-rubik font-light text-white mb-4 md:mb-6 tracking-wide relative z-10">
             הזוכה השבועי
           </h3>
         </div>
@@ -245,22 +245,22 @@ export default function WeeklyWinner() {
         </div>
 
         {/* Call to Action */}
-        <div className="mt-16 text-center">
+        <div className="mt-8 md:mt-16 text-center">
           {/* כותרת */}
-          <h3 className="text-[30px] font-rubik font-light text-white mb-8" dir="rtl">
+          <h3 className="text-xl md:text-[30px] font-rubik font-light text-white mb-6 md:mb-8" dir="rtl">
             הצטרפו לחוויה ותהנו מהטבה ייחודית
           </h3>
 
           {/* מרווח */}
-          <div className="mt-12"></div>
+          <div className="mt-6 md:mt-12"></div>
 
           {/* כותרת פרסים */}
-          <h4 className="text-[40px] font-rubik font-bold text-white mb-12" dir="rtl">
+          <h4 className="text-2xl md:text-[40px] font-rubik font-bold text-white mb-6 md:mb-12" dir="rtl">
             הפרסים שמחכים ליוצרים של ה-®ensō
           </h4>
 
           {/* תאריך סיום */}
-          <p className="text-[18px] font-rubik font-light text-[var(--color-gold)] mb-8" dir="rtl">
+          <p className="text-base md:text-[18px] font-rubik font-light text-[var(--color-gold)] mb-6 md:mb-8" dir="rtl">
             ההשתתפות והזכייה בפעילות עד 10.11.2025
           </p>
 
