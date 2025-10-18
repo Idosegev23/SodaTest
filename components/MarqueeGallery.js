@@ -9,6 +9,21 @@ export default function MarqueeGallery() {
   const [artworks, setArtworks] = useState([])
   const [allArtworks, setAllArtworks] = useState([]) // All artworks for navigation
 
+  // רשימת מיילים של שופטים
+  const judgesEmails = [
+    'dede.confidential@gmail.com',
+    'shai.franco@gmail.com',
+    'shabo.alon@gmail.com',
+    'koketit.us@gmail.com'
+  ]
+
+  // בדיקה אם יצירה שייכת לשופט
+  const isJudge = (artwork) => {
+    if (!artwork?.user_email) return false
+    const email = artwork.user_email.toLowerCase().trim()
+    return judgesEmails.includes(email)
+  }
+
   useEffect(() => {
     loadArtworks()
     
@@ -275,27 +290,33 @@ export default function MarqueeGallery() {
           </span>
         </div>
 
-        {/* Like button - subtle */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation()
-            handleLike(artwork.id, e)
-          }}
-          className={`absolute bottom-3 right-3 backdrop-blur-sm p-2 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 group/like ${
-            hasUserLiked(artwork.id) 
-              ? 'bg-[var(--color-gold)]/80 cursor-default' 
-              : 'bg-black/40 hover:bg-[var(--color-gold)]/20'
-          }`}
-          aria-label={hasUserLiked(artwork.id) ? `כבר נתת לייק ליצירה` : `תן לייק ליצירה`}
-        >
-          <svg className={`w-4 h-4 fill-current transition-transform ${
-            hasUserLiked(artwork.id) 
-              ? 'text-black scale-110' 
-              : 'text-[var(--color-gold)] group-hover/like:scale-110'
-          }`} viewBox="0 0 24 24">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-          </svg>
-        </button>
+        {/* Like button or Judge badge */}
+        {isJudge(artwork) ? (
+          <div className="absolute bottom-3 right-3 bg-[var(--color-gold)] backdrop-blur-sm px-3 py-1.5 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 shadow-lg">
+            <span className="text-black text-xs font-heebo font-bold">שופט</span>
+          </div>
+        ) : (
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              handleLike(artwork.id, e)
+            }}
+            className={`absolute bottom-3 right-3 backdrop-blur-sm p-2 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 group/like ${
+              hasUserLiked(artwork.id) 
+                ? 'bg-[var(--color-gold)]/80 cursor-default' 
+                : 'bg-black/40 hover:bg-[var(--color-gold)]/20'
+            }`}
+            aria-label={hasUserLiked(artwork.id) ? `כבר נתת לייק ליצירה` : `תן לייק ליצירה`}
+          >
+            <svg className={`w-4 h-4 fill-current transition-transform ${
+              hasUserLiked(artwork.id) 
+                ? 'text-black scale-110' 
+                : 'text-[var(--color-gold)] group-hover/like:scale-110'
+            }`} viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </button>
+        )}
 
         {/* Mobile info overlay - always visible with reduced opacity */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
@@ -439,25 +460,36 @@ export default function MarqueeGallery() {
                     </p>
       </div>
 
-                  {/* Like Button - Simple */}
-                  <button
-                    onClick={(e) => handleLike(selectedArtwork.id, e)}
-                    className={`flex items-center gap-3 px-6 py-3 border backdrop-blur-sm rounded transition-all duration-300 font-heebo font-light ${
-                      hasUserLiked(selectedArtwork.id)
-                        ? 'border-[var(--color-gold)] bg-[var(--color-gold)]/20 text-[var(--color-gold)] cursor-default opacity-70'
-                        : 'border-[var(--color-gold)]/40 bg-black/20 hover:bg-[var(--color-gold)]/10 text-[var(--color-gold)] hover:border-[var(--color-gold)]'
-                    }`}
-                    aria-label={hasUserLiked(selectedArtwork.id) ? `כבר נתת לייק ליצירה` : `תן לייק ליצירה`}
-                  >
-                    <svg className={`w-4 h-4 fill-current ${
-                      hasUserLiked(selectedArtwork.id) ? 'scale-110' : ''
-                    }`} viewBox="0 0 24 24">
-                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                    <span className="tracking-wide">
-                      {hasUserLiked(selectedArtwork.id) ? 'נתת לייק' : 'תן לייק'} ({selectedArtwork.likes || 0})
-                    </span>
-                  </button>
+                  {/* Like Button or Judge Badge */}
+                  {isJudge(selectedArtwork) ? (
+                    <div className="flex items-center gap-3 px-6 py-3 bg-[var(--color-gold)] border border-[var(--color-gold)] rounded shadow-lg">
+                      <svg className="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                      </svg>
+                      <span className="text-black font-heebo font-bold tracking-wide">
+                        שופט ({selectedArtwork.likes || 0} לייקים)
+                      </span>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={(e) => handleLike(selectedArtwork.id, e)}
+                      className={`flex items-center gap-3 px-6 py-3 border backdrop-blur-sm rounded transition-all duration-300 font-heebo font-light ${
+                        hasUserLiked(selectedArtwork.id)
+                          ? 'border-[var(--color-gold)] bg-[var(--color-gold)]/20 text-[var(--color-gold)] cursor-default opacity-70'
+                          : 'border-[var(--color-gold)]/40 bg-black/20 hover:bg-[var(--color-gold)]/10 text-[var(--color-gold)] hover:border-[var(--color-gold)]'
+                      }`}
+                      aria-label={hasUserLiked(selectedArtwork.id) ? `כבר נתת לייק ליצירה` : `תן לייק ליצירה`}
+                    >
+                      <svg className={`w-4 h-4 fill-current ${
+                        hasUserLiked(selectedArtwork.id) ? 'scale-110' : ''
+                      }`} viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                      </svg>
+                      <span className="tracking-wide">
+                        {hasUserLiked(selectedArtwork.id) ? 'נתת לייק' : 'תן לייק'} ({selectedArtwork.likes || 0})
+                      </span>
+                    </button>
+                  )}
 
                   {selectedArtwork.created_at && (
                     <div>

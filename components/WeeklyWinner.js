@@ -282,9 +282,9 @@ export default function WeeklyWinner() {
 
           {/* כרטיסיות פרסים */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
-            {/* כרטיסייה 1 - עיצוב זוכה (Desktop: מרכז, Mobile: ראשון) */}
+            {/* כרטיסייה 1 - עיצוב זוכה (Desktop: מרכז גבוה - פודיום, Mobile: ראשון) */}
             <div 
-              className="p-8 flex flex-col items-center text-center border-2 border-[var(--color-gold)] md:order-2 order-1"
+              className="p-8 flex flex-col items-center text-center border-2 border-[var(--color-gold)] md:order-2 order-1 md:mt-0"
               style={{
                 background: '#12294A',
                 borderRadius: '56px',
@@ -310,9 +310,9 @@ export default function WeeklyWinner() {
               </p>
             </div>
 
-            {/* כרטיסייה 2 - זוכה שבועי (Desktop: שמאל, Mobile: שני) */}
+            {/* כרטיסייה 2 - זוכה שבועי (Desktop: שמאל נמוך, Mobile: שני) */}
             <div 
-              className="p-8 flex flex-col items-center text-center md:order-1 order-2"
+              className="p-8 flex flex-col items-center text-center md:order-1 order-2 md:mt-16"
               style={{
                 background: '#12294A',
                 borderRadius: '56px',
@@ -338,9 +338,9 @@ export default function WeeklyWinner() {
               </p>
             </div>
 
-            {/* כרטיסייה 3 - הנחה קבועה (Desktop: ימין, Mobile: שלישי) */}
+            {/* כרטיסייה 3 - הנחה קבועה (Desktop: ימין נמוך, Mobile: שלישי) */}
             <div 
-              className="p-8 flex flex-col items-center text-center md:order-3 order-3"
+              className="p-8 flex flex-col items-center text-center md:order-3 order-3 md:mt-16"
               style={{
                 background: '#12294A',
                 borderRadius: '56px',
