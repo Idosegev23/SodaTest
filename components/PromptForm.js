@@ -122,18 +122,32 @@ export default function PromptForm({ onSubmit, isLoading, compact = false }) {
       <form onSubmit={handleSubmit} className={compact ? "space-y-4" : "space-y-8"}>
         <div>
           <div className="relative" style={{ padding: '10px' }}>
-            <textarea
-              id="artwork-prompt"
-              value={prompt}
-              onChange={(e) => handleInputChange(e.target.value)}
-              className="w-full px-6 py-4 text-lg font-heebo border-2 border-[var(--color-gold-border)] text-[var(--color-text)] placeholder-[var(--color-muted)]/60 focus:outline-none focus:border-[var(--color-gold)] focus:ring-2 focus:ring-[var(--color-gold)]/30 transition-all resize-none"
-              style={{ borderRadius: '46px', background: '#12294A' }}
-              rows="5"
-              placeholder="לדוגמה: חוף ים בשקיעה עם גלים זהובים, עצים ירוקים ופרחים צבעוניים..."
-              disabled={isLoading}
-              maxLength={500}
-              aria-describedby="prompt-help prompt-counter"
-            />
+            <div className="relative">
+              {/* Prefix קבוע "בהשראת" */}
+              <div 
+                className="absolute top-4 right-6 text-lg font-heebo text-[var(--color-text)] pointer-events-none z-10"
+                style={{ lineHeight: '1.5' }}
+              >
+                בהשראת
+              </div>
+              <textarea
+                id="artwork-prompt"
+                value={prompt}
+                onChange={(e) => handleInputChange(e.target.value)}
+                className="w-full py-4 text-lg font-heebo border-2 border-[var(--color-gold-border)] text-[var(--color-text)] placeholder-[var(--color-muted)]/60 focus:outline-none focus:border-[var(--color-gold)] focus:ring-2 focus:ring-[var(--color-gold)]/30 transition-all resize-none"
+                style={{ 
+                  borderRadius: '46px', 
+                  background: '#12294A',
+                  paddingRight: '105px',
+                  paddingLeft: '24px'
+                }}
+                rows="5"
+                placeholder="חוף ים בשקיעה עם גלים זהובים, עצים ירוקים ופרחים צבעוניים..."
+                disabled={isLoading}
+                maxLength={500}
+                aria-describedby="prompt-help prompt-counter"
+              />
+            </div>
             <div 
               id="prompt-counter"
               className="absolute bottom-4 text-sm text-[var(--color-muted)]/60 font-heebo"
