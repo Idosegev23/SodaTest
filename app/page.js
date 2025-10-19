@@ -226,20 +226,9 @@ export default function HomePage() {
                 <div className="flex justify-center gap-4">
                   {/* WhatsApp */}
                   <button
-                    onClick={async () => {
-                      // הורדת תמונה
-                      const link = document.createElement('a');
-                      link.href = completedArtwork.image_url;
-                      link.download = `®ensō-artwork-${completedArtwork.id}.png`;
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                      
-                      // פתיחת וואטסאפ עם טקסט ולינק לאתר
-                      setTimeout(() => {
-                        const text = `🎨 יצרתי יצירת אמנות מדהימה עם SodaStream ®ensō!\n\n"${completedArtwork.prompt}"\n\nצפו ביצירה: https://sodastream.co.il/products/enso`
-                        window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
-                      }, 500);
+                    onClick={() => {
+                      const text = `🎨 יצרתי יצירת אמנות מדהימה עם SodaStream ®ensō!\n\n"${completedArtwork.prompt}"\n\nצפו ביצירה שלי: ${completedArtwork.image_url}\n\nצרו גם אתם: https://sodastream.co.il/products/enso`
+                      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
                     }}
                     className="w-16 h-16 rounded-full bg-[#25D366] flex items-center justify-center hover:scale-110 transition-transform duration-300 shadow-lg"
                     title="שתף בווטסאפ"
@@ -252,8 +241,8 @@ export default function HomePage() {
                   {/* Facebook */}
                   <button
                     onClick={() => {
-                      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://sodastream.co.il/products/enso')}&quote=${encodeURIComponent(`🎨 יצרתי יצירת אמנות מדהימה עם SodaStream ®ensō! "${completedArtwork.prompt}"`)}`
-                      window.open(shareUrl, '_blank')
+                      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(completedArtwork.image_url)}&quote=${encodeURIComponent(`🎨 יצרתי יצירת אמנות מדהימה עם SodaStream ®ensō! "${completedArtwork.prompt}"`)}`
+                      window.open(shareUrl, '_blank', 'noopener,noreferrer,width=600,height=400')
                     }}
                     className="w-16 h-16 rounded-full bg-[#1877F2] flex items-center justify-center hover:scale-110 transition-transform duration-300 shadow-lg"
                     title="שתף בפייסבוק"
@@ -266,18 +255,18 @@ export default function HomePage() {
                   {/* Instagram */}
                   <button
                     onClick={async () => {
-                      // הורדת תמונה
-                      const link = document.createElement('a');
-                      link.href = completedArtwork.image_url;
-                      link.download = `®ensō-artwork-${completedArtwork.id}.png`;
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                      
-                      // העתקת טקסט ללוח
-                      const instagramText = `🎨 יצרתי יצירת אמנות מדהימה עם SodaStream ®ensō!\n\n"${completedArtwork.prompt}"\n\nhttps://sodastream.co.il/products/enso`
-                      await navigator.clipboard.writeText(instagramText)
-                      alert('התמונה הורדה והטקסט הועתק! עכשיו תוכל להעלות לסטורי באינסטגרם')
+                      try {
+                        // העתקת טקסט ללוח
+                        const instagramText = `🎨 יצרתי יצירת אמנות מדהימה עם SodaStream ®ensō!\n\n"${completedArtwork.prompt}"\n\n${completedArtwork.image_url}\n\nhttps://sodastream.co.il/products/enso`
+                        await navigator.clipboard.writeText(instagramText)
+                        
+                        // פתיחת אינסטגרם בטאב חדש
+                        window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer')
+                        
+                        alert('הטקסט והלינק לתמונה הועתקו! פתחנו עבורך את אינסטגרם - הדבק את הטקסט והוסף את התמונה מהלינק')
+                      } catch (err) {
+                        alert('שגיאה בהעתקת הטקסט. אנא נסה שוב.')
+                      }
                     }}
                     className="w-16 h-16 rounded-full bg-gradient-to-br from-[#E1306C] via-[#C13584] to-[#833AB4] flex items-center justify-center hover:scale-110 transition-transform duration-300 shadow-lg"
                     title="שתף באינסטגרם"
