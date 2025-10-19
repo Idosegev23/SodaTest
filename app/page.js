@@ -585,7 +585,7 @@ export default function HomePage() {
             </p>
 
             <p className="text-lg md:text-xl font-rubik font-light leading-relaxed">
-              בכל שבוע ייבחר עיצוב זוכה, שיזכה באחד מהפרסים הנחשקים שלנו.
+              בכל שבוע העיצוב עם מספר הלייקים הגבוה ביותר יזכה בסדנת קוקטיילים זוגית והזוכה הגדול בכרטיס טיסה זוגי לאירופה וכניסה למוזיאון נבחר.
             </p>
 
             <p className="text-lg md:text-xl font-rubik font-bold leading-relaxed">
@@ -810,7 +810,7 @@ export default function HomePage() {
           <div 
             className="w-full h-full bg-cover bg-center md:bg-[center_center] bg-no-repeat"
             style={{
-              backgroundImage: 'url(/imgs/hero.png)',
+              backgroundImage: 'url(/hero.jpg)',
             }}
           ></div>
           {/* Darker overlay for mobile readability */}

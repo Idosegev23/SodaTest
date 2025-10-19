@@ -26,10 +26,21 @@ export async function GET() {
     const item = pendingItems[0]
     console.log(`Processing item ${item.id} for user ${item.user_name}`)
 
-    // עדכון סטטוס לעיבוד
+    // וידוא שהפרומפט מתחיל ב"בהשראת" - הגנה ברמת Server
+    let finalPrompt = item.prompt
+    if (!finalPrompt.startsWith('בהשראת ') && !finalPrompt.startsWith('בהשראת…') && !finalPrompt.startsWith('בהשראת:')) {
+      finalPrompt = `בהשראת ${finalPrompt}`
+      console.log('Added "בהשראת" prefix to prompt')
+    }
+
+    // עדכון סטטוס לעיבוד (ועדכון הפרומפט אם שונה)
+    const updateData = finalPrompt !== item.prompt 
+      ? { status: 'processing', prompt: finalPrompt }
+      : { status: 'processing' }
+    
     const { error: updateError } = await supabase
       .from('queue')
-      .update({ status: 'processing' })
+      .update(updateData)
       .eq('id', item.id)
 
     if (updateError) {
@@ -70,16 +81,16 @@ export async function GET() {
       const apiUrl = isProduction ? '/api/gemini' : `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/gemini`
       
       console.log('Making request to Gemini API:', apiUrl)
-      console.log('Request payload:', { prompt: item.prompt })
+      console.log('Request payload:', { prompt: finalPrompt })
       console.log('Is production:', isProduction)
       
-      // בפרודקשן נשתמש בכתובת יחסית, בפיתוח בכתובת מלאה
+      // בפרודקשן נשתמש בכתובת יחסית, בפיתוח בכתובת מלאה (עם הפרומפט המעודכן)
       const geminiResponse = isProduction 
         ? await import('../gemini/route.js').then(module => 
             module.POST(new Request('http://localhost/api/gemini', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ prompt: item.prompt })
+              body: JSON.stringify({ prompt: finalPrompt })
             }))
           )
         : await fetch(apiUrl, {
@@ -87,7 +98,7 @@ export async function GET() {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ prompt: item.prompt }),
+            body: JSON.stringify({ prompt: finalPrompt }),
           })
 
       console.log('Gemini API response status:', geminiResponse.status)
@@ -141,14 +152,14 @@ export async function GET() {
 
       const imageUrl = urlData.publicUrl
 
-      // שמירה בטבלת artworks
+      // שמירה בטבלת artworks (עם הפרומפט המעודכן)
       const { data: artworkData, error: artworkError } = await supabase
         .from('artworks')
         .insert([{
           user_name: item.user_name,
           user_email: item.user_email,
           user_phone: item.user_phone,
-          prompt: item.prompt,
+          prompt: finalPrompt,
           image_url: imageUrl,
         }])
         .select()
@@ -169,12 +180,12 @@ export async function GET() {
         throw new Error('Failed to update status to done')
       }
 
-      // שליחת וובהוק
+      // שליחת וובהוק (עם הפרומפט המעודכן)
       const webhookData = {
         user_name: item.user_name,
         user_email: item.user_email,
         user_phone: item.user_phone,
-        prompt: item.prompt,
+        prompt: finalPrompt,
         image_url: imageUrl,
         created_at: artworkData[0].created_at,
       }

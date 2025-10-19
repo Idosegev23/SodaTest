@@ -256,7 +256,7 @@ export default function WeeklyWinner() {
 
           {/* כותרת פרסים */}
           <h4 className="text-2xl md:text-[40px] font-rubik font-bold text-white mb-6 md:mb-12" dir="rtl">
-            הפרסים שמחכים ליוצרים של ה-®ensō
+            הפרסים שמחכים ליוצרים הזוכים
           </h4>
 
           {/* תאריך סיום */}
