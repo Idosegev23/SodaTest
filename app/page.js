@@ -676,7 +676,7 @@ export default function HomePage() {
             <div className="text-center group w-[45%] md:w-auto">
               <div className="relative w-full aspect-square mx-auto" style={{ borderTopLeftRadius: '56px', borderTopRightRadius: '56px', borderBottomLeftRadius: '56px', borderBottomRightRadius: '26px', overflow: 'hidden' }}>
                 <img 
-                  src="/imgs/franco.jpeg" 
+                  src="/imgs/shai.jpeg" 
                   alt="Shai Franco" 
                   className="w-full h-full object-cover"
                 />
