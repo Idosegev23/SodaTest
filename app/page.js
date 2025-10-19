@@ -871,12 +871,10 @@ export default function HomePage() {
             </a>
             <span className="text-[var(--color-muted)]/40">|</span>
             <a 
-              href="/terms.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/terms"
               className="text-[var(--color-gold)] hover:text-[var(--color-gold)]/70 text-xs font-rubik font-light transition-colors"
             >
-              תנאי השתתפות
+              תקנון התחרות
             </a>
           </div>
           

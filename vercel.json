@@ -10,7 +10,7 @@
     },
     {
       "path": "/api/daily-leads-report",
-      "schedule": "0 15 * * *"
+      "schedule": "0 14 * * *"
     }
   ],
   "functions": {

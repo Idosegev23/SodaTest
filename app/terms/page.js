@@ -8,7 +8,7 @@ export default function TermsPage() {
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]" lang="he">
-      <div className="container mx-auto px-4 md:px-8 py-8 md:py-12 max-w-4xl">
+      <div className="container mx-auto px-4 md:px-8 py-8 md:py-12 max-w-5xl">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <button
@@ -17,118 +17,159 @@ export default function TermsPage() {
             aria-label="חזור לעמוד הקודם"
           >
             <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            <span className="font-heebo font-light">חזור</span>
+            <span className="font-rubik font-light">חזור</span>
           </button>
         </div>
 
         {/* Title */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-heebo font-light text-[var(--color-text)] mb-4">
-            תנאי שימוש
+          <h1 className="text-3xl md:text-5xl font-rubik font-light text-[var(--color-text)] mb-4">
+            תקנון תחרות – השקת מכשיר enso® בישראל
           </h1>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-4"></div>
-          <p className="text-[var(--color-muted)] font-heebo font-light">
-            קמפיין SodaStream Enso
-          </p>
         </div>
 
         {/* Content */}
         <div className="prose prose-invert max-w-none">
-          <div className="bg-[var(--color-gold-muted)] border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 space-y-6 font-heebo">
+          <div className="bg-[var(--color-gold-muted)] border border-[var(--color-gold-border)] rounded-lg p-6 md:p-10 space-y-8 font-rubik">
             
+            {/* Section 1: הגדרות */}
             <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">1. כללי</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                ברוכים הבאים לשירות יצירת האמנות של קמפיין SodaStream Enso. 
-                השימוש בשירות זה כפוף לתנאי השימוש המפורטים להלן. 
-                השימוש באתר מהווה הסכמה מלאה לתנאים אלה.
-              </p>
+              <h2 className="text-2xl font-rubik font-medium text-[var(--color-text)] mb-6">1. הגדרות</h2>
+              <div className="space-y-4 text-[var(--color-muted)] leading-relaxed">
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"התחרות"</div>
+                  <div>פעילות נושאת פרסים, שתיערך בהתאם להוראות תקנון זה.</div>
+                </div>
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"תקופת התחרות"</div>
+                  <div>התחרות תתקיים בין התאריכים 20.10.2025-10/11/2025.</div>
+                </div>
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"התקנון"</div>
+                  <div>תקנון זה.</div>
+                </div>
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"החברה" / "סודהסטרים"</div>
+                  <div>סודהסטרים ישראל בע"מ, ח.פ 510999410.</div>
+                </div>
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"המכשיר"</div>
+                  <div>מכשיר להכנת מים מוגזים מדגם enso® תוצרת סודהסטרים.</div>
+                </div>
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"משתתף"</div>
+                  <div>כל אזרח ישראל אשר מלאו לו 18 ואשר מילא אחר הוראות התחרות כאמור בתקנון זה. למען הסר ספק מובהר כי תאגידים ו/או קבוצות ו/או התארגנויות ו/או כל גוף שאיננו אדם פרטי אינם רשאים להשתתף בתחרות זו.</div>
+                </div>
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"משתתף לא זכאי"</div>
+                  <div>
+                    כל מי שמתקיים לגביו האמור להלן אינו רשאי להשתתף בתחרות:<br />
+                    א. החברה וכל חברה קשורה לה.<br />
+                    ב. מנהליה, עובדיה ובני משפחותיהם של החברה או חברות קשורות לחברה.
+                  </div>
+                </div>
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"פרטי המשתתף"</div>
+                  <div>פרטים אישיים של המבקש להשתתף בתחרות ואשר כוללים, בין היתר, שם מלא, מספר טלפון וכתובת דואר אלקטרוני. פרטים אלה יישמרו במאגרי החברה לצורך בתקופת התחרות, לצורך ניהול ותפעול התחרות ומשלוח הודעות שיווקיות.</div>
+                </div>
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"אתר האינטרנט של החברה"</div>
+                  <div>www.sodastream.co.il</div>
+                </div>
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"עמוד התחרות"</div>
+                  <div>עמוד תחרות ייעודי לצורך ההשתתפות בתחרות. גישה לעמוד בלינק: www.ensogallery.co.il</div>
+                </div>
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"הפרס השבועי" / "הפרסים"</div>
+                  <div>סדנאת קוקטיילים זוגית</div>
+                </div>
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"הפרס הגדול"</div>
+                  <div>כרטיס טיסה זוגי + כניסה למוזיאון עיצוב נבחר</div>
+                </div>
+                <div className="grid md:grid-cols-[200px_1fr] gap-3">
+                  <div className="font-medium text-[var(--color-text)]">"משתתף זוכה"</div>
+                  <div>משתתף אשר זכה בפרס במסגרת התחרות בכפוף להוראות התקנון.</div>
+                </div>
+              </div>
             </section>
 
+            {/* Section 2: פרשנות */}
             <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">2. השירות</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                השירות מאפשר ליצור יצירות אמנות דיגיטליות באמצעות בינה מלאכותית, 
-                כאשר מכשיר SodaStream Enso מוטמע בכל יצירה. 
-                השירות מיועד לשימוש אישי ולא מסחרי.
-              </p>
+              <h2 className="text-2xl font-rubik font-medium text-[var(--color-text)] mb-6">2. פרשנות</h2>
+              <div className="space-y-4 text-[var(--color-muted)] leading-relaxed">
+                <p>2.1. בכל מקרה של סתירה ו/או אי התאמה כלשהי בין הוראות התקנון לפרסומים אחרים כלשהם בדבר התחרות, תגברנה הוראות התקנון לכל דבר ועניין.</p>
+                <p>2.2. כל האמור בתקנון זה בלשון יחיד – אף רבים במשמע, ולהיפך וכל האמור במין זכר – אף מין נקבה במשמע ולהיפך, והכל למעט אם הקשר הדברים או תכנם מחייב פרשנות אחרת.</p>
+                <p>2.3. חלוקת תקנון לסעיפים וכן מתן כותרות לסעיפים אלו, נעשו מטעמי נוחות בלבד, ואין להשתמש בהם לשם פרשנות התקנון.</p>
+              </div>
             </section>
 
+            {/* Section 3: כללי התחרות */}
             <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">3. כללי השימוש</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed mb-3">
-                בעת השימוש בשירות, אתם מתחייבים:
-              </p>
-              <ul className="text-[var(--color-muted)] list-disc list-inside space-y-2">
-                <li>לא לבקש יצירת תוכן הכולל אנשים או דמויות אנושיות</li>
-                <li>לא לבקש תוכן פוליטי, שנוי במחלוקת או פוגעני</li>
-                <li>לא לכלול טקסטים או כתובות ביצירות</li>
-                <li>לא לבקש תוכן NSFW, אלים או לא הולם</li>
-                <li>לספק פרטים אמיתיים ומדויקים</li>
-              </ul>
+              <h2 className="text-2xl font-rubik font-medium text-[var(--color-text)] mb-6">3. כללי התחרות</h2>
+              <div className="space-y-4 text-[var(--color-muted)] leading-relaxed">
+                <p>3.1. על משתתף המעוניין להשתתף בתחרות, להיכנס לעמוד התחרות ולעצב תמונה של המכשיר על גבי רקע שנוצר באמצעות בינה מלאכותית המופעלת על ידי חברת אל.די.אר.אס גרופ בע"מ, ח.פ. 515596922, והכל פרי דמיונו ויצירתיותו של המששתף. כל התמונות שתיווצרנה על ידי המשתתפים תתווספנה לגריה שתופיע בעמוד התחרות ותישמרנה רק בתקופת התחרות. כל משתתף זכאי ליצור תמונה אחת בלבד. התמונות יועמדו להצבעת הגולשים באמצעות סימון לייק ("אהבתי"). למען הסר ספק, לא תתאפשר העלאת תמונות או מדיה או קובץ חיצוני לאתר התחרות.</p>
+                <p>3.2. פרטי המשתתף שמחייבים את החברה הם אלה שייקלטו במערכת. האחריות לתקינות ונכונות הפרטים שנמסרו על-ידי המשתתף, חלה על המשתתף בלבד.</p>
+                <p>3.3. החברה לא תהא אחראית במקרה של תקלה טכנית במסגרתה לא יהיה ניתן לבצע את הפעולות האמורות בסעיף 3.1 לעיל ולא תהיה למשתתפים כל טענה ו/או דרישה ו/או תביעה בקשר לתקלות כאמור ולאי יכולתם להשתתף בתחרות.</p>
+                <p>3.4. השתתפות בתחרות ורישום פרטי המשתתף מהווים הסכמה אוטומטית ומפורשת של המשתתף, לרבות על פי חוק התקשורת (בזק ושידורים), תשמ"ב-1982, כי החברה רשאית לשמור במאגריה את הפרטים שנמסרו על-ידו, לשם ביצוע פעולות, לרבות משלוח דברי פרסומת. המשתתפים רשאים לבקש את הסרתם מרשימת התפוצה בכל עת.</p>
+              </div>
             </section>
 
+            {/* Section 4: תוצאות התחרות */}
             <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">4. זכויות יוצרים ובעלות</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed mb-3">
-                יצירות האמנות שנוצרות באתר:
-              </p>
-              <ul className="text-[var(--color-muted)] list-disc list-inside space-y-2">
-                <li>נוצרות בעזרת בינה מלאכותית על בסיס הפרומפט שלכם</li>
-                <li>יכולות להיות מוצגות בגלריה הציבורית באתר</li>
-                <li>SodaStream שומרת לעצמה זכות שימוש ביצירות לצרכי שיווק</li>
-                <li>אתם מקבלים רישיון לשימוש אישי ביצירות שיצרתם</li>
-              </ul>
+              <h2 className="text-2xl font-rubik font-medium text-[var(--color-text)] mb-6">4. תוצאות התחרות, הפרס ואופן מימושו</h2>
+              <div className="space-y-4 text-[var(--color-muted)] leading-relaxed">
+                <p>4.1. בתום כל שבוע בתקופת התחרות, תכריז החברה על המשתתף שתמונתו קיבלה את מספר הלייקים הגבוה ביותר מבין התמונות שהועלו באותו השבוע לעמוד התחרות, כמשתתף זוכה. בסך הכל יוכרזו שלושה משתתפים זוכים באופן זה.</p>
+                <p>4.2. בנוסף, בתום תקופת הפעילות, ועדת שופטים שתורכב ממשפיעני רשת מוכרים אשר ייבחרו באופן בלעדי על ידי סודהסטרים ("השופטים"). השופטים יבחרו, על פי שיקול דעתם הבלעדי, את התמונה המקורית ו/או היצירתית ביותר, והמשתתף שיצר תמונה זו יוכרז כמשתתף הזוכה בפרס הגדול.</p>
+                <p>4.3. תוצאות התחרות תהיינה סופיות ומוחלטות. למשתתפים בתחרות לא תהיינה, והם מוותרים בזאת מראש באופן סופי ומוחלט, על כל טענה ו/או דרישה ו/או תביעה נגד החברה ו/או מי מטעמה ו/או השופטים בגין הרכב ועדת השופטים ו/או בחירת המשתתפים הזוכים.</p>
+                <p>4.4. הפרס ו/או הפרס הגדול אינם ניתנים להחלפה או להמרה ולא יינתן עודף או זיכוי בגין שימוש חלקי.</p>
+                <p>4.5. החברה תודיע למשתתפים הזוכים אודות זכייתם באמצעות הודעת דואר אלקטרוני ו/או שיחת טלפון, בהתאם לפרטי המשתתף אשר הוזנו על-ידי המשתתפים בעת הרישום לתחרות.</p>
+                <p>4.6. יצוין כי החברה שומרת לעצמה הזכות לדרוש מהמשתתפים הזוכים להציג תעודה מזהה כתנאי למימוש הפרס.</p>
+                <p>4.7. החברה עשויה לפרסם את שמות הזוכים בחשבונות החברה ברשתות החברתיות ובפלטפורמות נוספות, לרבות אך לא רק, פייסבוק, אינסטגרם וטיק טוק וכן באתר החברה ובניוזלטר בדיוור ישיר, בכפוף להוראות הדין. רישום לתחרות מהווה הסכמה לפרסום שמו של המשתתף הזוכה כאמור.</p>
+                <p>4.8. באחריותו הבלעדית של המשתתף הזוכה ליצור קשר עם החברה, בדרכים אשר תצויינה בהודעה הפרטית אשר תישלח אליו לאחר זכייתו, זאת לצורך מימוש וקבלת הפרס.</p>
+                <p>4.9. מימוש הפרס ייעשה בתוך 30 ימים ממועד הכרזת הזוכים והחברה לא תהא אחראית כלפי משתתף זוכה אשר לא יצר קשר בהתאם.</p>
+                <p>4.10. היה ותבוטל זכייתו של משתתף זוכה בשל אחת או יותר מהסיבות הבאות, זו תועבר למשתתף אחר, לפי שיקול דעתה הבלעדי של החברה. מובהר כי ביטול של זכייתו של משתתף תהא על-פי שיקול דעתה הבלעדי של החברה והמשתתף מוותר בזאת ויתור סופי ומוחלט על כל טענה בגין הביטול כאמור.</p>
+                <p className="mr-4">הסיבות בגינן, בין היתר, תהא רשאית החברה לבטל את זכייתו של משתתף, לפי שיקול דעתה הבלעדי:</p>
+                <div className="mr-6 space-y-2">
+                  <p>א. פרטי המשתתף כפי שהוזנו בעת הרישום לתחרות אינם ברורים ולא ניתן לבררם באופן סביר.</p>
+                  <p>ב. המשתתף לא אותר במשך 30 ימים ממועד קבלת ההחלטה בדבר תוצאות התחרות או מועד שליחת ההודעה על זכייתו של המשתתף כאמור בתקנון, המאוחר מביניהם.</p>
+                  <p>ג. המשתתף השיג את זכאותו לפרס ו/או השתתפותו בתחרות בדרכי רמיה.</p>
+                  <p>ד. המשתתף ויתר על זכייתו.</p>
+                  <p>ה. ככל שהתבקש לעשות כן, המשתתף לא הציג תעודה מזהה רשמית לצורך אימות פרטי המשתתף כפי שהוזנו בעת הרישום לתחרות.</p>
+                  <p>ו. המשתתף כבר זכה פעם אחת בפרס במסגרת התחרות.</p>
+                  <p>ז. החברה, על-פי שיקול דעתה הבלעדי, קבעה כי חלה סיבה מהותית למניעת מתן הזכייה למשתתף הזוכה.</p>
+                  <p>ח. המשתתף הפר הוראה מהוראות התקנון.</p>
+                  <p>ט. התברר כי המשתתף הינו משתתף לא זכאי כהגדרתו בתקנון זה.</p>
+                </div>
+                <p>4.11. לא חולקו הפרסים, כולם או חלקם, מסיבה כלשהי, החברה שומרת לעצמה את הזכות להחליט בדבר גורל הפרסים, לרבות הפרס הגדול, לפי שיקול דעתה הבלעדי.</p>
+                <p>4.12. החברה לא תהא אחראית בשום אופן בגין זיהוי שגוי של המשתתף הזוכה או הטוען לזכייה, ולא תישמע כל טענה כי הפרס נמסר לאדם שאינו זכה במקום למשתתף זוכה.</p>
+                <p>4.13. כל חבות מס בגין זכייה בפרס, ככל שקיימת, תחול על המשתתף.</p>
+              </div>
             </section>
 
+            {/* Section 5: כללי */}
             <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">5. אחריות והגבלות</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                השירות מסופק "כמו שהוא" ללא אחריות מכל סוג. 
-                SodaStream לא תהיה אחראית לנזקים הנובעים משימוש בשירות, 
-                כולל איכות היצירות או זמינות השירות.
-              </p>
+              <h2 className="text-2xl font-rubik font-medium text-[var(--color-text)] mb-6">5. כללי</h2>
+              <div className="space-y-4 text-[var(--color-muted)] leading-relaxed">
+                <p>5.1. כל משתתף יהא זכאי לרכוש את המכשיר באתר האינטרנט של החברה בהנחה של 10% מהמחיר המופיע באתר האינטרנט של החברה, באמצעות קוד הטבה שיישלח לכתובת הדואר האלקטרוני של המשתתפים יחד עם הניוזלטר בתוך ימי עסקים מרגע ההשתתפות בתחרות. הטבה זו תעמוד בתוקפה עד ליום 10.11.2025.</p>
+                <p>5.2. בכפוף לכל דין, החברה על-פי שיקול דעתה הבלעדי, רשאית להאריך, לקצר או לשנות את תקופת התחרות, להוסיף זוכים, להוסיף פרסים או לשנותם, לשנות את מועד בחירת הזוכים וכן לבטל את התחרות ו/או לבצע כל פעולה אחרת בקשר עם הפעילות השיווקית של התחרות ובלבד שתודיע על השינויים כאמור בכל דרך סבירה.</p>
+                <p>5.3. ההשתתפות בתחרות הינה באחריותו הבלעדית של המשתתף. בהשתתפותו בתחרות מסכים, מאשר ומצהיר המשתתף כי הוא קרא את התקנון והינו מקבל עליו את הוראותיו במלואן.</p>
+                <p>5.4. למשתתפים ולכל מי מטעמם לא תהיה כל דרישה ו/או תביעה ו/או טענה מכל סוג ומין שהוא בקשר עם התחרות, הפרס, הפרס הגדול, התקנון ו/או לכל עניין אחר הכרוך בהם ובעצם השתתפותו פוטר המשתתף את החברה, עובדיה או מי מטעמה מכל טענה ו/או תביעה ו/או דרישה הקשורה במישרין או בעקיפין לתחרות ו/או לפרס. החברה וכל מי מטעמה, לא תהא אחראית לכל נזק ו/או הפסד ו/או הוצאה שייגרמו למי מהמשתתפים הקשורים במישרין ו/או בעקיפין בתחרות, ניהולה, תוצאותיה והפרס שיוענק במסגרתה.</p>
+                <p>5.5. כל זכויות הקניין הרוחני בתחרות ובפרסומים הקשורים לתחרות, לרבות סימני מסחר, זכויות יוצרים, פטנטים ועיצובים, הינם רכושה הבלעדי של החברה.</p>
+                <p>5.6. עותק מתקנון התחרות יימצא באתר האינטרנט של החברה.</p>
+                <p>5.7. כל שאלה ועניין הקשורים לכתיבת, תוקף, פרשנות ואכיפת תקנון זה, או הקשורים לזכויות וחובות המשתתף והחברה בקשר עם התחרות, יהיו כפופים לחוקי מדינת ישראל. לבתי המשפט בעיר תל אביב-יפו תהיה סמכות השיפוט הבלעדית בכל עניין או מחלוקת הנוגעים לתקנון תחרות זה.</p>
+                <p>5.8. למען הסר ספק, תקנון התחרות הינו לצורכי משחק בלבד והתחרות לא תחשב כהגרלה כהגדרתה בסעיף 224 בחוק העונשין וזאת בשל העובדה כי הזכייה אינה בדרך של גורל.</p>
+              </div>
             </section>
 
-            <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">6. פרטיות ומידע אישי</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                השימוש בשירות כפוף למדיניות הפרטיות שלנו. 
-                המידע שתספקו ישמש ליצירת היצירות ולשליחת עדכונים שיווקיים 
-                (בכפוף להסכמתכם).
+            {/* Footer Company Name */}
+            <div className="text-center pt-8 border-t border-[var(--color-gold-border)]">
+              <p className="text-[var(--color-text)] font-rubik font-medium text-lg">
+                סודהסטרים ישראל בע"מ
               </p>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">7. הפרת תנאים</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                במקרה של הפרת תנאי השימוש, אנו שומרים לעצמנו את הזכות 
-                לחסום את הגישה לשירות, למחוק תוכן לא מתאים ולנקוט בפעולות משפטיות במידת הצורך.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">8. שינויים בתנאים</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                אנו שומרים לעצמנו את הזכות לעדכן את תנאי השימוש מעת לעת. 
-                שינויים יכנסו לתוקף מיד עם פרסומם באתר.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">9. דין חל ושיפוט</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                תנאי שימוש אלה כפופים לדיני מדינת ישראל. 
-                כל מחלוקת תהיה נתונה לשיפוטם הבלעדי של בתי המשפט המוסמכים בישראל.
-              </p>
-            </section>
-
-            <section className="border-t border-[var(--color-gold-border)] pt-6">
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">עדכון אחרון</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                תנאי שימוש אלה עודכנו לאחרונה ב-{new Date().toLocaleDateString('he-IL')}.
-              </p>
-            </section>
+            </div>
           </div>
         </div>
 
@@ -136,7 +177,7 @@ export default function TermsPage() {
         <div className="text-center mt-12">
           <button
             onClick={() => router.push('/')}
-            className="px-8 py-3 bg-[var(--color-gold)] text-black font-heebo font-medium rounded hover:bg-[var(--color-gold)]/90 transition-all focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)] focus:ring-offset-2 focus:ring-offset-black"
+            className="px-8 py-3 bg-[var(--color-gold)] text-black font-rubik font-medium rounded-lg hover:bg-[var(--color-gold)]/90 transition-all focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)] focus:ring-offset-2 focus:ring-offset-[var(--color-bg)]"
           >
             חזור לעמוד הבית
           </button>
