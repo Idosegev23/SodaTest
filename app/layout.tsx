@@ -15,19 +15,19 @@ const rubik = Rubik({
 });
 
 export const metadata: Metadata = {
-  title: "SodaStream ®ensō Gallery - ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך",
-  description: "ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך - קמפיין SodaStream ®ensō. צור יצירות אמנות יוקרתיות עם מכשיר ®ensō באמצעות בינה מלאכותית מתקדמת. אתר נגיש ומינימליסטי עם אווירת גלריה יוקרתית.",
-  keywords: "SodaStream, ensō, יצירות אמנות, בינה מלאכותית, AI, גלריה דיגיטלית, אמנות יוקרתית, הרמוניה, עיצוב, טכנולוגיה",
+  title: "SodaStream ensō® Gallery - גלריית יצירות אמנות",
+  description: "גלריה דיגיטלית לייצור יצירות אמנות ייחודיות עם מכשיר SodaStream ensō® באמצעות בינה מלאכותית. צור, שתף והצבע ליצירות המדהימות ביותר.",
+  keywords: "SodaStream, ensō®, יצירות אמנות, בינה מלאכותית, AI, גלריה דיגיטלית, אמנות, עיצוב, טכנולוגיה",
   openGraph: {
-    title: "®ensō Gallery",
-    description: "ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך - קמפיין SodaStream ®ensō. צור יצירות אמנות יוקרתיות עם מכשיר ®ensō באמצעות בינה מלאכותית מתקדמת",
+    title: "SodaStream ensō® Gallery",
+    description: "גלריה דיגיטלית לייצור יצירות אמנות ייחודיות עם מכשיר SodaStream ensō® באמצעות בינה מלאכותית",
     type: "website",
     locale: "he_IL",
   },
   twitter: {
     card: "summary_large_image",
-    title: "®ensō Gallery",
-    description: "ההרמוניה שבין עיצוב לטכנולוגיה פורצת דרך - צור יצירות אמנות יוקרתיות עם מכשיר SodaStream ®ensō",
+    title: "SodaStream ensō® Gallery",
+    description: "גלריה דיגיטלית לייצור יצירות אמנות ייחודיות עם מכשיר SodaStream ensō® באמצעות בינה מלאכותית",
   },
 };
 
