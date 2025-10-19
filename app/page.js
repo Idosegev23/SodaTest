@@ -227,7 +227,7 @@ export default function HomePage() {
                   {/* WhatsApp */}
                   <button
                     onClick={() => {
-                      const text = `🎨 יצרתי יצירת אמנות מדהימה עם SodaStream ®ensō!\n\n"${completedArtwork.prompt}"\n\nצפו ביצירה שלי: ${completedArtwork.image_url}\n\nצרו גם אתם: https://sodastream.co.il/products/enso`
+                      const text = `🎨 יצרתי יצירת אמנות מדהימה עם SodaStream ®ensō!\n\n"${completedArtwork.prompt}"\n\nצפו ביצירה שלי: ${completedArtwork.image_url}\n\nצרו גם אתם: https://ensogallery.co.il`
                       window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
                     }}
                     className="w-16 h-16 rounded-full bg-[#25D366] flex items-center justify-center hover:scale-110 transition-transform duration-300 shadow-lg"
@@ -257,7 +257,7 @@ export default function HomePage() {
                     onClick={async () => {
                       try {
                         // העתקת טקסט ללוח
-                        const instagramText = `🎨 יצרתי יצירת אמנות מדהימה עם SodaStream ®ensō!\n\n"${completedArtwork.prompt}"\n\n${completedArtwork.image_url}\n\nhttps://sodastream.co.il/products/enso`
+                        const instagramText = `🎨 יצרתי יצירת אמנות מדהימה עם SodaStream ®ensō!\n\n"${completedArtwork.prompt}"\n\n${completedArtwork.image_url}\n\nhttps://ensogallery.co.il`
                         await navigator.clipboard.writeText(instagramText)
                         
                         // פתיחת אינסטגרם בטאב חדש
@@ -831,7 +831,7 @@ export default function HomePage() {
 
             {/* CTA Button - Transparent with Gold Border */}
             <button
-              onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
+              onClick={() => window.open('https://ensogallery.co.il', '_blank')}
               className="border-2 border-[var(--color-gold)] bg-transparent text-white font-rubik font-light text-base md:text-xl px-8 md:px-12 py-3 md:py-4 rounded-full hover:bg-[var(--color-gold)]/10 transition-all duration-300"
               aria-label="לפרטים נוספים על מכשיר SodaStream ®ensō"
             >
