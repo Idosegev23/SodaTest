@@ -831,7 +831,7 @@ export default function HomePage() {
 
             {/* CTA Button - Transparent with Gold Border */}
             <button
-              onClick={() => window.open('https://ensogallery.co.il', '_blank')}
+              onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
               className="border-2 border-[var(--color-gold)] bg-transparent text-white font-rubik font-light text-base md:text-xl px-8 md:px-12 py-3 md:py-4 rounded-full hover:bg-[var(--color-gold)]/10 transition-all duration-300"
               aria-label="לפרטים נוספים על מכשיר SodaStream ®ensō"
             >
