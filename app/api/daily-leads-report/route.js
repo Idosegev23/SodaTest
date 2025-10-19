@@ -36,7 +36,16 @@ export async function GET(request) {
 
     console.log(`Found ${leads?.length || 0} leads from yesterday`)
 
-    // שליפת יצירות מהיום הקודם (לסטטיסטיקה)
+    // רשימת מיילים של שופטים - לא להראות בדוח
+    const judgesEmails = [
+      'dede.confidential@gmail.com',
+      'shai.franco@gmail.com',
+      'shabo.alon@gmail.com',
+      'koketit.us@gmail.com',
+      'amir.bavler@gmail.com'
+    ]
+
+    // שליפת יצירות מהיום הקודם (לסטטיסטיקה) - ללא שופטים
     const { data: artworks, error: artworksError } = await supabase
       .from('artworks')
       .select('id, user_name, user_email, prompt, likes, created_at, image_url')
@@ -48,11 +57,21 @@ export async function GET(request) {
       console.error('Error fetching artworks:', artworksError)
     }
 
+    // סינון שופטים מהיצירות
+    const filteredArtworks = artworks?.filter(a => 
+      !judgesEmails.includes(a.user_email?.toLowerCase())
+    ) || []
+
     // שליפת סטטיסטיקות כלליות (מתחילת הקמפיין)
     const { data: allArtworks } = await supabase
       .from('artworks')
       .select('id, likes, user_email, user_name, created_at', { count: 'exact' })
     
+    // סינון שופטים מהסטטיסטיקות הכלליות
+    const filteredAllArtworks = allArtworks?.filter(a => 
+      !judgesEmails.includes(a.user_email?.toLowerCase())
+    ) || []
+
     const { data: allLeads } = await supabase
       .from('leads')
       .select('id, created_at', { count: 'exact' })
@@ -62,12 +81,15 @@ export async function GET(request) {
       .from('queue')
       .select('id, status')
 
-    const topArtworks = artworks?.slice(0, 5) || []
-    const totalLikes = artworks?.reduce((sum, a) => sum + (a.likes || 0), 0) || 0
+    // TOP 5 יצירות - רק עם לייקים (מעל 0) וללא שופטים
+    const artworksWithLikes = filteredArtworks.filter(a => (a.likes || 0) > 0)
+    const topArtworks = artworksWithLikes.slice(0, 5)
+    
+    const totalLikes = filteredArtworks.reduce((sum, a) => sum + (a.likes || 0), 0) || 0
 
-    // חישוב משתמש הכי פעיל (הכי הרבה יצירות)
+    // חישוב משתמש הכי פעיל (הכי הרבה יצירות) - ללא שופטים
     const userActivityMap = {}
-    allArtworks?.forEach(artwork => {
+    filteredAllArtworks.forEach(artwork => {
       const email = artwork.user_email
       if (email) {
         if (!userActivityMap[email]) {
@@ -115,12 +137,12 @@ export async function GET(request) {
       : (leads.length > 0 ? '+100.0' : '0.0')
     
     const artworksChange = previousDayArtworks?.length > 0
-      ? ((artworks.length - previousDayArtworks.length) / previousDayArtworks.length * 100).toFixed(1)
-      : (artworks.length > 0 ? '+100.0' : '0.0')
+      ? ((filteredArtworks.length - previousDayArtworks.length) / previousDayArtworks.length * 100).toFixed(1)
+      : (filteredArtworks.length > 0 ? '+100.0' : '0.0')
 
-    // ניתוח שעות פעילות
+    // ניתוח שעות פעילות - ללא שופטים
     const hourlyActivity = {}
-    artworks?.forEach(artwork => {
+    filteredArtworks.forEach(artwork => {
       const hour = new Date(artwork.created_at).getHours()
       hourlyActivity[hour] = (hourlyActivity[hour] || 0) + 1
     })
@@ -167,7 +189,7 @@ export async function GET(request) {
       is_sunday: isSunday,
       summary: {
         total_leads: leads?.length || 0,
-        total_artworks_created: artworks?.length || 0,
+        total_artworks_created: filteredArtworks.length,
         leads_with_consent: leads?.filter(l => l.consent).length || 0,
         total_likes: totalLikes,
         leads_change: leadsChange,
@@ -175,9 +197,9 @@ export async function GET(request) {
       },
       leads: leads || [],
       yesterday_artworks: {
-        total: artworks?.length || 0,
+        total: filteredArtworks.length,
         total_likes: totalLikes,
-        average_likes: artworks?.length ? (totalLikes / artworks.length).toFixed(2) : '0.00',
+        average_likes: filteredArtworks.length ? (totalLikes / filteredArtworks.length).toFixed(2) : '0.00',
         top_artworks: topArtworks.map(a => ({
           user_name: a.user_name,
           prompt: a.prompt?.substring(0, 100) + '...',
@@ -187,10 +209,10 @@ export async function GET(request) {
       },
       overall_stats: {
         total_leads_all_time: allLeads?.length || 0,
-        total_artworks_all_time: allArtworks?.length || 0,
-        total_likes_all_time: allArtworks?.reduce((sum, a) => sum + (a.likes || 0), 0) || 0,
-        average_likes_all_time: allArtworks?.length ? 
-          (allArtworks.reduce((sum, a) => sum + (a.likes || 0), 0) / allArtworks.length).toFixed(2) : '0.00'
+        total_artworks_all_time: filteredAllArtworks.length,
+        total_likes_all_time: filteredAllArtworks.reduce((sum, a) => sum + (a.likes || 0), 0) || 0,
+        average_likes_all_time: filteredAllArtworks.length ? 
+          (filteredAllArtworks.reduce((sum, a) => sum + (a.likes || 0), 0) / filteredAllArtworks.length).toFixed(2) : '0.00'
       },
       user_insights: {
         most_active_user: mostActiveUser,
