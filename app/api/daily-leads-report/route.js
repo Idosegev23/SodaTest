@@ -39,29 +39,177 @@ export async function GET(request) {
     // שליפת יצירות מהיום הקודם (לסטטיסטיקה)
     const { data: artworks, error: artworksError } = await supabase
       .from('artworks')
-      .select('id, user_email, likes, created_at')
+      .select('id, user_name, user_email, prompt, likes, created_at, image_url')
       .gte('created_at', yesterday.toISOString())
       .lte('created_at', yesterdayEnd.toISOString())
+      .order('likes', { ascending: false })
 
     if (artworksError) {
       console.error('Error fetching artworks:', artworksError)
     }
 
+    // שליפת סטטיסטיקות כלליות (מתחילת הקמפיין)
+    const { data: allArtworks } = await supabase
+      .from('artworks')
+      .select('id, likes, user_email, user_name, created_at', { count: 'exact' })
+    
+    const { data: allLeads } = await supabase
+      .from('leads')
+      .select('id, created_at', { count: 'exact' })
+
+    // שליפת נתוני התור
+    const { data: queueData } = await supabase
+      .from('queue')
+      .select('id, status')
+
+    const topArtworks = artworks?.slice(0, 5) || []
+    const totalLikes = artworks?.reduce((sum, a) => sum + (a.likes || 0), 0) || 0
+
+    // חישוב משתמש הכי פעיל (הכי הרבה יצירות)
+    const userActivityMap = {}
+    allArtworks?.forEach(artwork => {
+      const email = artwork.user_email
+      if (email) {
+        if (!userActivityMap[email]) {
+          userActivityMap[email] = {
+            email: email,
+            name: artwork.user_name || 'אנונימי',
+            artworks_count: 0,
+            total_likes: 0
+          }
+        }
+        userActivityMap[email].artworks_count++
+        userActivityMap[email].total_likes += (artwork.likes || 0)
+      }
+    })
+
+    const topUsers = Object.values(userActivityMap)
+      .sort((a, b) => b.artworks_count - a.artworks_count)
+      .slice(0, 5)
+
+    const mostActiveUser = topUsers[0] || null
+    const mostLikedUser = Object.values(userActivityMap)
+      .sort((a, b) => b.total_likes - a.total_likes)[0] || null
+
+    // שליפת נתונים מהיום שלפני אתמול (להשוואה)
+    const dayBeforeYesterday = new Date(yesterday)
+    dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 1)
+    const dayBeforeYesterdayEnd = new Date(dayBeforeYesterday)
+    dayBeforeYesterdayEnd.setHours(23, 59, 59, 999)
+
+    const { data: previousDayLeads } = await supabase
+      .from('leads')
+      .select('id')
+      .gte('created_at', dayBeforeYesterday.toISOString())
+      .lte('created_at', dayBeforeYesterdayEnd.toISOString())
+
+    const { data: previousDayArtworks } = await supabase
+      .from('artworks')
+      .select('id, likes')
+      .gte('created_at', dayBeforeYesterday.toISOString())
+      .lte('created_at', dayBeforeYesterdayEnd.toISOString())
+
+    // חישוב שינוי אחוזי מהיום הקודם
+    const leadsChange = previousDayLeads?.length > 0 
+      ? ((leads.length - previousDayLeads.length) / previousDayLeads.length * 100).toFixed(1)
+      : (leads.length > 0 ? '+100.0' : '0.0')
+    
+    const artworksChange = previousDayArtworks?.length > 0
+      ? ((artworks.length - previousDayArtworks.length) / previousDayArtworks.length * 100).toFixed(1)
+      : (artworks.length > 0 ? '+100.0' : '0.0')
+
+    // ניתוח שעות פעילות
+    const hourlyActivity = {}
+    artworks?.forEach(artwork => {
+      const hour = new Date(artwork.created_at).getHours()
+      hourlyActivity[hour] = (hourlyActivity[hour] || 0) + 1
+    })
+    
+    const peakHour = Object.entries(hourlyActivity)
+      .sort((a, b) => b[1] - a[1])[0]
+    
+    const peakHourFormatted = peakHour 
+      ? `${peakHour[0]}:00-${parseInt(peakHour[0]) + 1}:00 (${peakHour[1]} יצירות)`
+      : 'אין נתונים'
+
+    // אם זה יום ראשון - שלוף את הזוכה השבועי האחרון
+    const isSunday = new Date().getDay() === 0
+    let weeklyWinner = null
+    
+    if (isSunday) {
+      const { data: latestWinner } = await supabase
+        .from('weekly_winners')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single()
+      
+      if (latestWinner) {
+        // שליפת פרטי היצירה הזוכה
+        const { data: winningArtwork } = await supabase
+          .from('artworks')
+          .select('*')
+          .eq('id', latestWinner.artwork_id)
+          .single()
+        
+        weeklyWinner = {
+          ...latestWinner,
+          artwork: winningArtwork,
+          week_start: new Date(latestWinner.week_start).toLocaleDateString('he-IL', { day: 'numeric', month: 'long' }),
+          week_end: new Date(latestWinner.week_end).toLocaleDateString('he-IL', { day: 'numeric', month: 'long' })
+        }
+      }
+    }
+
     // יצירת דוח מפורט
     const report = {
       date: yesterday.toISOString().split('T')[0],
+      is_sunday: isSunday,
       summary: {
         total_leads: leads?.length || 0,
         total_artworks_created: artworks?.length || 0,
-        leads_with_consent: leads?.filter(l => l.consent).length || 0
+        leads_with_consent: leads?.filter(l => l.consent).length || 0,
+        total_likes: totalLikes,
+        leads_change: leadsChange,
+        artworks_change: artworksChange
       },
       leads: leads || [],
-      artworks_stats: {
+      yesterday_artworks: {
         total: artworks?.length || 0,
-        total_likes: artworks?.reduce((sum, a) => sum + (a.likes || 0), 0) || 0,
-        average_likes: artworks?.length ? 
-          (artworks.reduce((sum, a) => sum + (a.likes || 0), 0) / artworks.length).toFixed(2) : 0
-      }
+        total_likes: totalLikes,
+        average_likes: artworks?.length ? (totalLikes / artworks.length).toFixed(2) : '0.00',
+        top_artworks: topArtworks.map(a => ({
+          user_name: a.user_name,
+          prompt: a.prompt?.substring(0, 100) + '...',
+          likes: a.likes || 0,
+          image_url: a.image_url
+        }))
+      },
+      overall_stats: {
+        total_leads_all_time: allLeads?.length || 0,
+        total_artworks_all_time: allArtworks?.length || 0,
+        total_likes_all_time: allArtworks?.reduce((sum, a) => sum + (a.likes || 0), 0) || 0,
+        average_likes_all_time: allArtworks?.length ? 
+          (allArtworks.reduce((sum, a) => sum + (a.likes || 0), 0) / allArtworks.length).toFixed(2) : '0.00'
+      },
+      user_insights: {
+        most_active_user: mostActiveUser,
+        most_liked_user: mostLikedUser,
+        top_5_users: topUsers,
+        total_unique_users: Object.keys(userActivityMap).length
+      },
+      activity_insights: {
+        peak_hour: peakHourFormatted,
+        hourly_breakdown: hourlyActivity
+      },
+      queue_stats: {
+        total: queueData?.length || 0,
+        pending: queueData?.filter(q => q.status === 'pending').length || 0,
+        processing: queueData?.filter(q => q.status === 'processing').length || 0,
+        done: queueData?.filter(q => q.status === 'done').length || 0,
+        blocked: queueData?.filter(q => q.status === 'blocked').length || 0
+      },
+      weekly_winner: weeklyWinner
     }
 
     console.log('Report generated:', report.summary)
