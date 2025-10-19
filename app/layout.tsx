@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   title: "SodaStream ensō® Gallery - גלריית יצירות אמנות",
   description: "גלריה דיגיטלית לייצור יצירות אמנות ייחודיות עם מכשיר SodaStream ensō® באמצעות בינה מלאכותית. צור, שתף והצבע ליצירות המדהימות ביותר.",
   keywords: "SodaStream, ensō®, יצירות אמנות, בינה מלאכותית, AI, גלריה דיגיטלית, אמנות, עיצוב, טכנולוגיה",
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
   openGraph: {
     title: "SodaStream ensō® Gallery",
     description: "גלריה דיגיטלית לייצור יצירות אמנות ייחודיות עם מכשיר SodaStream ensō® באמצעות בינה מלאכותית",

@@ -461,7 +461,7 @@ export default function HomePage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
             <img
-            src="/imgs/ed232edd3950d0c53f128176fe79794c12a1eafb.jpg"
+            src="/hero.jpg"
             alt="SodaStream ENSŌ"
               className="w-full h-full object-cover object-center md:object-[center_center]"
               loading="eager"
@@ -810,7 +810,7 @@ export default function HomePage() {
           <div 
             className="w-full h-full bg-cover bg-center md:bg-[center_center] bg-no-repeat"
             style={{
-              backgroundImage: 'url(/hero.jpg)',
+              backgroundImage: 'url(/downsection.webp)',
             }}
           ></div>
           {/* Darker overlay for mobile readability */}
