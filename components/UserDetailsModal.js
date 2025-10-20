@@ -195,11 +195,11 @@ export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading 
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          תנאי השימוש
+                          תקנון התחרות
                         </a>
                         {' '}•{' '}
                         <a 
-                          href="/privacy" 
+                          href="https://sodastream.co.il/pages/מדיניות-פרטיות-אתר" 
                           className="text-[var(--color-gold)] hover:underline focus:underline focus:outline-none"
                           target="_blank"
                           rel="noopener noreferrer"

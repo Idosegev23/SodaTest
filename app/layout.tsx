@@ -16,23 +16,54 @@ const rubik = Rubik({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://ensogallery.co.il'),
   title: "SodaStream ensō® Gallery - גלריית יצירות אמנות",
   description: "גלריה דיגיטלית לייצור יצירות אמנות ייחודיות עם מכשיר SodaStream ensō® באמצעות בינה מלאכותית. צור, שתף והצבע ליצירות המדהימות ביותר.",
   keywords: "SodaStream, ensō®, יצירות אמנות, בינה מלאכותית, AI, גלריה דיגיטלית, אמנות, עיצוב, טכנולוגיה",
+  authors: [{ name: "SodaStream Israel" }],
+  creator: "SodaStream Israel",
+  publisher: "SodaStream Israel",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
-    title: "SodaStream ensō® Gallery",
-    description: "גלריה דיגיטלית לייצור יצירות אמנות ייחודיות עם מכשיר SodaStream ensō® באמצעות בינה מלאכותית",
-    type: "website",
-    locale: "he_IL",
+    title: "SodaStream ensō® Gallery - גלריית יצירות אמנות",
+    description: "גלריה דיגיטלית לייצור יצירות אמנות ייחודיות עם מכשיר SodaStream ensō® באמצעות בינה מלאכותית. צור, שתף והצבע ליצירות המדהימות ביותר.",
+    url: 'https://ensogallery.co.il',
+    siteName: "SodaStream ensō® Gallery",
+    images: [
+      {
+        url: '/hero.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'SodaStream ensō® Gallery',
+      },
+    ],
+    locale: 'he_IL',
+    type: 'website',
   },
   twitter: {
     card: "summary_large_image",
-    title: "SodaStream ensō® Gallery",
+    title: "SodaStream ensō® Gallery - גלריית יצירות אמנות",
     description: "גלריה דיגיטלית לייצור יצירות אמנות ייחודיות עם מכשיר SodaStream ensō® באמצעות בינה מלאכותית",
+    images: ['/hero.jpg'],
+  },
+  alternates: {
+    canonical: 'https://ensogallery.co.il',
+  },
+  verification: {
+    google: 'google-site-verification-code', // להוסיף את הקוד האמיתי מ-Google Search Console
   },
 };
 
@@ -44,6 +75,32 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl">
       <head>
+        {/* Structured Data - JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "SodaStream ensō® Gallery",
+              "alternateName": "גלריית ensō",
+              "url": "https://ensogallery.co.il",
+              "description": "גלריה דיגיטלית לייצור יצירות אמנות ייחודיות עם מכשיר SodaStream ensō® באמצעות בינה מלאכותית",
+              "inLanguage": "he",
+              "publisher": {
+                "@type": "Organization",
+                "name": "SodaStream Israel",
+                "url": "https://sodastream.co.il"
+              },
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://ensogallery.co.il/?search={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            })
+          }}
+        />
+        
         {/* Meta Pixel Code */}
         <Script
           id="meta-pixel"

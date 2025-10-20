@@ -1,0 +1,12 @@
+# robots.txt for SodaStream ensō Gallery
+
+User-agent: *
+Allow: /
+Allow: /terms
+Allow: /privacy
+Allow: /artwork/*
+
+Disallow: /api/
+
+Sitemap: https://ensogallery.co.il/sitemap.xml
+
