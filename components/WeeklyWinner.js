@@ -13,7 +13,7 @@ export default function WeeklyWinner() {
 
   const loadWinner = async () => {
     try {
-      // קודם, ננסה לטעון את הזוכה האחרון שכבר הוכרז (מטבלת weekly_winners)
+      // טוען את הזוכה האחרון שהוכרז (אם יש)
       const { data: lastWinner, error: winnerError } = await supabase
         .from('weekly_winners')
         .select('*')
@@ -22,80 +22,23 @@ export default function WeeklyWinner() {
         .single()
       
       if (lastWinner && !winnerError) {
-        // בדיקה: האם הזוכה הוא מהשבוע הנוכחי או מהשבוע שעבר?
-        const now = new Date()
-        const selectedDate = new Date(lastWinner.selected_at)
+        // מצאנו זוכה! טוען את היצירה המלאה
+        const { data: winnerArtwork, error: artworkError } = await supabase
+          .from('artworks')
+          .select('*')
+          .eq('id', lastWinner.artwork_id)
+          .single()
         
-        // חישוב ההפרש בימים
-        const daysDiff = Math.floor((now - selectedDate) / (1000 * 60 * 60 * 24))
-        
-        // אם הזוכה נבחר לפני יותר מ-7 ימים, הוא כבר לא רלוונטי
-        // נציג את המועמד המוביל החדש במקום
-        if (daysDiff >= 7) {
-          console.log('Last winner is older than 7 days, showing current leader')
-          // ממשיכים לקוד הרגיל שמציג את המועמד הפוטנציאלי
-        } else {
-          // הזוכה עדיין רלוונטי! נציג אותו
-          const { data: winnerArtwork, error: artworkError } = await supabase
-            .from('artworks')
-            .select('*')
-            .eq('id', lastWinner.artwork_id)
-            .single()
-          
-          if (winnerArtwork && !artworkError) {
-            setWinner(winnerArtwork)
-            setLoading(false)
-            return
-          }
+        if (winnerArtwork && !artworkError) {
+          setWinner(winnerArtwork)
+          setLoading(false)
+          return
         }
       }
       
-      // אם אין זוכה מוכרז עדיין, נראה את המועמד הפוטנציאלי
-      const artworks = await getArtworks()
-      
-      // רשימת מיילים של שופטים שלא יכולים לזכות
-      const judgesEmails = [
-        'dede.confidential@gmail.com',
-        'shai.franco@gmail.com',
-        'shabo.alon@gmail.com',
-        'koketit.us@gmail.com',
-        'amir.bavler@gmail.com'
-      ]
-      
-      if (artworks && artworks.length > 0) {
-        // Sort by likes (most liked first), then by creation date
-        const sortedByLikes = artworks.sort((a, b) => {
-          const likesA = a.likes || 0
-          const likesB = b.likes || 0
-          
-          if (likesB !== likesA) {
-            return likesB - likesA // Most likes first
-          }
-          
-          // If likes are equal, sort by creation date (newest first)
-          if (a.created_at && b.created_at) {
-            return new Date(b.created_at) - new Date(a.created_at)
-          }
-          return (b.id || '').toString().localeCompare((a.id || '').toString())
-        })
-        
-        // בדיקה מי זכה בעבר (קריאה ל-Supabase)
-        const { data: previousWinners } = await supabase
-          .from('weekly_winners')
-          .select('user_email')
-        
-        const previousWinnersEmails = previousWinners ? previousWinners.map(w => w.user_email.toLowerCase()) : []
-        
-        // סינון: מחפשים את הזוכה הראשון שלא זכה בעבר ולא שופט
-        const eligibleWinner = sortedByLikes.find(artwork => {
-          const email = (artwork.user_email || '').toLowerCase()
-          return !judgesEmails.includes(email) && !previousWinnersEmails.includes(email)
-        })
-        
-        setWinner(eligibleWinner || null)
-      } else {
-        setWinner(null)
-      }
+      // אין זוכה עדיין - מציג מטושטש
+      setWinner(null)
+      setLoading(false)
     } catch (error) {
       console.error('Error loading winner:', error)
       setWinner(null)
