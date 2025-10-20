@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { ArrowRightIcon, ShareIcon } from '@heroicons/react/24/outline'
 import { supabase } from '../../../lib/supabaseClient'
+import { shareNative } from '../../../lib/shareUtils'
 
 export default function ArtworkPage() {
   const router = useRouter()
@@ -11,6 +12,7 @@ export default function ArtworkPage() {
   const [artwork, setArtwork] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [sharingPlatform, setSharingPlatform] = useState(null)
 
   useEffect(() => {
     if (params.id) {
@@ -42,24 +44,26 @@ export default function ArtworkPage() {
     }
   }
 
-  const handleShare = (platform) => {
-    if (!artwork) return
-
-    const url = window.location.href
-    const text = `צפו ביצירת האמנות שיצרתי עם SodaStream Enso: "${artwork.prompt}"`
+  const handleShare = async (platform) => {
+    if (!artwork || sharingPlatform) return
     
-    const shareUrls = {
-      instagram: `https://www.instagram.com/`, // Instagram doesn't support direct sharing via URL
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`,
-      whatsapp: `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`
-    }
-
-    if (platform === 'instagram') {
-      // For Instagram, we'll copy to clipboard and show instructions
-      navigator.clipboard.writeText(`${text} ${url}`)
-      alert('הקישור הועתק! פתח את אינסטגרם והדבק בסטורי או בפוסט')
-    } else {
-      window.open(shareUrls[platform], '_blank', 'width=600,height=400')
+    try {
+      setSharingPlatform(platform)
+      console.log(`Sharing to ${platform}...`)
+      
+      const result = await shareNative(artwork, platform)
+      
+      console.log('Share result:', result)
+      
+      if (result.success) {
+        // Optional: show success feedback
+        console.log(`Successfully shared via ${result.method}`)
+      }
+    } catch (error) {
+      console.error('Error sharing:', error)
+      alert('שגיאה בשיתוף. אנא נסה שוב.')
+    } finally {
+      setSharingPlatform(null)
     }
   }
 
@@ -206,29 +210,59 @@ export default function ArtworkPage() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 onClick={() => handleShare('instagram')}
-                className="flex items-center justify-center gap-3 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded hover:from-purple-700 hover:to-pink-700 transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-black"
+                disabled={sharingPlatform !== null}
+                className="flex items-center justify-center gap-3 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded hover:from-purple-700 hover:to-pink-700 transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="שתף באינסטגרם"
               >
-                <span className="text-lg">📷</span>
-                <span className="font-heebo font-medium">אינסטגרם</span>
+                {sharingPlatform === 'instagram' ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span className="font-heebo font-medium">מכין...</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-lg">📷</span>
+                    <span className="font-heebo font-medium">אינסטגרם</span>
+                  </>
+                )}
               </button>
               
               <button
                 onClick={() => handleShare('facebook')}
-                className="flex items-center justify-center gap-3 px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
+                disabled={sharingPlatform !== null}
+                className="flex items-center justify-center gap-3 px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="שתף בפייסבוק"
               >
-                <span className="text-lg">📘</span>
-                <span className="font-heebo font-medium">פייסבוק</span>
+                {sharingPlatform === 'facebook' ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span className="font-heebo font-medium">מכין...</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-lg">📘</span>
+                    <span className="font-heebo font-medium">פייסבוק</span>
+                  </>
+                )}
               </button>
               
               <button
                 onClick={() => handleShare('whatsapp')}
-                className="flex items-center justify-center gap-3 px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700 transition-all focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-black"
+                disabled={sharingPlatform !== null}
+                className="flex items-center justify-center gap-3 px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700 transition-all focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="שתף בווטסאפ"
               >
-                <span className="text-lg">💬</span>
-                <span className="font-heebo font-medium">וואטסאפ</span>
+                {sharingPlatform === 'whatsapp' ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span className="font-heebo font-medium">מכין...</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-lg">💬</span>
+                    <span className="font-heebo font-medium">וואטסאפ</span>
+                  </>
+                )}
               </button>
             </div>
           </div>
