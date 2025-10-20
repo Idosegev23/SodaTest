@@ -11,15 +11,52 @@ export async function GET(request) {
 
     console.log('Starting daily leads report generation...')
 
-    // חישוב תאריכים - יום אתמול (00:00 עד 23:59)
-    const yesterday = new Date()
-    yesterday.setDate(yesterday.getDate() - 1)
-    yesterday.setHours(0, 0, 0, 0)
-    
-    const yesterdayEnd = new Date(yesterday)
-    yesterdayEnd.setHours(23, 59, 59, 999)
+    // חישוב תאריכים לפי שעון ישראל (Asia/Jerusalem)
+    // פונקציה ליצירת תאריך בשעון ישראל
+    const getIsraeliDate = (date) => {
+      const israelString = date.toLocaleString('en-US', { 
+        timeZone: 'Asia/Jerusalem',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      })
+      return new Date(israelString)
+    }
 
-    console.log('Fetching leads from:', yesterday, 'to', yesterdayEnd)
+    // 1. קבלת התאריך הנוכחי בשעון ישראל
+    const israelNow = getIsraeliDate(new Date())
+    console.log('📅 Current time in Israel:', israelNow.toLocaleString('he-IL'))
+    
+    // 2. חישוב אתמול לפי שעון ישראל
+    const israelYear = israelNow.getFullYear()
+    const israelMonth = israelNow.getMonth()
+    const israelDay = israelNow.getDate()
+    
+    // 3. בניית תאריכים לאתמול בשעון מקומי (00:00:00 - 23:59:59)
+    // יצירת תאריכים ב-Israel timezone
+    const yesterdayDate = new Date(israelYear, israelMonth, israelDay - 1)
+    const yesterdayDateString = yesterdayDate.toLocaleDateString('en-CA') // YYYY-MM-DD format
+    
+    // בניית ISO strings עם timezone של ישראל
+    // אנחנו יודעים שישראל היא UTC+2 (חורף) או UTC+3 (קיץ)
+    const testDate = new Date(yesterdayDateString + 'T12:00:00')
+    const israelOffset = testDate.toLocaleString('en-US', { timeZone: 'Asia/Jerusalem', timeZoneName: 'short' }).includes('GMT+3') ? '+03:00' : '+02:00'
+    
+    // יצירת ISO strings לאתמול בשעון ישראל
+    const yesterdayStartISO = `${yesterdayDateString}T00:00:00${israelOffset}`
+    const yesterdayEndISO = `${yesterdayDateString}T23:59:59${israelOffset}`
+    
+    // המרה ל-Date objects (JavaScript אוטומטית ממיר ל-UTC)
+    const yesterday = new Date(yesterdayStartISO)
+    const yesterdayEnd = new Date(yesterdayEndISO)
+
+    console.log('📆 Yesterday in Israel:', yesterdayDateString)
+    console.log('🕐 Fetching leads from:', yesterday.toISOString())
+    console.log('🕐 To:', yesterdayEnd.toISOString())
 
     // שליפת כל הלידים מהיום הקודם
     const { data: leads, error: leadsError } = await supabase
@@ -185,7 +222,7 @@ export async function GET(request) {
 
     // יצירת דוח מפורט
     const report = {
-      date: yesterday.toISOString().split('T')[0],
+      date: yesterdayDateString, // התאריך של אתמול לפי שעון ישראל
       is_sunday: isSunday,
       summary: {
         total_leads: leads?.length || 0,
@@ -256,7 +293,7 @@ export async function GET(request) {
           },
           body: JSON.stringify({
             type: 'daily_leads_report',
-            date: yesterday.toISOString().split('T')[0],
+            date: yesterdayDateString,
             report: report,
             formatted_message: formatReportMessage(report)
           })

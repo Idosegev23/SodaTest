@@ -176,6 +176,8 @@ export default function MarqueeGallery() {
         body: JSON.stringify({ artworkId }),
       })
       
+      const result = await response.json()
+      
       if (response.ok) {
         // Add to liked list in localStorage
         addToLikedList(artworkId)
@@ -200,6 +202,21 @@ export default function MarqueeGallery() {
           button.style.transform = 'scale(1.1)'
           setTimeout(() => {
             button.style.transform = 'scale(1)'
+          }, 200)
+        }
+      } else if (result.alreadyLiked) {
+        // User already liked this artwork (server-side check)
+        // Add to localStorage to sync client state
+        addToLikedList(artworkId)
+        
+        // Show feedback that they already liked it
+        const button = e.target.closest('button')
+        if (button) {
+          button.style.transform = 'scale(0.9)'
+          button.style.opacity = '0.5'
+          setTimeout(() => {
+            button.style.transform = 'scale(1)'
+            button.style.opacity = '1'
           }, 200)
         }
       }

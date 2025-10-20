@@ -16,7 +16,8 @@ export async function GET(request) {
       'dede.confidential@gmail.com',
       'shai.franco@gmail.com',
       'shabo.alon@gmail.com',
-      'koketit.us@gmail.com'
+      'koketit.us@gmail.com',
+      'amir.bavler@gmail.com'
     ]
 
     // קביעת תאריכי השבוע הנוכחי (ראשון-שבת)
@@ -59,13 +60,13 @@ export async function GET(request) {
 
     const previousWinnersEmails = previousWinners ? previousWinners.map(w => w.user_email.toLowerCase()) : []
 
-    // מציאת הזוכה - הכי הרבה לייקים, לא שופט, לא זכה בעבר
-    const eligibleWinner = weekArtworks.find(artwork => {
+    // סינון יצירות כשירות לזכייה (לא שופטים, לא זוכים קודמים)
+    const eligibleArtworks = weekArtworks.filter(artwork => {
       const email = (artwork.user_email || '').toLowerCase()
       return !judgesEmails.includes(email) && !previousWinnersEmails.includes(email)
     })
 
-    if (!eligibleWinner) {
+    if (!eligibleArtworks || eligibleArtworks.length === 0) {
       console.log('No eligible winner found')
       return Response.json({ 
         message: 'No eligible winner found',
@@ -75,7 +76,20 @@ export async function GET(request) {
       }, { status: 200 })
     }
 
-    console.log('Winner found:', eligibleWinner.user_email, 'with', eligibleWinner.likes, 'likes')
+    // מציאת מספר הלייקים הגבוה ביותר
+    const maxLikes = eligibleArtworks[0].likes || 0
+
+    // מציאת כל היצירות עם מספר הלייקים הגבוה ביותר (תיקו)
+    const topArtworks = eligibleArtworks.filter(artwork => (artwork.likes || 0) === maxLikes)
+
+    console.log(`Found ${topArtworks.length} artworks with ${maxLikes} likes (tied for first place)`)
+
+    // בחירה רנדומלית מבין המועמדים (במקרה של תיקו)
+    const randomIndex = Math.floor(Math.random() * topArtworks.length)
+    const eligibleWinner = topArtworks[randomIndex]
+
+    console.log('Winner selected:', eligibleWinner.user_email, 'with', eligibleWinner.likes, 'likes', 
+                topArtworks.length > 1 ? `(randomly selected from ${topArtworks.length} tied artworks)` : '')
 
     // שמירת הזוכה בטבלה
     const { data: winnerRecord, error: insertError } = await supabase

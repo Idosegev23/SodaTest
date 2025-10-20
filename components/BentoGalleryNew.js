@@ -112,6 +112,8 @@ export default function SymmetricGallery({ compact = false }) {
         body: JSON.stringify({ artworkId }),
       })
       
+      const result = await response.json()
+      
       if (response.ok) {
         // Add to liked list in localStorage
         addToLikedList(artworkId)
@@ -124,6 +126,10 @@ export default function SymmetricGallery({ compact = false }) {
           const updatedArtwork = { ...selectedImage, likes: (selectedImage.likes || 0) + 1 }
           setSelectedImage(updatedArtwork)
         }
+      } else if (result.alreadyLiked) {
+        // User already liked this artwork (server-side check)
+        // Add to localStorage to sync client state
+        addToLikedList(artworkId)
       }
     } catch (error) {
       console.error('Error liking artwork:', error)
