@@ -171,6 +171,146 @@ export default function WeeklyWinner() {
             </div>
           </div>
         </div>
+
+        {/* Divider */}
+        <div className="mt-16">
+          <div className="w-full max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent opacity-30"></div>
+        </div>
+
+        {/* Call to Action - אותו חלק פרסים גם כשאין זוכה */}
+        <div className="mt-8 md:mt-16 text-center max-w-4xl mx-auto relative z-10">
+          {/* כותרת */}
+          <h3 className="text-xl md:text-[30px] font-rubik font-light text-white mb-6 md:mb-8" dir="rtl">
+            הצטרפו לחוויה ותהנו מהטבה ייחודית
+          </h3>
+
+          {/* מרווח */}
+          <div className="mt-6 md:mt-12"></div>
+
+          {/* כותרת פרסים */}
+          <h4 className="text-2xl md:text-[40px] font-rubik font-bold text-white mb-6 md:mb-12" dir="rtl">
+            הפרסים שמחכים ליוצרים הזוכים
+          </h4>
+
+          {/* תאריך סיום */}
+          <p className="text-base md:text-[18px] font-rubik font-light text-[var(--color-gold)] mb-6 md:mb-8" dir="rtl">
+            ההשתתפות והזכייה בפעילות עד 10.11.2025
+          </p>
+
+          {/* כרטיסיות פרסים */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
+            {/* כרטיסייה 1 - עיצוב זוכה */}
+            <div 
+              className="p-8 flex flex-col items-center text-center border-2 border-[var(--color-gold)] md:order-2 order-1 md:mt-0"
+              style={{
+                background: '#12294A',
+                borderRadius: '56px',
+                minHeight: '400px'
+              }}
+            >
+              <div className="relative mb-6">
+                <img src="/imgs/Group.png" alt="Prize" className="w-48 h-48" />
+                <img 
+                  src="/imgs/flight.png" 
+                  alt="Flight" 
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-contain"
+                  style={{ width: '300px', height: '300px', maxWidth: 'none' }}
+                />
+              </div>
+              
+              <h5 className="text-2xl font-rubik font-bold text-white mb-4" dir="rtl">
+                העיצוב הזוכה
+              </h5>
+              
+              <p className="text-base font-rubik font-light text-white/80 leading-relaxed" dir="rtl">
+                נבחרת השופטים תבחר את היצירה הבולטת והחדשנית ביותר. היוצר שיבחר - יקבל במתנה זוג כרטיסי טיסה לאירופה + כניסה למוזיאון עיצוב נבחר.
+              </p>
+            </div>
+
+            {/* כרטיסייה 2 - זוכה שבועי */}
+            <div 
+              className="p-8 flex flex-col items-center text-center md:order-1 order-2 md:mt-16"
+              style={{
+                background: '#12294A',
+                borderRadius: '56px',
+                minHeight: '400px'
+              }}
+            >
+              <div className="relative mb-6">
+                <img src="/imgs/Group.png" alt="Prize" className="w-48 h-48" />
+                <img 
+                  src="/imgs/crown.png" 
+                  alt="Crown" 
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-contain"
+                  style={{ width: '160px', height: '160px', maxWidth: 'none' }}
+                />
+              </div>
+              
+              <h5 className="text-2xl font-rubik font-bold text-white mb-4" dir="rtl">
+                זוכים שבועיים
+              </h5>
+              
+              <p className="text-base font-rubik font-light text-white/80 leading-relaxed" dir="rtl">
+                בכל שבוע תיבחר יצירה - זו שזכתה למספר הלייקים הגבוה ביותר בגלריה. היוצרים הזוכים ייחשפו בעמוד הגלריה ויקבלו סדנת קוקטיילים זוגית.
+              </p>
+            </div>
+
+            {/* כרטיסייה 3 - הנחה קבועה */}
+            <div 
+              className="p-8 flex flex-col items-center text-center md:order-3 order-3 md:mt-16"
+              style={{
+                background: '#12294A',
+                borderRadius: '56px',
+                minHeight: '400px'
+              }}
+            >
+              <div className="relative mb-6">
+                <img src="/imgs/Group.png" alt="Prize" className="w-48 h-48" />
+                <img 
+                  src="/file.png" 
+                  alt="Discount" 
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-contain"
+                  style={{ width: '260px', height: '260px', transform: 'translate(-50%, -50%) translateX(-15px)' }}
+                />
+              </div>
+              
+              <h5 className="text-2xl font-rubik font-bold text-white mb-4" dir="rtl">
+                הנחה לכל המשתתפים
+              </h5>
+              
+              <p className="text-base font-rubik font-light text-white/80 leading-relaxed" dir="rtl">
+                כל משתתף בגלריה יקבל הטבה של 10% לרכישת מכשיר ®ensō. לזמן מוגבל.
+              </p>
+            </div>
+          </div>
+
+          {/* כפתור */}
+          <div className="mt-12 flex justify-center">
+            <button 
+              className="px-12 py-4 text-xl font-rubik font-medium transition-transform hover:scale-105"
+              style={{
+                background: 'white',
+                color: '#020818',
+                borderRadius: '56px'
+              }}
+              onClick={() => {
+                const headings = Array.from(document.querySelectorAll('h3'));
+                const targetHeading = headings.find(h => h.textContent.includes('העיצוב שלכם') && h.textContent.includes('מתחיל כאן'));
+                if (targetHeading) {
+                  targetHeading.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+              }}
+            >
+              צרו עכשיו
+            </button>
+          </div>
+
+          {/* מרווח */}
+          <div className="mt-16"></div>
+
+          {/* Divider */}
+          <div className="w-full max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent opacity-30"></div>
+        </div>
       </section>
     )
   }
