@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { trackFormSubmit } from '../lib/utils'
 
 export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading }) {
   const [formData, setFormData] = useState({
@@ -42,6 +43,7 @@ export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading 
     e.preventDefault()
     if (validateForm()) {
       onSubmit(formData)
+      trackFormSubmit()
     }
   }
 
@@ -96,7 +98,7 @@ export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading 
 
                 <div className="mb-6 text-center">
                   <p className="text-[var(--color-muted)] font-heebo font-light leading-relaxed">
-                    כדי ליצור את יצירת האמנות שלך עם <span className="text-[var(--color-gold)]">SodaStream ENSŌ</span>, נצטרך כמה פרטים בסיסיים
+                    כדי ליצור את יצירת האמנות שלך עם <span className="text-[var(--color-gold)]">SodaStream ensō</span>, נצטרך כמה פרטים בסיסיים
                   </p>
                 </div>
 

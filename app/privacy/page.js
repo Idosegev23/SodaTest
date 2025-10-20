@@ -28,84 +28,123 @@ export default function PrivacyPage() {
           </h1>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto mb-4"></div>
           <p className="text-[var(--color-muted)] font-heebo font-light">
-            קמפיין SodaStream Enso
+            קמפיין SodaStream Enso – השקת מכשיר enso® בישראל
           </p>
         </div>
 
         {/* Content */}
         <div className="prose prose-invert max-w-none">
-          <div className="bg-[var(--color-gold-muted)] border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 space-y-6 font-heebo">
+          <div className="bg-[var(--color-gold-muted)] border border-[var(--color-gold-border)] rounded-lg p-6 md:p-8 space-y-6 font-rubik text-sm leading-relaxed">
             
             <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">1. איסוף מידע</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                אנו אוספים מידע אישי שאתם מספקים בעת השימוש בשירות יצירת האמנות של SodaStream Enso, 
-                כולל שם, כתובת דוא"ל ומספר טלפון. מידע זה נאסף רק לאחר קבלת הסכמתכם המפורשת.
+              <h2 className="text-lg font-rubik font-medium text-[var(--color-text)] mb-4">כללי</h2>
+              <p className="text-[var(--color-muted)]">
+                סודהסטרים מתייחסת בכבוד לפרטיות המשתמשים בתחרות וביצירת יצירות אמנות. המידע שנאסף עליך מאפשר לסודהסטרים ישראל בע"מ (ח.פ 510999410) ("החברה") ללפעול את התחרות בצורה תקינה, להקניא קשר איתך ולשתף דברי שיווק.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">2. שימוש במידע</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed mb-3">
-                המידע שאנו אוספים משמש למטרות הבאות:
+              <h2 className="text-lg font-rubik font-medium text-[var(--color-text)] mb-4">1. איסוף מידע</h2>
+              <p className="text-[var(--color-muted)] mb-3">
+                <span className="font-medium text-[var(--color-text)]">מידע שנאסף במהלך השימוש:</span>
               </p>
-              <ul className="text-[var(--color-muted)] list-disc list-inside space-y-2">
-                <li>יצירת יצירות אמנות מותאמות אישית</li>
-                <li>שליחת יצירות האמנות שנוצרו אליכם</li>
-                <li>שליחת עדכונים שיווקיים מ-SodaStream (בכפוף להסכמתכם)</li>
-                <li>שיפור השירות והחוויה</li>
+              <ul className="text-[var(--color-muted)] space-y-2 mr-4">
+                <li>• שם מלא, מספר טלפון וכתובת דוא"ל</li>
+                <li>• יצירות אמנות שנוצרו על ידך בעמוד התחרות</li>
+                <li>• נתונים טכניים על השימוש באתר (כתובת IP, סוג דפדפן וכו')</li>
+                <li>• עוגיות וזיהוי התקנים</li>
+              </ul>
+              <p className="text-[var(--color-muted)] mt-4">
+                <span className="font-medium text-[var(--color-text)]">הסכמה:</span> בעצם הרישום והשתתפות בתחרות, אתה מודע ומסכים לאיסוף ולעיבוד מידע זה בהתאם למדיניות זו.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-lg font-rubik font-medium text-[var(--color-text)] mb-4">2. שימוש במידע</h2>
+              <p className="text-[var(--color-muted)] mb-3">
+                החברה תשתמש במידע שלך למטרות הבאות:
+              </p>
+              <ul className="text-[var(--color-muted)] space-y-2 mr-4">
+                <li>• ניהול ותפעול התחרות</li>
+                <li>• התקשר איתך בדבר זכייתך בפרס</li>
+                <li>• משלוח יצירות אמנות שיצרת</li>
+                <li>• משלוח דברי שיווק (ניוזלטר, הודעות, הצעות מיוחדות)</li>
+                <li>• שיפור השירות והחוויה</li>
+                <li>• ציות להוראות הדין</li>
+              </ul>
+              <p className="text-[var(--color-muted)] mt-4">
+                אתה רשאי להסיר את עצמך מרשימת התפוצה בכל עת בלחיצה על קישור "התנתק" בדיוור או בפנייה לחברה.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-lg font-rubik font-medium text-[var(--color-text)] mb-4">3. מסירת מידע לצד שלישי</h2>
+              <p className="text-[var(--color-muted)] mb-3">
+                החברה לא תמכור, תשכור או תעביר את המידע האישי שלך לצדדים שלישיים, למעט:
+              </p>
+              <ul className="text-[var(--color-muted)] space-y-2 mr-4">
+                <li>• ספקי שירות טכניים המסייעים בתפעול התחרות (אל.די.אר.אס גרופ בע"מ ושותפים טכניים)</li>
+                <li>• כאשר נדרש על פי חוק (רשויות, בתי משפט)</li>
+                <li>• לשם הגנה על זכויות החברה או בטיחות משתמשים</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">3. שיתוף מידע</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                אנו לא מוכרים, משכירים או מעבירים את המידע האישי שלכם לצדדים שלישיים ללא הסכמתכם, 
-                למעט במקרים הנדרשים על פי חוק או לצורך מתן השירות (כגון ספקי שירות טכניים).
+              <h2 className="text-lg font-rubik font-medium text-[var(--color-text)] mb-4">4. Cookies וטכנולוגיות עקיבה</h2>
+              <p className="text-[var(--color-muted)]">
+                האתר משתמש בעוגיות טכניות הנדרשות לתפקוד התחרות (זכירת מצב ההתחברות, שמירת מצב הטופס וכו'). אנו משתמשים גם בפיקסל מעקב מטא (Facebook Pixel) לצורכי ניתוח וקידום. אתה רשאי להשבית עוגיות בהגדרות הדפדפן שלך, אך זה עלול להשפיע על פונקציונליות האתר.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">4. אבטחת מידע</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                אנו נוקטים באמצעי אבטחה מתקדמים להגנה על המידע האישי שלכם, כולל הצפנה, 
-                גישה מוגבלת ומערכות אבטחה מתקדמות. המידע מאוחסן בשרתים מאובטחים.
+              <h2 className="text-lg font-rubik font-medium text-[var(--color-text)] mb-4">5. זכות לעיין במידע</h2>
+              <p className="text-[var(--color-muted)]">
+                בהתאם לחוק הגנת הפרטיות, יש לך זכות לבקש עיון במידע האישי שברשותנו, לתקן מידע שגוי, או לבקש מחיקת המידע. פנה לחברה דרך המידע ליצירת קשר בתחתית דף זה.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">5. זכויותיכם</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed mb-3">
-                בהתאם לחוקי הגנת הפרטיות, יש לכם זכות:
-              </p>
-              <ul className="text-[var(--color-muted)] list-disc list-inside space-y-2">
-                <li>לעיין במידע שאנו מחזיקים עליכם</li>
-                <li>לבקש תיקון מידע שגוי</li>
-                <li>לבקש מחיקת המידע שלכם</li>
-                <li>לבטל הסכמתכם לקבלת חומר שיווקי</li>
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">6. עוגיות (Cookies)</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                אתר זה משתמש בעוגיות טכניות הכרחיות לתפקוד האתר בלבד. 
-                אנו לא משתמשים בעוגיות מעקב או שיווק ללא הסכמתכם המפורשת.
+              <h2 className="text-lg font-rubik font-medium text-[var(--color-text)] mb-4">6. אבטחת מידע</h2>
+              <p className="text-[var(--color-muted)]">
+                החברה נוקטת באמצעי אבטחה מתקדמים להגנה על המידע האישי שלך, כולל הצפנה (SSL), גישה מוגבלת ומערכות אבטחה טכניות מתקדמות. המידע מאוחסן בשרתים מאובטחים.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">7. יצירת קשר</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                לשאלות או בקשות בנוגע למדיניות הפרטיות, ניתן לפנות אלינו באמצעות פרטי הקשר באתר SodaStream הראשי.
+              <h2 className="text-lg font-rubik font-medium text-[var(--color-text)] mb-4">7. פרסומות של צדדים שלישיים</h2>
+              <p className="text-[var(--color-muted)]">
+                האתר עשוי להכיל קישורים לאתרים של צדדים שלישיים. החברה לא אחראית למדיניות הפרטיות של אתרים אלו. בדוק את המדיניות שלהם לפני מתן מידע אישי.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-lg font-rubik font-medium text-[var(--color-text)] mb-4">8. שאלות ופניות</h2>
+              <p className="text-[var(--color-muted)]">
+                לשאלות או בקשות בנוגע למדיניות הפרטיות, ניתן ליצור עמנו קשר ב:
+              </p>
+              <div className="text-[var(--color-muted)] mt-3 mr-4">
+                <p>טלפון: 076-5996708</p>
+                <p>דוא"ל: Customer-Service-IL@sodastream.com</p>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-lg font-rubik font-medium text-[var(--color-text)] mb-4">9. עדכונים למדיניות</h2>
+              <p className="text-[var(--color-muted)]">
+                סודהסטרים רשאית לעדכן מדיניות פרטיות זו מעת לעת. עדכונים יפורסמו בעמוד זה. המשך שימוש באתר לאחר עדכון מעיד על הסכמתך למדיניות המעודכנת.
               </p>
             </section>
 
             <section className="border-t border-[var(--color-gold-border)] pt-6">
-              <h2 className="text-xl font-heebo font-medium text-[var(--color-text)] mb-4">עדכון אחרון</h2>
-              <p className="text-[var(--color-muted)] leading-relaxed">
-                מדיניות פרטיות זו עודכנה לאחרונה ב-{new Date().toLocaleDateString('he-IL')}. 
-                אנו שומרים לעצמנו את הזכות לעדכן מדיניות זו מעת לעת.
+              <h2 className="text-lg font-rubik font-medium text-[var(--color-text)] mb-4">חוקים ישימים</h2>
+              <p className="text-[var(--color-muted)]">
+                מדיניות פרטיות זו כפופה לחוקי מדינת ישראל. כל מחלוקת הקשורה למדיניות זו תהיה כפופה לסמכות השיפוט הבלעדית של בתי המשפט בתל אביב-יפו.
+              </p>
+            </section>
+
+            <section className="border-t border-[var(--color-gold-border)] pt-6">
+              <p className="text-[var(--color-muted)] text-xs">
+                <span className="font-medium text-[var(--color-text)]">עדכון אחרון:</span> {new Date().toLocaleDateString('he-IL')}
               </p>
             </section>
           </div>

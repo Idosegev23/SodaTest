@@ -13,6 +13,44 @@ export default function WeeklyWinner() {
 
   const loadWinner = async () => {
     try {
+      // קודם, ננסה לטעון את הזוכה האחרון שכבר הוכרז (מטבלת weekly_winners)
+      const { data: lastWinner, error: winnerError } = await supabase
+        .from('weekly_winners')
+        .select('*')
+        .order('selected_at', { ascending: false })
+        .limit(1)
+        .single()
+      
+      if (lastWinner && !winnerError) {
+        // בדיקה: האם הזוכה הוא מהשבוע הנוכחי או מהשבוע שעבר?
+        const now = new Date()
+        const selectedDate = new Date(lastWinner.selected_at)
+        
+        // חישוב ההפרש בימים
+        const daysDiff = Math.floor((now - selectedDate) / (1000 * 60 * 60 * 24))
+        
+        // אם הזוכה נבחר לפני יותר מ-7 ימים, הוא כבר לא רלוונטי
+        // נציג את המועמד המוביל החדש במקום
+        if (daysDiff >= 7) {
+          console.log('Last winner is older than 7 days, showing current leader')
+          // ממשיכים לקוד הרגיל שמציג את המועמד הפוטנציאלי
+        } else {
+          // הזוכה עדיין רלוונטי! נציג אותו
+          const { data: winnerArtwork, error: artworkError } = await supabase
+            .from('artworks')
+            .select('*')
+            .eq('id', lastWinner.artwork_id)
+            .single()
+          
+          if (winnerArtwork && !artworkError) {
+            setWinner(winnerArtwork)
+            setLoading(false)
+            return
+          }
+        }
+      }
+      
+      // אם אין זוכה מוכרז עדיין, נראה את המועמד הפוטנציאלי
       const artworks = await getArtworks()
       
       // רשימת מיילים של שופטים שלא יכולים לזכות
@@ -20,7 +58,8 @@ export default function WeeklyWinner() {
         'dede.confidential@gmail.com',
         'shai.franco@gmail.com',
         'shabo.alon@gmail.com',
-        'koketit.us@gmail.com'
+        'koketit.us@gmail.com',
+        'amir.bavler@gmail.com'
       ]
       
       if (artworks && artworks.length > 0) {
@@ -65,6 +104,27 @@ export default function WeeklyWinner() {
     }
   }
 
+  // פונקציה לחישוב תאריכי השבוע (ראשון-שבת)
+  const getWeekDateRange = (dateString) => {
+    const date = new Date(dateString)
+    
+    // קביעת התאריך של ראשון של אותו שבוע
+    const day = date.getDay()
+    const diffToSunday = date.getDate() - day
+    const sunday = new Date(date.setDate(diffToSunday))
+    
+    // חישוב תאריך שבת (6 ימים אחרי ראשון)
+    const saturday = new Date(sunday)
+    saturday.setDate(saturday.getDate() + 6)
+    
+    // פורמט תאריך בעברית
+    const options = { year: 'numeric', month: 'short', day: 'numeric' }
+    const sundayStr = sunday.toLocaleDateString('he-IL', options)
+    const saturdayStr = saturday.toLocaleDateString('he-IL', options)
+    
+    return `${sundayStr} - ${saturdayStr}`
+  }
+
   if (loading) {
     return (
       <section className="py-16 px-4 relative overflow-hidden">
@@ -106,37 +166,66 @@ export default function WeeklyWinner() {
 
   if (!winner) {
     return (
-      <section className="py-16 px-4 relative overflow-hidden">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="relative mb-12">
-            {/* WEEKLY WINNER רקע ענק */}
-            <div 
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none whitespace-nowrap"
-              style={{ 
-                fontSize: '400px',
-                color: 'var(--color-gold)',
-                opacity: 0.05,
-                fontWeight: 100,
-                letterSpacing: '0.1em',
-                zIndex: 0,
-                fontFamily: 'Rubik, sans-serif'
-              }}
-            >
-              WEEKLY WINNER
-            </div>
-            
+      <section className="py-8 md:py-16 px-4 relative overflow-hidden">
+        {/* Decorative Ellipse Background */}
+        <div
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            width: '75vw',
+            height: '75vw',
+            top: '10%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: '#12294A',
+            filter: 'blur(150px)',
+            opacity: 0.6,
+            zIndex: 0
+          }}
+        ></div>
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="relative mb-6 md:mb-12">
             {/* אייקון כתר */}
-            <div className="mb-6 flex justify-center relative z-10">
-              <img src="/imgs/crown.png" alt="Crown" className="h-16 w-auto" />
+            <div className="mb-4 md:mb-6 flex justify-center relative z-10">
+              <img src="/imgs/crown.png" alt="Crown" className="h-12 md:h-16 w-auto" />
             </div>
             
-            <h3 className="text-4xl md:text-5xl font-rubik font-light text-white mb-6 tracking-wide relative z-10">
+            <h3 className="text-3xl md:text-5xl font-rubik font-light text-white mb-3 md:mb-4 tracking-wide relative z-10">
               הזוכה השבועי
             </h3>
+            
+            <p className="text-[var(--color-gold)] font-heebo font-light text-sm md:text-base relative z-10 opacity-90">
+              בקרוב ייבחר הזוכה הראשון ⭐
+            </p>
           </div>
           
-          <div className="flex justify-center">
-            <span className="text-[var(--color-muted)] font-heebo font-light text-lg">בקרוב ייבחר הזוכה השבועי</span>
+          {/* מסגרת זהב עם תמונה מטושטשת */}
+          <div className="relative max-w-lg mx-auto">
+            <div className="border-2 border-[var(--color-gold)] shadow-2xl shadow-[var(--color-gold)]/20 relative z-10" style={{ borderRadius: '65px', padding: '5px' }}>
+              <div className="relative" style={{ borderRadius: '60px', overflow: 'hidden' }}>
+                {/* תמונה מטושטשת */}
+                <div 
+                  className="w-full aspect-square"
+                  style={{ 
+                    borderRadius: '60px',
+                    background: 'linear-gradient(135deg, #1a2847 0%, #0f1e35 100%)',
+                    filter: 'blur(10px)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <div className="text-center">
+                    <svg className="w-20 h-20 mx-auto mb-4 opacity-30" fill="none" stroke="var(--color-gold)" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p className="text-[var(--color-muted)] font-heebo font-light text-sm opacity-50">
+                      בקרוב תמונה
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -169,9 +258,19 @@ export default function WeeklyWinner() {
             <img src="/imgs/crown.png" alt="Crown" className="h-12 md:h-16 w-auto" />
           </div>
           
-          <h3 className="text-3xl md:text-5xl font-rubik font-light text-white mb-4 md:mb-6 tracking-wide relative z-10">
+          <h3 className="text-3xl md:text-5xl font-rubik font-light text-white mb-3 md:mb-4 tracking-wide relative z-10">
             הזוכה השבועי
           </h3>
+          
+          <p className="text-[var(--color-gold)] font-heebo font-light text-sm md:text-base relative z-10 opacity-90">
+            היצירה עם הכי הרבה לייקים השבוע ⭐
+          </p>
+          
+          {winner && winner.created_at && (
+            <p className="text-[var(--color-muted)] font-heebo font-light text-xs md:text-sm relative z-10 mt-2">
+              שבוע: {getWeekDateRange(winner.created_at)}
+            </p>
+          )}
         </div>
         
         {/* מסגרת זהב פשוטה */}

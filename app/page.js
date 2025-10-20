@@ -9,6 +9,7 @@ import WeeklyWinner from '../components/WeeklyWinner'
 import PromptForm from '../components/PromptForm'
 import UserDetailsModal from '../components/UserDetailsModal'
 import { addToQueue, checkQueueStatus, getCompletedArtwork, getArtworks } from '../lib/supabaseClient'
+import { trackPageView } from '../lib/utils'
 
 export default function HomePage() {
   const router = useRouter()
@@ -173,6 +174,10 @@ export default function HomePage() {
       setIsLoading(false)
     }
   }
+
+  useEffect(() => {
+    trackPageView()
+  }, [])
 
   return (
     <div className="min-h-screen overflow-hidden flex flex-col relative" lang="he">
@@ -862,7 +867,7 @@ export default function HomePage() {
           {/* Links */}
           <div className="mb-4 flex justify-center gap-6 flex-wrap">
             <a 
-              href="https://sodastream.co.il/pages/%D7%9E%D7%93%D7%99%D7%A0%D7%99%D7%95%D7%AA-%D7%A4%D7%A8%D7%98%D7%99%D7%95%D7%AA-%D7%90%D7%AA%D7%A8"
+              href="https://sodastream.co.il/pages/מדיניות-פרטיות-אתר"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[var(--color-gold)] hover:text-[var(--color-gold)]/70 text-xs font-rubik font-light transition-colors"
