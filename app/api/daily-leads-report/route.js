@@ -71,7 +71,7 @@ export async function GET(request) {
       return Response.json({ error: 'Failed to fetch leads' }, { status: 500 })
     }
 
-    console.log(`Found ${leads?.length || 0} leads from yesterday`)
+    console.log(`Found ${leads?.length || 0} total leads from yesterday`)
 
     // רשימת מיילים של שופטים - לא להראות בדוח
     const judgesEmails = [
@@ -81,6 +81,22 @@ export async function GET(request) {
       'koketit.us@gmail.com',
       'amir.bavler@gmail.com'
     ]
+
+    // סינון למיילים ייחודיים בלבד (unique emails)
+    const uniqueLeadsMap = new Map()
+    leads?.forEach(lead => {
+      const email = lead.email?.toLowerCase()
+      if (email && !judgesEmails.includes(email)) {
+        // שומר רק את הליד האחרון (לפי created_at) לכל מייל
+        if (!uniqueLeadsMap.has(email) || new Date(lead.created_at) > new Date(uniqueLeadsMap.get(email).created_at)) {
+          uniqueLeadsMap.set(email, lead)
+        }
+      }
+    })
+    
+    // המרה חזרה למערך של לידים ייחודיים
+    const uniqueLeads = Array.from(uniqueLeadsMap.values())
+    console.log(`After filtering: ${uniqueLeads.length} unique leads (removed ${(leads?.length || 0) - uniqueLeads.length} duplicates)`)
 
     // שליפת יצירות מהיום הקודם (לסטטיסטיקה) - ללא שופטים
     const { data: artworks, error: artworksError } = await supabase
@@ -168,10 +184,10 @@ export async function GET(request) {
       .gte('created_at', dayBeforeYesterday.toISOString())
       .lte('created_at', dayBeforeYesterdayEnd.toISOString())
 
-    // חישוב שינוי אחוזי מהיום הקודם
+    // חישוב שינוי אחוזי מהיום הקודם - מבוסס על לידים ייחודיים
     const leadsChange = previousDayLeads?.length > 0 
-      ? ((leads.length - previousDayLeads.length) / previousDayLeads.length * 100).toFixed(1)
-      : (leads.length > 0 ? '+100.0' : '0.0')
+      ? ((uniqueLeads.length - previousDayLeads.length) / previousDayLeads.length * 100).toFixed(1)
+      : (uniqueLeads.length > 0 ? '+100.0' : '0.0')
     
     const artworksChange = previousDayArtworks?.length > 0
       ? ((filteredArtworks.length - previousDayArtworks.length) / previousDayArtworks.length * 100).toFixed(1)
@@ -220,19 +236,19 @@ export async function GET(request) {
       }
     }
 
-    // יצירת דוח מפורט
+    // יצירת דוח מפורט - מבוסס על לידים ייחודיים
     const report = {
       date: yesterdayDateString, // התאריך של אתמול לפי שעון ישראל
       is_sunday: isSunday,
       summary: {
-        total_leads: leads?.length || 0,
+        total_leads: uniqueLeads.length, // מיילים ייחודיים בלבד!
         total_artworks_created: filteredArtworks.length,
-        leads_with_consent: leads?.filter(l => l.consent).length || 0,
+        leads_with_consent: uniqueLeads.filter(l => l.consent).length,
         total_likes: totalLikes,
         leads_change: leadsChange,
         artworks_change: artworksChange
       },
-      leads: leads || [],
+      leads: uniqueLeads, // רק לידים ייחודיים
       yesterday_artworks: {
         total: filteredArtworks.length,
         total_likes: totalLikes,
