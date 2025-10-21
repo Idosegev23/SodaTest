@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Poppins, Rubik } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -163,6 +164,7 @@ export default function RootLayout({
         className={`${poppins.variable} ${rubik.variable} antialiased font-rubik`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );

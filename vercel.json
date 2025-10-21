@@ -11,6 +11,10 @@
     {
       "path": "/api/daily-leads-report",
       "schedule": "0 14 * * *"
+    },
+    {
+      "path": "/api/weekly-report",
+      "schedule": "0 6 * * 0"
     }
   ],
   "functions": {
@@ -24,6 +28,9 @@
       "maxDuration": 60
     },
     "app/api/daily-leads-report/route.js": {
+      "maxDuration": 60
+    },
+    "app/api/weekly-report/route.js": {
       "maxDuration": 60
     }
   }

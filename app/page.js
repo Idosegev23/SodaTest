@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import BentoGallery from '../components/BentoGalleryNew'
 import MarqueeGallery from '../components/MarqueeGallery'
+import AllArtworksModal from '../components/AllArtworksModal'
 import { PremiumButton } from '../components/ui/PremiumButton'
 import WeeklyWinner from '../components/WeeklyWinner'
 import PromptForm from '../components/PromptForm'
@@ -26,6 +27,7 @@ export default function HomePage() {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false)
   const [marqueeArtworks, setMarqueeArtworks] = useState([])
   const [sharingPlatform, setSharingPlatform] = useState(null) // Track which platform is being shared to
+  const [showAllArtworksModal, setShowAllArtworksModal] = useState(false)
 
   const processingStages = [
     'מאמתים את הפרטים שלך...',
@@ -813,10 +815,41 @@ export default function HomePage() {
             Created by You
           </h3>
           <div className="w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gold)] to-transparent mx-auto"></div>
+          
+          {/* Like encouragement badge */}
+          <div className="mt-6 mb-2">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[var(--color-gold)]/10 to-[var(--color-gold)]/5 border border-[var(--color-gold)]/30 rounded-full backdrop-blur-sm">
+              <svg className="w-5 h-5 text-[var(--color-gold)] fill-current animate-pulse" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              <span className="text-[var(--color-gold)] font-heebo font-light text-sm md:text-base">
+                לחצו ❤️ על היצירה המועדפת עליכם
+              </span>
+            </div>
+          </div>
         </div>
         
         <MarqueeGallery />
+        
+        {/* View All Artworks Button */}
+        <div className="text-center mt-8 mb-4">
+          <button
+            onClick={() => setShowAllArtworksModal(true)}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-transparent border-2 border-[var(--color-gold)] text-[var(--color-gold)] font-heebo font-light rounded-full hover:bg-[var(--color-gold)]/10 transition-all duration-300 group"
+          >
+            <span>צפה בכל היצירות</span>
+            <svg className="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+          </button>
+        </div>
       </section>
+
+      {/* All Artworks Modal */}
+      <AllArtworksModal 
+        isOpen={showAllArtworksModal} 
+        onClose={() => setShowAllArtworksModal(false)} 
+      />
 
       {/* Section 7 - Hero Section (moved to bottom) */}
       <section id="final-section" className="relative min-h-[60vh] md:min-h-screen flex flex-col py-12 md:py-0">
@@ -833,15 +866,10 @@ export default function HomePage() {
         </div>
         
         {/* Content - Centered on mobile, positioned on desktop */}
-        <div className="relative z-10 flex-1 flex items-center md:items-start justify-center px-4 md:pl-16 md:pr-[650px] md:pt-10">
+        <div className="relative z-10 flex-1 flex items-center md:items-start justify-center px-6 md:px-4 md:pl-16 md:pr-[650px] md:pt-10">
           <div className="text-center max-w-xl w-full">
-            {/* Large Quote Mark */}
-            <div className="text-[var(--color-gold)] font-serif mb-4 md:mb-6 text-7xl md:text-[120px]" style={{ lineHeight: '0.8' }}>
-              ״
-            </div>
-            
-            {/* Quote Text */}
-            <p className="text-white font-rubik font-light text-lg md:text-3xl leading-relaxed mb-6 md:mb-8" dir="rtl">
+            {/* Quote Text - no quote mark */}
+            <p className="text-white font-rubik font-light text-lg md:text-3xl leading-relaxed mb-6 md:mb-8 px-2 md:px-0" dir="rtl">
               ®ensō חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת.
             </p>
             

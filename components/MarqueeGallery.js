@@ -309,7 +309,7 @@ export default function MarqueeGallery() {
 
         {/* Like button or Judge badge */}
         {isJudge(artwork) ? (
-          <div className="absolute bottom-3 right-3 bg-[var(--color-gold)] backdrop-blur-sm px-3 py-1.5 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 shadow-lg">
+          <div className="absolute bottom-3 right-3 bg-[var(--color-gold)] backdrop-blur-sm px-3 py-1.5 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 shadow-lg z-30">
             <span className="text-black text-xs font-heebo font-bold">שופט</span>
           </div>
         ) : (
@@ -318,10 +318,10 @@ export default function MarqueeGallery() {
               e.stopPropagation()
               handleLike(artwork.id, e)
             }}
-            className={`absolute bottom-3 right-3 backdrop-blur-sm p-2 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 group/like ${
+            className={`absolute bottom-3 right-3 backdrop-blur-sm p-3 md:p-2 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 group/like min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 flex items-center justify-center z-30 ${
               hasUserLiked(artwork.id) 
                 ? 'bg-[var(--color-gold)]/80 cursor-default' 
-                : 'bg-black/40 hover:bg-[var(--color-gold)]/20'
+                : 'bg-black/40 hover:bg-[var(--color-gold)]/20 active:scale-95'
             }`}
             aria-label={hasUserLiked(artwork.id) ? `כבר נתת לייק ליצירה` : `תן לייק ליצירה`}
           >
