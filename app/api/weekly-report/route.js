@@ -1,6 +1,58 @@
 import { supabase } from '../../../lib/supabaseClient'
 import { sendWeeklyReport } from '../../../lib/emailService'
 
+// פונקציה לשליפת נתוני Vercel Analytics
+async function fetchVercelAnalytics(startDate, endDate) {
+  try {
+    const token = process.env.VERCEL_TOKEN
+    const teamId = process.env.VERCEL_TEAM_ID
+    const projectId = process.env.VERCEL_PROJECT_ID
+
+    if (!token || !teamId || !projectId) {
+      console.log('Missing Vercel credentials, skipping analytics')
+      return null
+    }
+
+    // המרת תאריכים לפורמט timestamp (milliseconds)
+    const since = startDate.getTime()
+    const until = endDate.getTime()
+
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+
+    // שליפת נתונים מ-Vercel Analytics API
+    const analyticsUrl = `https://vercel.com/api/web/insights/stats/path?projectId=${projectId}&teamId=${teamId}&since=${since}&until=${until}&environment=production`
+    
+    console.log('Fetching Vercel Analytics from:', analyticsUrl)
+    
+    const response = await fetch(analyticsUrl, { headers })
+    
+    if (!response.ok) {
+      console.error('Vercel Analytics API error:', response.status, response.statusText)
+      const errorText = await response.text()
+      console.error('Error details:', errorText)
+      return null
+    }
+
+    const data = await response.json()
+    console.log('Vercel Analytics data:', JSON.stringify(data, null, 2))
+    
+    return {
+      total_views: data.total || 0,
+      unique_visitors: data.devices?.total || 0,
+      devices: data.devices || {},
+      top_pages: data.paths?.slice(0, 5) || [],
+      countries: data.countries?.slice(0, 5) || [],
+      referrers: data.referrers?.slice(0, 5) || []
+    }
+  } catch (error) {
+    console.error('Error fetching Vercel Analytics:', error)
+    return null
+  }
+}
+
 export async function GET(request) {
   try {
     // בדיקת authorization - רק cron jobs או admin יכולים לקרוא לזה
@@ -111,6 +163,10 @@ export async function GET(request) {
       }
     }
 
+    // שליפת נתוני Vercel Analytics
+    const analyticsData = await fetchVercelAnalytics(previousSunday, previousSaturday)
+    console.log('Analytics data fetched:', analyticsData)
+
     // יצירת הדוח
     const report = {
       week_start: previousSunday.toLocaleDateString('he-IL', { day: 'numeric', month: 'long', year: 'numeric' }),
@@ -122,6 +178,7 @@ export async function GET(request) {
         total_likes: totalLikes,
         average_likes: avgLikes
       },
+      analytics: analyticsData,
       top_artworks: topArtworks.map(a => ({
         user_name: a.user_name,
         prompt: a.prompt?.substring(0, 100) + '...',
