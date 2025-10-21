@@ -152,7 +152,7 @@ export async function GET() {
 
       const imageUrl = urlData.publicUrl
 
-      // שמירה בטבלת artworks (עם הפרומפט המעודכן)
+      // שמירה בטבלת artworks (עם הפרומפט המעודכן + IP)
       const { data: artworkData, error: artworkError } = await supabase
         .from('artworks')
         .insert([{
@@ -161,6 +161,7 @@ export async function GET() {
           user_phone: item.user_phone,
           prompt: finalPrompt,
           image_url: imageUrl,
+          user_ip: item.user_ip || 'unknown'
         }])
         .select()
 
