@@ -179,11 +179,11 @@ export default function AllArtworksModal({ isOpen, onClose }) {
         {/* Selected Artwork Detail Modal */}
         {selectedArtwork && (
           <div
-            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center"
+            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center overflow-hidden"
             onClick={() => setSelectedArtwork(null)}
           >
             <div 
-              className="relative w-full h-full md:h-auto md:max-h-[95vh] md:max-w-4xl bg-[#0a1628] md:rounded-2xl flex flex-col"
+              className="relative w-full h-full md:h-auto md:max-h-[95vh] md:max-w-4xl bg-[#0a1628] md:rounded-2xl flex flex-col overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button - Fixed position, always visible */}
@@ -244,7 +244,16 @@ export default function AllArtworksModal({ isOpen, onClose }) {
               </div>
               
               {/* Scrollable Details Section */}
-              <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6 space-y-3 md:space-y-4 max-h-[calc(65vh-80px)]" style={{ WebkitOverflowScrolling: 'touch' }}>
+              <div 
+                className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6 space-y-3 md:space-y-4" 
+                style={{ 
+                  WebkitOverflowScrolling: 'touch',
+                  maxHeight: 'calc(65vh - 80px)',
+                  minHeight: '200px'
+                }}
+                onTouchMove={(e) => e.stopPropagation()}
+                onWheel={(e) => e.stopPropagation()}
+              >
                 {/* Prompt - Always scrollable if long */}
                 <div>
                   <h3 className="text-white font-heebo font-light text-sm md:text-lg leading-relaxed break-words whitespace-pre-wrap" dir="rtl" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
