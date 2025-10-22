@@ -9,7 +9,7 @@ export async function GET(request) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    console.log('Starting daily leads report generation...')
+    // Starting daily leads report generation
 
     // חישוב תאריכים לפי שעון ישראל (Asia/Jerusalem)
     // פונקציה ליצירת תאריך בשעון ישראל
@@ -29,7 +29,6 @@ export async function GET(request) {
 
     // 1. קבלת התאריך הנוכחי בשעון ישראל
     const israelNow = getIsraeliDate(new Date())
-    console.log('📅 Current time in Israel:', israelNow.toLocaleString('he-IL'))
     
     // 2. חישוב אתמול לפי שעון ישראל
     const israelYear = israelNow.getFullYear()
@@ -54,9 +53,7 @@ export async function GET(request) {
     const yesterday = new Date(yesterdayStartISO)
     const yesterdayEnd = new Date(yesterdayEndISO)
 
-    console.log('📆 Yesterday in Israel:', yesterdayDateString)
-    console.log('🕐 Fetching leads from:', yesterday.toISOString())
-    console.log('🕐 To:', yesterdayEnd.toISOString())
+    // Date range calculated for yesterday
 
     // שליפת כל הלידים מהיום הקודם
     const { data: leads, error: leadsError } = await supabase
@@ -71,7 +68,7 @@ export async function GET(request) {
       return Response.json({ error: 'Failed to fetch leads' }, { status: 500 })
     }
 
-    console.log(`Found ${leads?.length || 0} total leads from yesterday`)
+    // Leads fetched from yesterday
 
     // רשימת מיילים של שופטים - לא להראות בדוח
     const judgesEmails = [
@@ -96,7 +93,6 @@ export async function GET(request) {
     
     // המרה חזרה למערך של לידים ייחודיים
     const uniqueLeads = Array.from(uniqueLeadsMap.values())
-    console.log(`After filtering: ${uniqueLeads.length} unique leads (removed ${(leads?.length || 0) - uniqueLeads.length} duplicates)`)
 
     // שליפת יצירות מהיום הקודם (לסטטיסטיקה) - ללא שופטים
     const { data: artworks, error: artworksError } = await supabase
@@ -287,12 +283,11 @@ export async function GET(request) {
       weekly_winner: weeklyWinner
     }
 
-    console.log('Report generated:', report.summary)
+    // Report generated
 
     // שליחת המייל עם קובץ CSV
     try {
       await sendDailyLeadsReport(report)
-      console.log('Report email sent successfully')
     } catch (emailError) {
       console.error('Error sending report email:', emailError)
       // נמשיך גם אם המייל נכשל
@@ -317,8 +312,6 @@ export async function GET(request) {
 
         if (!webhookResponse.ok) {
           console.error('Webhook failed:', await webhookResponse.text())
-        } else {
-          console.log('Report sent successfully to webhook')
         }
       } catch (webhookError) {
         console.error('Webhook error:', webhookError)

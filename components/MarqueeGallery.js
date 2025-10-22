@@ -106,7 +106,6 @@ export default function MarqueeGallery() {
         // This allows users to continue liking popular artworks
         setArtworks(sortedByLikes)
       } else {
-        console.log('No artworks found in database')
         setArtworks([])
         setAllArtworks([])
       }

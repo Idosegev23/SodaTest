@@ -152,16 +152,8 @@ export default function HomePage() {
     
     try {
       setSharingPlatform(platform)
-      console.log(`Sharing to ${platform}...`)
       
       const result = await shareNative(completedArtwork, platform)
-      
-      console.log('Share result:', result)
-      
-      if (result.success) {
-        // Optional: show success feedback
-        console.log(`Successfully shared via ${result.method}`)
-      }
     } catch (error) {
       console.error('Error sharing:', error)
       alert('שגיאה בשיתוף. אנא נסה שוב.')
@@ -195,10 +187,8 @@ export default function HomePage() {
       const triggerWorkerWithRetry = async (retries = 3) => {
         for (let i = 0; i < retries; i++) {
           try {
-            console.log(`Triggering worker... (attempt ${i + 1}/${retries})`)
             const workerResponse = await fetch('/api/worker')
             const workerResult = await workerResponse.json()
-            console.log('Worker triggered:', workerResult)
             
             // אם הצליח - עצור
             if (workerResponse.ok) break

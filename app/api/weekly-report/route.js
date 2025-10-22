@@ -9,7 +9,7 @@ export async function GET(request) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    console.log('Starting weekly report generation...')
+    // Starting weekly report generation
 
     // חישוב תאריכים - שבוע אחרון (ראשון-שבת)
     const now = new Date()
@@ -28,7 +28,7 @@ export async function GET(request) {
     const previousSaturday = new Date(lastSaturday)
     previousSaturday.setDate(lastSaturday.getDate() - 7)
 
-    console.log('Week range:', previousSunday.toISOString(), 'to', previousSaturday.toISOString())
+    // Week range calculated
 
     // רשימת שופטים - לא לספור
     const judgesEmails = [
@@ -175,7 +175,7 @@ export async function GET(request) {
       referrers: topReferrers
     }
     
-    console.log('Analytics data fetched:', analyticsData)
+    // Analytics data fetched
 
     // יצירת הדוח
     const report = {
@@ -198,7 +198,7 @@ export async function GET(request) {
       weekly_winner: winnerDetails
     }
 
-    console.log('Weekly report:', report)
+    // Weekly report generated
 
     // שליחת הדוח במייל
     await sendWeeklyReport(report)
