@@ -458,7 +458,7 @@ export default function MarqueeGallery() {
 
               <div className="p-6 bg-[var(--color-gold-muted)] border-t border-[var(--color-gold-border)]">
                 <div className="text-center mb-4">
-                  <h2 className="text-xl font-heebo font-light text-[var(--color-text)] mb-2 leading-relaxed">
+                  <h2 className="text-xl font-heebo font-light text-[var(--color-text)] mb-2 leading-relaxed line-clamp-3" dir="rtl">
                     {selectedArtwork.prompt}
                   </h2>
                 </div>
