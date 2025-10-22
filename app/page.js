@@ -832,22 +832,16 @@ export default function HomePage() {
         
         <MarqueeGallery />
         
-        {/* View All Artworks Button with Like Encouragement */}
+        {/* View All Artworks Button */}
         <div className="text-center mt-8 mb-4">
           <button
             onClick={() => setShowAllArtworksModal(true)}
-            className="inline-flex flex-col items-center gap-2 px-8 py-4 bg-gradient-to-r from-[var(--color-gold)]/5 to-[var(--color-gold)]/10 border-2 border-[var(--color-gold)] text-[var(--color-gold)] font-heebo rounded-2xl hover:bg-[var(--color-gold)]/20 transition-all duration-300 group shadow-lg hover:shadow-[var(--color-gold)]/20"
+            className="inline-flex items-center gap-3 px-6 py-3 bg-transparent border-2 border-[var(--color-gold)] text-[var(--color-gold)] font-heebo font-light rounded-full hover:bg-[var(--color-gold)]/10 transition-all duration-300 group"
           >
-            <div className="flex items-center gap-3">
-              <svg className="w-6 h-6 text-[var(--color-gold)] fill-current animate-pulse" viewBox="0 0 24 24">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-              </svg>
-              <span className="text-lg md:text-xl font-light">צפה בכל היצירות</span>
-              <svg className="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-              </svg>
-            </div>
-            <span className="text-xs md:text-sm font-light opacity-90">לחצו ❤️ על היצירה המועדפת עליכם</span>
+            <span className="text-base md:text-lg">צפה בכל היצירות</span>
+            <svg className="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
           </button>
         </div>
       </section>
@@ -872,32 +866,34 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-black/50 md:bg-black/20"></div>
         </div>
         
-        {/* Content - Centered on mobile, positioned on desktop */}
-        <div className="relative z-10 flex-1 flex items-center md:items-start justify-center px-6 md:px-4 md:pl-16 md:pr-[650px] md:pt-10">
-          <div className="text-center max-w-xl w-full">
-            {/* Quote Text - no quote mark */}
-            <p className="text-white font-rubik font-light text-lg md:text-3xl leading-relaxed mb-6 md:mb-8 px-2 md:px-0" dir="rtl">
+        {/* Content - Right aligned on mobile to avoid device, centered on desktop */}
+        <div className="relative z-10 flex-1 flex items-start justify-end md:items-center md:justify-center pr-8 pl-4 md:px-4 md:pl-16 md:pr-[650px] pt-6 md:pt-10">
+          <div className="max-w-[220px] md:max-w-xl w-full">
+            {/* Quote Text - RTL */}
+            <p className="text-white font-rubik font-light text-sm md:text-3xl leading-relaxed mb-4 md:mb-8 text-right md:text-center" dir="rtl">
               ®ensō חושף ממד עמוק יותר של מורשת, מדע, הנדסה ועיצוב – ומשלב בעדינות את עושרם בחיי היומיום – ליצירת חוויית שתייה מושלמת.
             </p>
             
-            {/* Signature */}
-            <div className="flex justify-center mb-6 md:mb-12">
+            {/* Signature - Centered */}
+            <div className="flex justify-center mb-3 md:mb-12">
               <img
                 src="/imgs/Signature.png"
                 alt="חתימה"
-                className="h-12 md:h-16 w-auto"
+                className="h-8 md:h-16 w-auto"
                 style={{ filter: 'brightness(0) saturate(100%) invert(77%) sepia(52%) saturate(408%) hue-rotate(357deg) brightness(98%) contrast(87%)' }}
               />
             </div>
 
-            {/* CTA Button - Transparent with Gold Border */}
-            <button
-              onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
-              className="border-2 border-[var(--color-gold)] bg-transparent text-white font-rubik font-light text-base md:text-xl px-8 md:px-12 py-3 md:py-4 rounded-full hover:bg-[var(--color-gold)]/10 transition-all duration-300"
-              aria-label="לפרטים נוספים על מכשיר SodaStream ®ensō"
-            >
-              לפרטים נוספים לחצו כאן
-            </button>
+            {/* CTA Button - Centered */}
+            <div className="flex justify-center">
+              <button
+                onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
+                className="border-2 border-[var(--color-gold)] bg-transparent text-white font-rubik font-light text-xs md:text-xl px-4 md:px-12 py-2 md:py-4 rounded-full hover:bg-[var(--color-gold)]/10 transition-all duration-300 whitespace-nowrap"
+                aria-label="לפרטים נוספים על מכשיר SodaStream ®ensō"
+              >
+                לפרטים נוספים לחצו כאן
+              </button>
+            </div>
           </div>
         </div>
       </section>

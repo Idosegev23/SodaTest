@@ -244,7 +244,7 @@ export default function AllArtworksModal({ isOpen, onClose }) {
               </div>
               
               {/* Scrollable Details Section */}
-              <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6 space-y-3 md:space-y-4" style={{ WebkitOverflowScrolling: 'touch', maxHeight: 'calc(65vh - 80px)' }}>
+              <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6 space-y-3 md:space-y-4 max-h-[calc(65vh-80px)] md:max-h-[40vh]" style={{ WebkitOverflowScrolling: 'touch' }}>
                 {/* Prompt - Always scrollable if long */}
                 <div>
                   <h3 className="text-white font-heebo font-light text-sm md:text-lg leading-relaxed break-words whitespace-pre-wrap" dir="rtl" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
