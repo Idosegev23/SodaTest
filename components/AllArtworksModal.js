@@ -179,11 +179,11 @@ export default function AllArtworksModal({ isOpen, onClose }) {
         {/* Selected Artwork Detail Modal */}
         {selectedArtwork && (
           <div
-            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center overflow-hidden"
+            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center"
             onClick={() => setSelectedArtwork(null)}
           >
             <div 
-              className="relative w-full h-full md:h-auto md:max-h-[95vh] md:max-w-4xl bg-[#0a1628] md:rounded-2xl flex flex-col overflow-hidden"
+              className="relative w-full h-full md:h-auto md:max-h-[95vh] md:max-w-4xl bg-[#0a1628] md:rounded-2xl flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button - Fixed position, always visible */}
@@ -243,20 +243,11 @@ export default function AllArtworksModal({ isOpen, onClose }) {
                 )}
               </div>
               
-              {/* Scrollable Details Section */}
-              <div 
-                className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6 space-y-3 md:space-y-4" 
-                style={{ 
-                  WebkitOverflowScrolling: 'touch',
-                  maxHeight: 'calc(65vh - 80px)',
-                  minHeight: '200px'
-                }}
-                onTouchMove={(e) => e.stopPropagation()}
-                onWheel={(e) => e.stopPropagation()}
-              >
-                {/* Prompt - Always scrollable if long */}
+              {/* Details Section - Fixed, no scroll */}
+              <div className="flex-shrink-0 p-4 md:p-6 space-y-3 md:space-y-4">
+                {/* Prompt - Limited to 3 lines */}
                 <div>
-                  <h3 className="text-white font-heebo font-light text-sm md:text-lg leading-relaxed break-words whitespace-pre-wrap" dir="rtl" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+                  <h3 className="text-white font-heebo font-light text-sm md:text-lg leading-relaxed line-clamp-3" dir="rtl">
                     {selectedArtwork.prompt}
                   </h3>
                 </div>
