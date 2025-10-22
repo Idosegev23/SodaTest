@@ -179,24 +179,24 @@ export default function AllArtworksModal({ isOpen, onClose }) {
         {/* Selected Artwork Detail Modal */}
         {selectedArtwork && (
           <div
-            className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center"
             onClick={() => setSelectedArtwork(null)}
           >
             <div 
-              className="relative w-full h-full md:h-auto md:max-h-[95vh] md:max-w-4xl bg-[#0a1628] md:rounded-2xl overflow-hidden flex flex-col"
+              className="relative w-full h-full md:h-auto md:max-h-[95vh] md:max-w-4xl bg-[#0a1628] md:rounded-2xl flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button - Always visible */}
+              {/* Close Button - Fixed position, always visible */}
               <button
                 onClick={() => setSelectedArtwork(null)}
-                className="absolute top-3 right-3 z-40 p-2.5 bg-black/80 hover:bg-black/95 rounded-full transition-colors shadow-xl border border-white/20"
+                className="fixed top-3 right-3 md:absolute z-50 p-2.5 bg-black/90 hover:bg-black rounded-full transition-colors shadow-2xl border border-white/30"
               >
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
               
-              {/* Navigation Arrows */}
+              {/* Navigation Arrows - Fixed on image area */}
               <button
                 onClick={(e) => {
                   e.stopPropagation()
@@ -204,7 +204,7 @@ export default function AllArtworksModal({ isOpen, onClose }) {
                   const prevIndex = currentIndex > 0 ? currentIndex - 1 : artworks.length - 1
                   setSelectedArtwork(artworks[prevIndex])
                 }}
-                className="absolute left-2 md:left-4 top-[40%] md:top-1/2 -translate-y-1/2 z-40 p-2.5 md:p-3 bg-black/80 hover:bg-black/95 rounded-full transition-colors shadow-xl border border-white/20"
+                className="fixed left-2 top-[25%] md:absolute md:left-4 md:top-1/2 -translate-y-1/2 z-40 p-2.5 md:p-3 bg-black/80 hover:bg-black/95 rounded-full transition-colors shadow-xl border border-white/20 pointer-events-auto"
                 aria-label="תמונה קודמת"
               >
                 <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,7 +219,7 @@ export default function AllArtworksModal({ isOpen, onClose }) {
                   const nextIndex = currentIndex < artworks.length - 1 ? currentIndex + 1 : 0
                   setSelectedArtwork(artworks[nextIndex])
                 }}
-                className="absolute right-2 md:right-4 top-[40%] md:top-1/2 -translate-y-1/2 z-40 p-2.5 md:p-3 bg-black/80 hover:bg-black/95 rounded-full transition-colors shadow-xl border border-white/20"
+                className="fixed right-2 top-[25%] md:absolute md:right-4 md:top-1/2 -translate-y-1/2 z-40 p-2.5 md:p-3 bg-black/80 hover:bg-black/95 rounded-full transition-colors shadow-xl border border-white/20 pointer-events-auto"
                 aria-label="תמונה הבאה"
               >
                 <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -228,13 +228,13 @@ export default function AllArtworksModal({ isOpen, onClose }) {
               </button>
               
               {/* Scrollable content container */}
-              <div className="flex-1 overflow-y-auto">
+              <div className="flex-1 overflow-y-auto overflow-x-hidden overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
                 {/* Image */}
-                <div className="relative bg-black">
+                <div className="relative bg-black flex-shrink-0">
                   <img
                     src={selectedArtwork.image_url}
                     alt={selectedArtwork.prompt}
-                    className="w-full h-auto max-h-[45vh] md:max-h-[60vh] object-contain mx-auto"
+                    className="w-full h-auto max-h-[40vh] md:max-h-[60vh] object-contain mx-auto"
                   />
                   
                   {/* Judge badge on image */}
@@ -246,10 +246,10 @@ export default function AllArtworksModal({ isOpen, onClose }) {
                 </div>
                 
                 {/* Details Section - Scrollable */}
-                <div className="p-4 md:p-6 space-y-3 md:space-y-4">
+                <div className="p-4 md:p-6 pb-20 md:pb-6 space-y-3 md:space-y-4">
                   {/* Prompt - Always scrollable if long */}
                   <div>
-                    <h3 className="text-white font-heebo font-light text-sm md:text-lg leading-relaxed" dir="rtl">
+                    <h3 className="text-white font-heebo font-light text-sm md:text-lg leading-relaxed break-words" dir="rtl" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
                       {selectedArtwork.prompt}
                     </h3>
                   </div>
@@ -278,7 +278,7 @@ export default function AllArtworksModal({ isOpen, onClose }) {
                   </div>
                   
                   {/* Actions - Like Button - Always visible */}
-                  <div className="flex items-center gap-4 pt-2 pb-safe">
+                  <div className="flex items-center gap-4 pt-4 pb-2">
                     {isJudge(selectedArtwork) ? (
                       <div className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2.5 md:py-3 bg-[var(--color-gold)]/20 border border-[var(--color-gold)] rounded-full">
                         <svg className="w-4 h-4 md:w-5 md:h-5 text-[var(--color-gold)]" fill="currentColor" viewBox="0 0 24 24">
@@ -292,7 +292,7 @@ export default function AllArtworksModal({ isOpen, onClose }) {
                       <button
                         onClick={(e) => handleLike(selectedArtwork.id, e)}
                         disabled={hasUserLiked(selectedArtwork.id)}
-                        className={`flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2.5 md:py-3 border rounded-full transition-all duration-300 font-heebo text-sm md:text-base min-w-[140px] justify-center ${
+                        className={`flex items-center gap-2 md:gap-3 px-4 md:px-6 py-3 border rounded-full transition-all duration-300 font-heebo text-sm md:text-base min-w-[140px] justify-center ${
                           hasUserLiked(selectedArtwork.id)
                             ? 'border-[var(--color-gold)] bg-[var(--color-gold)]/20 text-[var(--color-gold)] cursor-not-allowed opacity-70'
                             : 'border-[var(--color-muted)] hover:border-[var(--color-gold)] hover:bg-[var(--color-gold)]/10 text-white active:scale-95'
