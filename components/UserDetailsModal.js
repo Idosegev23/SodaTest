@@ -102,21 +102,6 @@ export default function UserDetailsModal({ isOpen, onClose, onSubmit, isLoading 
                   </p>
                 </div>
 
-                {/* Discount Code Banner */}
-                <div className="mb-6 p-4 bg-gradient-to-r from-[var(--color-gold)]/20 via-[var(--color-gold)]/10 to-[var(--color-gold)]/20 border-2 border-[var(--color-gold)] rounded-lg">
-                  <div className="text-center space-y-2">
-                    <p className="text-[var(--color-gold)] font-heebo font-bold text-base" dir="rtl">
-                      🎁 קבלו הטבה מיוחדת!
-                    </p>
-                    <p className="text-white font-heebo font-light text-sm" dir="rtl">
-                      לקבלת <span className="font-bold text-[var(--color-gold)]">10% הנחה</span> הזינו את הקוד:
-                    </p>
-                    <div className="inline-block bg-black/50 px-6 py-2 rounded-full border border-[var(--color-gold)]">
-                      <code className="text-[var(--color-gold)] font-mono font-bold text-lg tracking-wider">ensoai</code>
-                    </div>
-                  </div>
-                </div>
-
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label 

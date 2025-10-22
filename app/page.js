@@ -260,6 +260,29 @@ export default function HomePage() {
                   {completedArtwork.prompt}
                  </p>
                </div>
+
+              {/* Discount Code Banner - Clickable */}
+              <a
+                href="https://sodastream.co.il/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block mb-6 p-5 bg-gradient-to-r from-[var(--color-gold)]/20 via-[var(--color-gold)]/10 to-[var(--color-gold)]/20 border-2 border-[var(--color-gold)] rounded-lg hover:from-[var(--color-gold)]/30 hover:via-[var(--color-gold)]/20 hover:to-[var(--color-gold)]/30 transition-all duration-300 cursor-pointer group"
+              >
+                <div className="text-center space-y-2">
+                  <p className="text-[var(--color-gold)] font-heebo font-bold text-base group-hover:scale-105 transition-transform" dir="rtl">
+                    🎁 קבלו הטבה מיוחדת!
+                  </p>
+                  <p className="text-white font-heebo font-light text-sm" dir="rtl">
+                    לקבלת <span className="font-bold text-[var(--color-gold)]">10% הנחה</span> הזינו את הקוד:
+                  </p>
+                  <div className="inline-block bg-black/50 px-6 py-2 rounded-full border border-[var(--color-gold)] group-hover:bg-black/70 transition-colors">
+                    <code className="text-[var(--color-gold)] font-mono font-bold text-lg tracking-wider">ensoai</code>
+                  </div>
+                  <p className="text-[var(--color-muted)] text-xs mt-2 font-heebo font-light">
+                    לחצו כאן לרכישת מכשיר ensō ↗
+                  </p>
+                </div>
+              </a>
         
               {/* Share Buttons */}
               <div className="space-y-4">
