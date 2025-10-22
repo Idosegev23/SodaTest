@@ -28,6 +28,7 @@ export default function HomePage() {
   const [marqueeArtworks, setMarqueeArtworks] = useState([])
   const [sharingPlatform, setSharingPlatform] = useState(null) // Track which platform is being shared to
   const [showAllArtworksModal, setShowAllArtworksModal] = useState(false)
+  const [blockedReason, setBlockedReason] = useState(null) // Reason for blocking the artwork
 
   // Track page view on mount
   useEffect(() => {
@@ -110,6 +111,10 @@ export default function HomePage() {
               setIsProcessing(false)
               setShowSuccessPopup(true)
             }
+          } else if (status === 'blocked') {
+            // היצירה נחסמה - להפסיק את העיבוד ולהציג הודעה
+            setIsProcessing(false)
+            setBlockedReason('התוכן שהוזן לא עבר את הבדיקות שלנו')
           }
         } catch (error) {
           console.error('Error checking status:', error)
@@ -221,6 +226,69 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen overflow-hidden flex flex-col relative" lang="he">
+
+      {/* Blocked Content Popup */}
+      {blockedReason && (
+        <div className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[var(--color-bg)] rounded-xl border border-red-500/30 max-w-md w-full">
+            {/* Header */}
+            <div className="bg-red-500/10 border-b border-red-500/20 p-6">
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+              </div>
+              <h2 className="text-xl md:text-2xl font-heebo font-light text-red-500 text-center">
+                ⚠️ התוכן נחסם
+              </h2>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 space-y-4">
+              <p className="text-[var(--color-text)] font-heebo text-center leading-relaxed" dir="rtl">
+                {blockedReason}
+              </p>
+              
+              <div className="bg-[var(--color-gold)]/10 border border-[var(--color-gold)]/20 rounded-lg p-4">
+                <p className="text-sm text-[var(--color-muted)] font-heebo font-light text-center" dir="rtl">
+                  אנא וודאו שהתוכן שלכם אינו כולל:
+                </p>
+                <ul className="text-xs text-[var(--color-muted)] font-heebo font-light mt-3 space-y-1 text-right" dir="rtl">
+                  <li>• תוכן אלים או פוגעני</li>
+                  <li>• סמלים או דמויות שנויות במחלוקת</li>
+                  <li>• קללות או שפה בוטה</li>
+                  <li>• תוכן מיני או מפורש</li>
+                  <li>• דמויות מוגנות בזכויות יוצרים</li>
+                </ul>
+              </div>
+
+              {/* Buttons */}
+              <div className="space-y-3">
+                <button
+                  onClick={() => {
+                    setBlockedReason(null)
+                    setQueueId(null)
+                    setElapsedTime(0)
+                    setProcessingStage(0)
+                  }}
+                  className="w-full px-6 py-3 bg-[var(--color-gold)]/10 border border-[var(--color-gold)]/30 hover:bg-[var(--color-gold)]/20 hover:border-[var(--color-gold)]/50 rounded-lg transition-all duration-300 font-heebo text-[var(--color-gold)]"
+                >
+                  נסו שוב עם תוכן אחר
+                </button>
+                
+                <button
+                  onClick={() => window.location.reload()}
+                  className="w-full px-6 py-3 bg-[var(--color-bg)] border border-[var(--color-muted)]/30 text-[var(--color-muted)] rounded-lg hover:bg-[var(--color-muted)]/10 transition-colors font-heebo"
+                >
+                  חזרה לעמוד הראשי
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Success Popup with Share Options */}
       {showSuccessPopup && completedArtwork && (
