@@ -233,16 +233,12 @@ export default function MarqueeGallery() {
   const [selectedArtwork, setSelectedArtwork] = useState(null)
 
   const navigateArtwork = (direction) => {
-    console.log('Navigate called:', direction, 'allArtworks length:', allArtworks.length, 'selectedArtwork:', selectedArtwork?.id)
-    
     if (!selectedArtwork || !allArtworks.length) {
-      console.log('Navigation blocked - missing data')
       return
     }
     
     // Use ALL artworks for navigation (not just marquee artworks)
     const currentIndex = allArtworks.findIndex(art => art.id === selectedArtwork.id)
-    console.log('Current index:', currentIndex)
     
     let newIndex = currentIndex + direction
     
@@ -250,7 +246,6 @@ export default function MarqueeGallery() {
     if (newIndex < 0) newIndex = allArtworks.length - 1
     if (newIndex >= allArtworks.length) newIndex = 0
     
-    console.log('New index:', newIndex, 'New artwork:', allArtworks[newIndex]?.id)
     setSelectedArtwork(allArtworks[newIndex])
   }
 

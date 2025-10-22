@@ -143,7 +143,6 @@ export default function HomePage() {
   }, [])
 
   const handlePromptSubmit = (promptText) => {
-    console.log('handlePromptSubmit called with:', promptText)
     setPrompt(promptText)
     setIsModalOpen(true)
   }
@@ -172,8 +171,6 @@ export default function HomePage() {
   }
 
   const handleUserDetailsSubmit = async (userData) => {
-    console.log('handleUserDetailsSubmit called with:', userData)
-    console.log('Current prompt:', prompt)
     setIsLoading(true)
     
     try {
@@ -183,9 +180,7 @@ export default function HomePage() {
         status: 'pending'
       }
       
-      console.log('Adding to queue:', queueData)
       const result = await addToQueue(queueData)
-      console.log('Queue result:', result)
       
       setQueueId(result.id)
       setIsModalOpen(false)

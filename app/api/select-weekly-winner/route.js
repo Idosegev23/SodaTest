@@ -88,7 +88,7 @@ export async function GET(request) {
     const randomIndex = Math.floor(Math.random() * topArtworks.length)
     const eligibleWinner = topArtworks[randomIndex]
 
-    console.log('Winner selected:', eligibleWinner.user_email, 'with', eligibleWinner.likes, 'likes', 
+    console.log('Weekly winner selected with', eligibleWinner.likes, 'likes', 
                 topArtworks.length > 1 ? `(randomly selected from ${topArtworks.length} tied artworks)` : '')
 
     // שמירת הזוכה בטבלה

@@ -24,7 +24,7 @@ export async function GET() {
     }
 
     const item = pendingItems[0]
-    console.log(`Processing item ${item.id} for user ${item.user_name}`)
+    console.log(`Processing queue item ${item.id}`)
 
     // וידוא שהפרומפט מתחיל ב"בהשראת" - הגנה ברמת Server
     let finalPrompt = item.prompt
@@ -81,7 +81,6 @@ export async function GET() {
       const apiUrl = isProduction ? '/api/gemini' : `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/gemini`
       
       console.log('Making request to Gemini API:', apiUrl)
-      console.log('Request payload:', { prompt: finalPrompt })
       console.log('Is production:', isProduction)
       
       // בפרודקשן נשתמש בכתובת יחסית, בפיתוח בכתובת מלאה (עם הפרומפט המעודכן)
