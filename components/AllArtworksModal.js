@@ -179,104 +179,138 @@ export default function AllArtworksModal({ isOpen, onClose }) {
         {/* Selected Artwork Detail Modal */}
         {selectedArtwork && (
           <div
-            className="absolute inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 z-20 overflow-y-auto"
+            className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50"
             onClick={() => setSelectedArtwork(null)}
           >
             <div 
-              className="relative max-w-4xl w-full bg-[#0a1628] rounded-2xl overflow-hidden my-8"
+              className="relative w-full h-full md:h-auto md:max-h-[95vh] md:max-w-4xl bg-[#0a1628] md:rounded-2xl overflow-hidden flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button */}
+              {/* Close Button - Always visible */}
               <button
                 onClick={() => setSelectedArtwork(null)}
-                className="absolute top-4 right-4 z-20 p-2 bg-black/70 hover:bg-black/90 rounded-full transition-colors"
+                className="absolute top-3 right-3 z-40 p-2.5 bg-black/80 hover:bg-black/95 rounded-full transition-colors shadow-xl border border-white/20"
               >
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
               
-              {/* Image with max height */}
-              <div className="relative">
-                <img
-                  src={selectedArtwork.image_url}
-                  alt={selectedArtwork.prompt}
-                  className="w-full max-h-[60vh] object-contain bg-black"
-                />
-                
-                {/* Judge badge on image */}
-                {isJudge(selectedArtwork) && (
-                  <div className="absolute top-4 left-4 bg-[var(--color-gold)] px-3 py-1.5 rounded-full">
-                    <span className="text-black text-sm font-heebo font-bold">שופט</span>
-                  </div>
-                )}
-              </div>
+              {/* Navigation Arrows */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  const currentIndex = artworks.findIndex(a => a.id === selectedArtwork.id)
+                  const prevIndex = currentIndex > 0 ? currentIndex - 1 : artworks.length - 1
+                  setSelectedArtwork(artworks[prevIndex])
+                }}
+                className="absolute left-2 md:left-4 top-[40%] md:top-1/2 -translate-y-1/2 z-40 p-2.5 md:p-3 bg-black/80 hover:bg-black/95 rounded-full transition-colors shadow-xl border border-white/20"
+                aria-label="תמונה קודמת"
+              >
+                <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
               
-              {/* Details Section */}
-              <div className="p-6 space-y-4">
-                {/* Prompt */}
-                <div>
-                  <h3 className="text-white font-heebo font-light text-lg mb-2 leading-relaxed" dir="rtl">
-                    {selectedArtwork.prompt}
-                  </h3>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  const currentIndex = artworks.findIndex(a => a.id === selectedArtwork.id)
+                  const nextIndex = currentIndex < artworks.length - 1 ? currentIndex + 1 : 0
+                  setSelectedArtwork(artworks[nextIndex])
+                }}
+                className="absolute right-2 md:right-4 top-[40%] md:top-1/2 -translate-y-1/2 z-40 p-2.5 md:p-3 bg-black/80 hover:bg-black/95 rounded-full transition-colors shadow-xl border border-white/20"
+                aria-label="תמונה הבאה"
+              >
+                <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+              
+              {/* Scrollable content container */}
+              <div className="flex-1 overflow-y-auto">
+                {/* Image */}
+                <div className="relative bg-black">
+                  <img
+                    src={selectedArtwork.image_url}
+                    alt={selectedArtwork.prompt}
+                    className="w-full h-auto max-h-[45vh] md:max-h-[60vh] object-contain mx-auto"
+                  />
+                  
+                  {/* Judge badge on image */}
+                  {isJudge(selectedArtwork) && (
+                    <div className="absolute top-4 left-4 bg-[var(--color-gold)] px-3 py-1.5 rounded-full shadow-lg">
+                      <span className="text-black text-xs md:text-sm font-heebo font-bold">שופט</span>
+                    </div>
+                  )}
                 </div>
                 
-                {/* Meta Info */}
-                <div className="flex flex-wrap gap-4 text-[var(--color-muted)] font-heebo text-sm">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    <span>{selectedArtwork.user_name}</span>
+                {/* Details Section - Scrollable */}
+                <div className="p-4 md:p-6 space-y-3 md:space-y-4">
+                  {/* Prompt - Always scrollable if long */}
+                  <div>
+                    <h3 className="text-white font-heebo font-light text-sm md:text-lg leading-relaxed" dir="rtl">
+                      {selectedArtwork.prompt}
+                    </h3>
                   </div>
                   
-                  <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span>{new Date(selectedArtwork.created_at).toLocaleDateString('he-IL', { 
-                      day: 'numeric', 
-                      month: 'long', 
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}</span>
-                  </div>
-                </div>
-                
-                {/* Actions - Like Button */}
-                <div className="flex items-center gap-4 pt-2">
-                  {isJudge(selectedArtwork) ? (
-                    <div className="flex items-center gap-3 px-6 py-3 bg-[var(--color-gold)]/20 border border-[var(--color-gold)] rounded-full">
-                      <svg className="w-5 h-5 text-[var(--color-gold)]" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                  {/* Meta Info */}
+                  <div className="flex flex-col md:flex-row md:flex-wrap gap-2 md:gap-4 text-[var(--color-muted)] font-heebo text-xs md:text-sm">
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
-                      <span className="text-[var(--color-gold)] font-heebo font-bold">
-                        שופט ({selectedArtwork.likes || 0} לייקים)
-                      </span>
+                      <span className="truncate">{selectedArtwork.user_name}</span>
                     </div>
-                  ) : (
-                    <button
-                      onClick={(e) => handleLike(selectedArtwork.id, e)}
-                      disabled={hasUserLiked(selectedArtwork.id)}
-                      className={`flex items-center gap-3 px-6 py-3 border rounded-full transition-all duration-300 font-heebo ${
-                        hasUserLiked(selectedArtwork.id)
-                          ? 'border-[var(--color-gold)] bg-[var(--color-gold)]/20 text-[var(--color-gold)] cursor-not-allowed opacity-70'
-                          : 'border-[var(--color-muted)] hover:border-[var(--color-gold)] hover:bg-[var(--color-gold)]/10 text-white'
-                      }`}
-                    >
-                      <svg className={`w-5 h-5 transition-all ${
-                        hasUserLiked(selectedArtwork.id) 
-                          ? 'fill-[var(--color-gold)] scale-110' 
-                          : 'fill-none stroke-current'
-                      }`} viewBox="0 0 24 24">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" strokeWidth={hasUserLiked(selectedArtwork.id) ? 0 : 2}/>
+                    
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
-                      <span className="font-light">
-                        {hasUserLiked(selectedArtwork.id) ? `נתת לייק (${selectedArtwork.likes || 0})` : `תן לייק (${selectedArtwork.likes || 0})`}
-                      </span>
-                    </button>
-                  )}
+                      <span className="text-xs md:text-sm">{new Date(selectedArtwork.created_at).toLocaleDateString('he-IL', { 
+                        day: 'numeric', 
+                        month: 'short', 
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}</span>
+                    </div>
+                  </div>
+                  
+                  {/* Actions - Like Button - Always visible */}
+                  <div className="flex items-center gap-4 pt-2 pb-safe">
+                    {isJudge(selectedArtwork) ? (
+                      <div className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2.5 md:py-3 bg-[var(--color-gold)]/20 border border-[var(--color-gold)] rounded-full">
+                        <svg className="w-4 h-4 md:w-5 md:h-5 text-[var(--color-gold)]" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                        </svg>
+                        <span className="text-[var(--color-gold)] font-heebo font-bold text-sm md:text-base">
+                          שופט ({selectedArtwork.likes || 0})
+                        </span>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={(e) => handleLike(selectedArtwork.id, e)}
+                        disabled={hasUserLiked(selectedArtwork.id)}
+                        className={`flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2.5 md:py-3 border rounded-full transition-all duration-300 font-heebo text-sm md:text-base min-w-[140px] justify-center ${
+                          hasUserLiked(selectedArtwork.id)
+                            ? 'border-[var(--color-gold)] bg-[var(--color-gold)]/20 text-[var(--color-gold)] cursor-not-allowed opacity-70'
+                            : 'border-[var(--color-muted)] hover:border-[var(--color-gold)] hover:bg-[var(--color-gold)]/10 text-white active:scale-95'
+                        }`}
+                      >
+                        <svg className={`w-4 h-4 md:w-5 md:h-5 transition-all flex-shrink-0 ${
+                          hasUserLiked(selectedArtwork.id) 
+                            ? 'fill-[var(--color-gold)] scale-110' 
+                            : 'fill-none stroke-current'
+                        }`} viewBox="0 0 24 24">
+                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" strokeWidth={hasUserLiked(selectedArtwork.id) ? 0 : 2}/>
+                        </svg>
+                        <span className="font-light">
+                          {hasUserLiked(selectedArtwork.id) ? `נתת לייק (${selectedArtwork.likes || 0})` : `לייק (${selectedArtwork.likes || 0})`}
+                        </span>
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

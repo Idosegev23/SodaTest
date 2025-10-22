@@ -1,58 +1,6 @@
 import { supabase } from '../../../lib/supabaseClient'
 import { sendWeeklyReport } from '../../../lib/emailService'
 
-// פונקציה לשליפת נתוני Vercel Analytics
-async function fetchVercelAnalytics(startDate, endDate) {
-  try {
-    const token = process.env.VERCEL_TOKEN
-    const teamId = process.env.VERCEL_TEAM_ID
-    const projectId = process.env.VERCEL_PROJECT_ID
-
-    if (!token || !teamId || !projectId) {
-      console.log('Missing Vercel credentials, skipping analytics')
-      return null
-    }
-
-    // המרת תאריכים לפורמט timestamp (milliseconds)
-    const since = startDate.getTime()
-    const until = endDate.getTime()
-
-    const headers = {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-
-    // שליפת נתונים מ-Vercel Analytics API
-    const analyticsUrl = `https://vercel.com/api/web/insights/stats/path?projectId=${projectId}&teamId=${teamId}&since=${since}&until=${until}&environment=production`
-    
-    console.log('Fetching Vercel Analytics from:', analyticsUrl)
-    
-    const response = await fetch(analyticsUrl, { headers })
-    
-    if (!response.ok) {
-      console.error('Vercel Analytics API error:', response.status, response.statusText)
-      const errorText = await response.text()
-      console.error('Error details:', errorText)
-      return null
-    }
-
-    const data = await response.json()
-    console.log('Vercel Analytics data:', JSON.stringify(data, null, 2))
-    
-    return {
-      total_views: data.total || 0,
-      unique_visitors: data.devices?.total || 0,
-      devices: data.devices || {},
-      top_pages: data.paths?.slice(0, 5) || [],
-      countries: data.countries?.slice(0, 5) || [],
-      referrers: data.referrers?.slice(0, 5) || []
-    }
-  } catch (error) {
-    console.error('Error fetching Vercel Analytics:', error)
-    return null
-  }
-}
-
 export async function GET(request) {
   try {
     // בדיקת authorization - רק cron jobs או admin יכולים לקרוא לזה
@@ -163,8 +111,70 @@ export async function GET(request) {
       }
     }
 
-    // שליפת נתוני Vercel Analytics
-    const analyticsData = await fetchVercelAnalytics(previousSunday, previousSaturday)
+    // שליפת נתוני Analytics מ-Supabase (tracking משלנו!)
+    const { data: pageViews, error: viewsError } = await supabase
+      .from('page_views')
+      .select('*')
+      .gte('created_at', previousSunday.toISOString())
+      .lte('created_at', previousSaturday.toISOString())
+
+    const { data: weekSessions, error: sessionsError } = await supabase
+      .from('sessions')
+      .select('*')
+      .gte('created_at', previousSunday.toISOString())
+      .lte('created_at', previousSaturday.toISOString())
+
+    // חישוב סטטיסטיקות analytics
+    const totalPageViews = pageViews?.length || 0
+    const uniqueVisitors = weekSessions?.length || 0
+    
+    // פילוח לפי מכשירים
+    const deviceBreakdown = {}
+    pageViews?.forEach(view => {
+      const device = view.device_type || 'unknown'
+      deviceBreakdown[device] = (deviceBreakdown[device] || 0) + 1
+    })
+
+    // פילוח לפי דפים
+    const pageBreakdown = {}
+    pageViews?.forEach(view => {
+      const page = view.page_path || '/'
+      pageBreakdown[page] = (pageBreakdown[page] || 0) + 1
+    })
+    const topPages = Object.entries(pageBreakdown)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([page, count]) => ({ page, views: count }))
+
+    // פילוח לפי referrers
+    const referrerBreakdown = {}
+    weekSessions?.forEach(session => {
+      const ref = session.referrer || 'Direct'
+      // חלץ דומיין בלבד
+      let refName = 'Direct'
+      if (ref && ref !== 'Direct') {
+        try {
+          const url = new URL(ref)
+          refName = url.hostname.replace('www.', '')
+        } catch {
+          refName = ref
+        }
+      }
+      referrerBreakdown[refName] = (referrerBreakdown[refName] || 0) + 1
+    })
+    const topReferrers = Object.entries(referrerBreakdown)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([referrer, count]) => ({ referrer, visits: count }))
+
+    const analyticsData = {
+      total_views: totalPageViews,
+      unique_visitors: uniqueVisitors,
+      devices: deviceBreakdown,
+      top_pages: topPages,
+      referrers: topReferrers
+    }
+    
     console.log('Analytics data fetched:', analyticsData)
 
     // יצירת הדוח

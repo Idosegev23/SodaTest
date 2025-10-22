@@ -29,6 +29,34 @@ export default function HomePage() {
   const [sharingPlatform, setSharingPlatform] = useState(null) // Track which platform is being shared to
   const [showAllArtworksModal, setShowAllArtworksModal] = useState(false)
 
+  // Track page view on mount
+  useEffect(() => {
+    const trackPageView = async () => {
+      try {
+        // יצירת session ID ייחודי
+        let sessionId = localStorage.getItem('session_id')
+        if (!sessionId) {
+          sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+          localStorage.setItem('session_id', sessionId)
+        }
+
+        await fetch('/api/track-view', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            pagePath: window.location.pathname,
+            referrer: document.referrer,
+            sessionId: sessionId
+          })
+        })
+      } catch (error) {
+        console.error('Error tracking page view:', error)
+      }
+    }
+
+    trackPageView()
+  }, [])
+
   const processingStages = [
     'מאמתים את הפרטים שלך...',
     'ממקמים את המכשיר בסצנה...',
