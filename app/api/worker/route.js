@@ -3,8 +3,6 @@ import { validatePromptContent } from '../../../lib/contentValidation'
 
 export async function GET() {
   try {
-    console.log('Worker starting...')
-
     // שליפת בקשות ממתינות
     const { data: pendingItems, error: fetchError } = await supabase
       .from('queue')
@@ -19,18 +17,15 @@ export async function GET() {
     }
 
     if (!pendingItems || pendingItems.length === 0) {
-      console.log('No pending items found')
       return Response.json({ message: 'No pending items', queueLength: 0 }, { status: 200 })
     }
 
     const item = pendingItems[0]
-    console.log(`Processing queue item ${item.id}`)
 
     // וידוא שהפרומפט מתחיל ב"בהשראת" - הגנה ברמת Server
     let finalPrompt = item.prompt
     if (!finalPrompt.startsWith('בהשראת ') && !finalPrompt.startsWith('בהשראת…') && !finalPrompt.startsWith('בהשראת:')) {
       finalPrompt = `בהשראת ${finalPrompt}`
-      console.log('Added "בהשראת" prefix to prompt')
     }
 
     // עדכון סטטוס לעיבוד (ועדכון הפרומפט אם שונה)
@@ -50,12 +45,9 @@ export async function GET() {
 
     try {
       // וידוא תוכן הפרומפט עם שתי שכבות בדיקה
-      console.log('Validating prompt content...')
       const validationResult = await validatePromptContent(item.prompt)
       
       if (validationResult.isBlocked) {
-        console.log('Prompt blocked:', validationResult.reason)
-        
         // עדכון סטטוס התור ל-blocked
         await supabase
           .from('queue')
@@ -74,14 +66,9 @@ export async function GET() {
         }, { status: 400 })
       }
       
-      console.log('Prompt validation passed, proceeding with image generation...')
-      
       // קריאה ל-Gemini API הפנימי - שימוש בכתובת יחסית לעקיפת Deployment Protection
       const isProduction = process.env.VERCEL_URL || process.env.NODE_ENV === 'production'
       const apiUrl = isProduction ? '/api/gemini' : `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/gemini`
-      
-      console.log('Making request to Gemini API:', apiUrl)
-      console.log('Is production:', isProduction)
       
       // בפרודקשן נשתמש בכתובת יחסית, בפיתוח בכתובת מלאה (עם הפרומפט המעודכן)
       const geminiResponse = isProduction 
@@ -100,8 +87,7 @@ export async function GET() {
             body: JSON.stringify({ prompt: finalPrompt }),
           })
 
-      console.log('Gemini API response status:', geminiResponse.status)
-      console.log('Gemini API response statusText:', geminiResponse.statusText)
+      // Gemini API response received
 
       if (!geminiResponse.ok) {
         const errorText = await geminiResponse.text()
@@ -125,7 +111,6 @@ export async function GET() {
           .toBuffer()
         contentType = 'image/webp'
         fileExtension = 'webp'
-        console.log('Image converted to WebP successfully')
       } catch (sharpError) {
         console.error('Error converting to WebP, using original:', sharpError)
         // נשתמש בתמונה המקורית אם ההמרה נכשלה
@@ -199,7 +184,6 @@ export async function GET() {
             },
             body: JSON.stringify(webhookData),
           })
-          console.log('Webhook sent successfully')
         } catch (webhookError) {
           console.error('Error sending webhook:', webhookError)
           // לא נכשיל את כל הביצוע בגלל וובהוק

@@ -9,7 +9,7 @@ export async function GET(request) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    console.log('Starting weekly winner selection...')
+    // Starting weekly winner selection
 
     // רשימת מיילים של שופטים שלא יכולים לזכות
     const judgesEmails = [
@@ -31,7 +31,7 @@ export async function GET(request) {
     weekEnd.setDate(weekStart.getDate() + 6) // שבת
     weekEnd.setHours(23, 59, 59, 999)
 
-    console.log('Week range:', weekStart, 'to', weekEnd)
+    // Week range calculated
 
     // שליפת כל היצירות מהשבוע הנוכחי
     const { data: weekArtworks, error: artworksError } = await supabase
@@ -47,11 +47,10 @@ export async function GET(request) {
     }
 
     if (!weekArtworks || weekArtworks.length === 0) {
-      console.log('No artworks found for this week')
       return Response.json({ message: 'No artworks this week', weekStart, weekEnd }, { status: 200 })
     }
 
-    console.log(`Found ${weekArtworks.length} artworks this week`)
+    // Artworks found for this week
 
     // שליפת זוכים קודמים
     const { data: previousWinners } = await supabase
@@ -67,7 +66,6 @@ export async function GET(request) {
     })
 
     if (!eligibleArtworks || eligibleArtworks.length === 0) {
-      console.log('No eligible winner found')
       return Response.json({ 
         message: 'No eligible winner found',
         totalArtworks: weekArtworks.length,
@@ -82,14 +80,13 @@ export async function GET(request) {
     // מציאת כל היצירות עם מספר הלייקים הגבוה ביותר (תיקו)
     const topArtworks = eligibleArtworks.filter(artwork => (artwork.likes || 0) === maxLikes)
 
-    console.log(`Found ${topArtworks.length} artworks with ${maxLikes} likes (tied for first place)`)
+    // Top artworks identified
 
     // בחירה רנדומלית מבין המועמדים (במקרה של תיקו)
     const randomIndex = Math.floor(Math.random() * topArtworks.length)
     const eligibleWinner = topArtworks[randomIndex]
 
-    console.log('Weekly winner selected with', eligibleWinner.likes, 'likes', 
-                topArtworks.length > 1 ? `(randomly selected from ${topArtworks.length} tied artworks)` : '')
+    // Winner selected
 
     // שמירת הזוכה בטבלה
     const { data: winnerRecord, error: insertError } = await supabase
@@ -108,7 +105,7 @@ export async function GET(request) {
       return Response.json({ error: 'Failed to save winner' }, { status: 500 })
     }
 
-    console.log('Winner saved successfully:', winnerRecord)
+    // Winner saved
 
     // שליחת מייל על הזוכה
     try {
@@ -125,7 +122,7 @@ export async function GET(request) {
           end: weekEnd.toISOString()
         }
       )
-      console.log('Winner email sent successfully')
+      // Winner email sent
     } catch (emailError) {
       console.error('Error sending winner email:', emailError)
       // לא נכשיל את כל התהליך בגלל מייל
