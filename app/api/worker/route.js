@@ -3,13 +3,13 @@ import { validatePromptContent } from '../../../lib/contentValidation'
 
 export async function GET() {
   try {
-    // שליפת בקשות ממתינות
+    // שליפת עד 100 בקשות ממתינות (ניצול של Gemini Tier 1: 500 RPM, 2K RPD)
     const { data: pendingItems, error: fetchError } = await supabase
       .from('queue')
       .select('*')
       .eq('status', 'pending')
       .order('created_at', { ascending: true })
-      .limit(1)
+      .limit(100) // עיבוד מקבילי של עד 100 יצירות
 
     if (fetchError) {
       console.error('Error fetching pending items:', fetchError)
@@ -20,7 +20,33 @@ export async function GET() {
       return Response.json({ message: 'No pending items', queueLength: 0 }, { status: 200 })
     }
 
-    const item = pendingItems[0]
+    console.log(`Processing ${pendingItems.length} items in parallel...`)
+
+    // עיבוד כל היצירות במקביל
+    const results = await Promise.allSettled(
+      pendingItems.map(item => processItem(item))
+    )
+
+    // ספירת הצלחות וכשלונות
+    const successful = results.filter(r => r.status === 'fulfilled').length
+    const failed = results.filter(r => r.status === 'rejected').length
+
+    return Response.json({ 
+      message: `Processed ${pendingItems.length} items`,
+      successful,
+      failed,
+      queueLength: 0 
+    }, { status: 200 })
+
+  } catch (error) {
+    console.error('Worker error:', error)
+    return Response.json({ error: error.message }, { status: 500 })
+  }
+}
+
+// פונקציה לעיבוד יצירה בודדת
+async function processItem(item) {
+  try {
 
     // וידוא שהפרומפט מתחיל ב"בהשראת" - הגנה ברמת Server
     let finalPrompt = item.prompt
@@ -40,31 +66,26 @@ export async function GET() {
 
     if (updateError) {
       console.error('Error updating status:', updateError)
-      return Response.json({ error: 'Failed to update status' }, { status: 500 })
+      throw new Error('Failed to update status')
     }
 
-    try {
-      // וידוא תוכן הפרומפט עם שתי שכבות בדיקה
-      const validationResult = await validatePromptContent(item.prompt)
+    // וידוא תוכן הפרומפט עם שתי שכבות בדיקה
+    const validationResult = await validatePromptContent(item.prompt)
+    
+    if (validationResult.isBlocked) {
+      // עדכון סטטוס התור ל-blocked
+      await supabase
+        .from('queue')
+        .update({ 
+          status: 'blocked',
+          // הוספת שדה error_reason אם קיים בטבלה
+          // error_reason: validationResult.reason 
+        })
+        .eq('id', item.id)
       
-      if (validationResult.isBlocked) {
-        // עדכון סטטוס התור ל-blocked
-        await supabase
-          .from('queue')
-          .update({ 
-            status: 'blocked',
-            // הוספת שדה error_reason אם קיים בטבלה
-            // error_reason: validationResult.reason 
-          })
-          .eq('id', item.id)
-        
-        return Response.json({ 
-          error: 'Content blocked',
-          reason: validationResult.reason,
-          category: validationResult.category,
-          queueLength: 0
-        }, { status: 400 })
-      }
+      console.log(`Item ${item.id} blocked: ${validationResult.reason}`)
+      return { success: false, blocked: true, reason: validationResult.reason }
+    }
       
       // קריאה ל-Gemini API הפנימי - שימוש בכתובת יחסית לעקיפת Deployment Protection
       const isProduction = process.env.VERCEL_URL || process.env.NODE_ENV === 'production'
@@ -198,38 +219,24 @@ export async function GET() {
       
       console.log(`Successfully processed item ${item.id}`)
       
-      // Note: We can't dispatch browser events from server-side code
-      // The client-side will need to poll or use other mechanisms for real-time updates
-      
-      return Response.json({ 
+      return { 
         success: true, 
         processed: item.id,
         imageUrl,
         artworkId: artworkData[0].id,
         queueLength: remainingItems ? remainingItems.length : 0
-      }, { status: 200 })
+      }
 
-    } catch (processingError) {
-      console.error('Error processing item:', processingError)
-      
-      // החזרת הפריט למצב pending במקרה של שגיאה
-      await supabase
-        .from('queue')
-        .update({ status: 'pending' })
-        .eq('id', item.id)
+  } catch (processingError) {
+    console.error('Error processing item:', processingError)
+    
+    // החזרת הפריט למצב pending במקרה של שגיאה
+    await supabase
+      .from('queue')
+      .update({ status: 'pending' })
+      .eq('id', item.id)
 
-      return Response.json({ 
-        error: 'Failed to process item',
-        details: processingError.message 
-      }, { status: 500 })
-    }
-
-  } catch (error) {
-    console.error('Worker error:', error)
-    return Response.json({ 
-      error: 'Worker failed',
-      details: error.message 
-    }, { status: 500 })
+    throw processingError
   }
 }
 
