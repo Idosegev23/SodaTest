@@ -331,7 +331,7 @@ export default function HomePage() {
 
               {/* Discount Code Banner - Clickable */}
               <a
-                href="https://sodastream.co.il/"
+                href="https://sodastream.co.il/products/enso?variant=42858873749582&utm_source=ensogallery.co.il&utm_medium=organic&utm_campaign=DISCOUNT"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block mb-6 p-5 bg-gradient-to-r from-[var(--color-gold)]/20 via-[var(--color-gold)]/10 to-[var(--color-gold)]/20 border-2 border-[var(--color-gold)] rounded-lg hover:from-[var(--color-gold)]/30 hover:via-[var(--color-gold)]/20 hover:to-[var(--color-gold)]/30 transition-all duration-300 cursor-pointer group"
@@ -978,7 +978,7 @@ export default function HomePage() {
             {/* CTA Button - Centered */}
             <div className="flex justify-center">
               <button
-                onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582', '_blank')}
+                onClick={() => window.open('https://sodastream.co.il/products/enso?variant=42858873749582&utm_source=ensogallery.co.il&utm_medium=organic&utm_campaign=BANNER', '_blank')}
                 className="border-2 border-[var(--color-gold)] bg-transparent text-white font-rubik font-light text-xs md:text-xl px-4 md:px-12 py-2 md:py-4 rounded-full hover:bg-[var(--color-gold)]/10 transition-all duration-300 whitespace-nowrap"
                 aria-label="לפרטים נוספים על מכשיר SodaStream ®ensō"
               >
