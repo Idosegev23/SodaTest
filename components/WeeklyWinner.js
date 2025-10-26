@@ -17,7 +17,7 @@ export default function WeeklyWinner() {
       const { data: lastWinner, error: winnerError } = await supabase
         .from('weekly_winners')
         .select('*')
-        .order('selected_at', { ascending: false })
+        .order('created_at', { ascending: false })
         .limit(1)
         .single()
       
