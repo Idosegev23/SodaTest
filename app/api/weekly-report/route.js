@@ -89,9 +89,9 @@ export async function GET(request) {
     const { data: weeklyWinner } = await supabase
       .from('weekly_winners')
       .select('*')
-      .gte('week_start', previousSunday.toISOString())
-      .lte('week_end', previousSaturday.toISOString())
-      .order('selected_at', { ascending: false })
+      .gte('week_start_date', previousSunday.toISOString())
+      .lte('week_end_date', previousSaturday.toISOString())
+      .order('created_at', { ascending: false })
       .limit(1)
       .single()
 
