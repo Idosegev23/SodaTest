@@ -38,13 +38,11 @@ export async function POST(request) {
       }, { status: 404 })
     }
 
-    // שליחה רק למנהלים (3 מיילים ממשתני הסביבה)
-    const allUsersEmails = [] // לא שולחים לכולם!
-
-    // הכנת נתוני הזוכה למייל
+    // הכנת נתוני הזוכה למייל (שליחה למנהלים בלבד!)
     const winnerEmailData = {
       name: winnerArtwork.user_name,
       email: winnerArtwork.user_email,
+      phone: winnerArtwork.user_phone,
       likes: winnerArtwork.likes || 0,
       prompt: winnerArtwork.prompt,
       artwork_url: winnerArtwork.image_url
@@ -56,18 +54,19 @@ export async function POST(request) {
       end: new Date(lastWinner.week_end_date || lastWinner.created_at)
     }
     
-    // שליחת המייל לכל המשתמשים
+    // שליחת המייל למנהלים בלבד (לא למשתמשים!)
     const result = await sendWeeklyWinnerEmail(
       winnerEmailData,
-      weekDates,
-      allUsersEmails
+      weekDates
     )
 
     return Response.json({ 
       success: true,
-      message: 'המייל נשלח בהצלחה לכל המשתמשים!',
+      message: '✅ המייל נשלח בהצלחה ל-3 מנהלים בלבד (לא למשתמשים!)',
       winner: {
         name: winnerArtwork.user_name,
+        email: winnerArtwork.user_email,
+        phone: winnerArtwork.user_phone,
         likes: winnerArtwork.likes,
         prompt: winnerArtwork.prompt?.substring(0, 100) + '...'
       },

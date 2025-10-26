@@ -1,5 +1,5 @@
 import { supabase } from '../../../lib/supabaseClient'
-import { sendWeeklyReport, sendWeeklyWinnerEmail } from '../../../lib/emailService'
+import { sendWeeklyReport } from '../../../lib/emailService'
 
 export async function GET(request) {
   try {
@@ -200,47 +200,12 @@ export async function GET(request) {
 
     // Weekly report generated
 
-    // שליחת הדוח במייל למנהלים
+    // שליחת הדוח במייל למנהלים בלבד
     await sendWeeklyReport(report)
 
-    // שליחת מייל זוכה לכל המשתמשים (אם יש זוכה)
-    let totalEmailRecipients = 0
-    if (winnerDetails && winnerDetails.artwork) {
-      // שליפת כל המיילים מהמסד נתונים
-      const { data: allLeads } = await supabase
-        .from('leads')
-        .select('email')
-        .not('email', 'is', null)
-      
-      const allUsersEmails = allLeads?.map(lead => lead.email).filter(Boolean) || []
-      totalEmailRecipients = allUsersEmails.length
-      
-      // שליחת מייל הזוכה לכל המשתמשים
-      if (allUsersEmails.length > 0) {
-        const winnerEmailData = {
-          name: winnerDetails.artwork.user_name,
-          email: winnerDetails.artwork.user_email,
-          likes: winnerDetails.artwork.likes || 0,
-          prompt: winnerDetails.artwork.prompt,
-          artwork_url: winnerDetails.artwork.image_url
-        }
-        
-        await sendWeeklyWinnerEmail(
-          winnerEmailData,
-          {
-            start: previousSunday,
-            end: previousSaturday
-          },
-          allUsersEmails
-        )
-      }
-    }
-
     return Response.json({ 
-      message: 'Weekly report sent successfully',
-      report,
-      winner_email_sent: !!winnerDetails,
-      total_recipients: totalEmailRecipients
+      message: 'Weekly report sent successfully to admins only',
+      report
     }, { status: 200 })
 
   } catch (error) {
