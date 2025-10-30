@@ -102,23 +102,26 @@ export default function StatsDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#00050e] text-[#D9d8d6] py-4 md:py-8 px-2 md:px-4">
+    <div className="min-h-screen bg-slate-900 text-slate-100 py-4 md:py-8 px-2 md:px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-4xl font-bold mb-2" style={{ color: '#D9d8d6' }}>
-            לוח בקרה - סטטיסטיקות קמפיין
+        <div className="mb-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-6 shadow-2xl">
+          <h1 className="text-4xl font-bold mb-3 text-white">
+            📊 לוח בקרה - סטטיסטיקות קמפיין
           </h1>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-[#Bbbbbb] text-xs sm:text-sm">
-            <span>
-              עדכון אחרון: {lastUpdate ? lastUpdate.toLocaleTimeString('he-IL') : 'טרם עודכן'}
-            </span>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 text-blue-100">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">⏱️</span>
+              <span className="text-sm">
+                עדכון אחרון: {lastUpdate ? lastUpdate.toLocaleTimeString('he-IL') : 'טרם עודכן'}
+              </span>
+            </div>
             <button
               onClick={fetchStats}
-              className="px-4 py-1 bg-[#4a6372] hover:bg-opacity-80 rounded-lg transition-all text-[#D9d8d6] text-sm"
+              className="px-6 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-all shadow-lg"
               disabled={loading}
             >
-              {loading ? 'מעדכן...' : 'רענון'}
+              {loading ? '⏳ מעדכן...' : '🔄 רענון'}
             </button>
           </div>
         </div>

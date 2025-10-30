@@ -8,10 +8,39 @@ export async function GET(request) {
     const endDate = searchParams.get('endDate')
 
     // ===== בניית תנאי תאריך =====
-    let leadsQuery = supabase.from('leads').select('*', { count: 'exact', head: false })
-    let artworksQuery = supabase.from('artworks').select('*', { count: 'exact', head: false })
-    let viewsQuery = supabase.from('page_views').select('*', { count: 'exact', head: false })
-    let sessionsQuery = supabase.from('sessions').select('*', { count: 'exact', head: false })
+    // פונקציה לשליפת כל הנתונים עם pagination
+    async function fetchAllData(query, tableName) {
+      const PAGE_SIZE = 1000
+      let allData = []
+      let page = 0
+      let hasMore = true
+      
+      while (hasMore) {
+        const { data, error } = await query
+          .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1)
+        
+        if (error) {
+          console.error(`Error fetching ${tableName}:`, error)
+          break
+        }
+        
+        if (data && data.length > 0) {
+          allData = allData.concat(data)
+          page++
+          hasMore = data.length === PAGE_SIZE
+        } else {
+          hasMore = false
+        }
+      }
+      
+      return allData
+    }
+
+    // בניית queries עם פילטרים
+    let leadsQuery = supabase.from('leads').select('*')
+    let artworksQuery = supabase.from('artworks').select('*')
+    let viewsQuery = supabase.from('page_views').select('*')
+    let sessionsQuery = supabase.from('sessions').select('*')
 
     if (startDate) {
       const startDateISO = new Date(startDate).toISOString()
@@ -31,24 +60,26 @@ export async function GET(request) {
       sessionsQuery = sessionsQuery.lte('created_at', endDateISO)
     }
 
+    // הוספת order by
+    leadsQuery = leadsQuery.order('created_at', { ascending: false })
+    artworksQuery = artworksQuery.order('created_at', { ascending: false })
+    viewsQuery = viewsQuery.order('created_at', { ascending: false })
+    sessionsQuery = sessionsQuery.order('created_at', { ascending: false })
+
     // ===== נתונים כלליים (KPI) =====
     
-    // סך הכל לידים
-    const { data: allLeads, count: totalLeads } = await leadsQuery.order('created_at', { ascending: false })
+    // שליפת כל הנתונים
+    const allLeads = await fetchAllData(leadsQuery, 'leads')
+    const allArtworks = await fetchAllData(artworksQuery, 'artworks')
+    const allPageViews = await fetchAllData(viewsQuery, 'page_views')
+    const allSessions = await fetchAllData(sessionsQuery, 'sessions')
 
-    const leadsWithConsent = allLeads?.filter(l => l.consent).length || 0
-
-    // סך הכל יצירות
-    const { data: allArtworks, count: totalArtworks } = await artworksQuery.order('created_at', { ascending: false })
-
-    // סך הכל לייקים
-    const totalLikes = allArtworks?.reduce((sum, a) => sum + (a.likes || 0), 0) || 0
-
-    // סך הכל צפיות
-    const { data: allPageViews, count: totalPageViews } = await viewsQuery
-
-    // Sessions ייחודיים
-    const { data: allSessions, count: totalSessions } = await sessionsQuery
+    const totalLeads = allLeads.length
+    const leadsWithConsent = allLeads.filter(l => l.consent).length
+    const totalArtworks = allArtworks.length
+    const totalLikes = allArtworks.reduce((sum, a) => sum + (a.likes || 0), 0)
+    const totalPageViews = allPageViews.length
+    const totalSessions = allSessions.length
 
     // סטטוס תור
     const { data: queueData } = await supabase

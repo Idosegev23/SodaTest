@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import ArtworkModal from './ArtworkModal'
 import Papa from 'papaparse'
 
 const getDayOfWeek = (dateString) => {
@@ -41,7 +42,7 @@ const exportToCSV = (data, filename) => {
   document.body.removeChild(link)
 }
 
-function DataTable({ title, data, columns, defaultSortKey }) {
+function DataTable({ title, data, columns, defaultSortKey, onRowClick }) {
   const [sortKey, setSortKey] = useState(defaultSortKey)
   const [sortDirection, setSortDirection] = useState('desc')
   const [currentPage, setCurrentPage] = useState(1)
@@ -116,25 +117,25 @@ function DataTable({ title, data, columns, defaultSortKey }) {
   }
 
   return (
-    <div className="bg-[#1a1f2e] rounded-lg p-4 md:p-6 border-2 border-[#8e7845] border-opacity-30 mb-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
-        <h2 className="text-xl md:text-2xl font-bold text-[#D9d8d6]">
+    <div className="bg-slate-800 rounded-xl p-6 border border-slate-700 shadow-xl mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <h2 className="text-2xl font-bold text-slate-100">
           {title}
         </h2>
-        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
           <input
             type="text"
-            placeholder="חיפוש..."
+            placeholder="🔍 חיפוש..."
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value)
               setCurrentPage(1)
             }}
-            className="px-3 py-2 bg-[#00050e] border-2 border-[#8e7845] border-opacity-50 rounded-lg text-[#D9d8d6] placeholder-[#Bbbbbb] focus:border-[#8e7845] focus:outline-none"
+            className="px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
           />
           <button
             onClick={handleExport}
-            className="px-4 py-2 bg-[#8e7845] hover:bg-opacity-80 text-[#D9d8d6] font-semibold rounded-lg transition-all border border-[#8e7845]"
+            className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all shadow-lg"
           >
             📥 ייצוא CSV
           </button>
@@ -144,17 +145,17 @@ function DataTable({ title, data, columns, defaultSortKey }) {
       <div className="overflow-x-auto">
         <table className="w-full text-right">
           <thead>
-            <tr className="border-b-2 border-[#8e7845] bg-[#1a1f2e]">
+            <tr className="border-b-2 border-slate-700 bg-slate-900">
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className="px-4 py-3 text-[#D9d8d6] font-semibold cursor-pointer hover:bg-[#8e7845] hover:bg-opacity-20 transition-all"
+                  className="px-4 py-4 text-slate-200 font-semibold cursor-pointer hover:bg-slate-700 transition-all"
                   onClick={() => handleSort(col.key)}
                 >
                   <div className="flex items-center gap-2">
                     {col.label}
                     {sortKey === col.key && (
-                      <span className="text-[#8e7845]">{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                      <span className="text-blue-400">{sortDirection === 'asc' ? '↑' : '↓'}</span>
                     )}
                   </div>
                 </th>
@@ -164,7 +165,7 @@ function DataTable({ title, data, columns, defaultSortKey }) {
           <tbody>
             {paginatedData.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-8 text-center text-[#D9d8d6]">
+                <td colSpan={columns.length} className="px-4 py-8 text-center text-slate-400">
                   אין נתונים
                 </td>
               </tr>
@@ -172,10 +173,11 @@ function DataTable({ title, data, columns, defaultSortKey }) {
               paginatedData.map((row, index) => (
                 <tr
                   key={index}
-                  className="border-b border-[#4a6372] border-opacity-30 hover:bg-[#8e7845] hover:bg-opacity-10 transition-all"
+                  className={`border-b border-slate-700 hover:bg-slate-700 transition-all ${onRowClick ? 'cursor-pointer' : ''}`}
+                  onClick={() => onRowClick && onRowClick(row)}
                 >
                   {columns.map((col) => (
-                    <td key={col.key} className="px-4 py-3 text-[#D9d8d6]">
+                    <td key={col.key} className="px-4 py-3 text-slate-300">
                       {col.format ? col.format(row[col.key], row) : (row[col.key] || '-')}
                     </td>
                   ))}
@@ -187,27 +189,27 @@ function DataTable({ title, data, columns, defaultSortKey }) {
       </div>
 
       {totalPages > 1 && (
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-3 mt-4">
-          <div className="text-[#D9d8d6] text-sm">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-3 mt-6 pt-4 border-t border-slate-700">
+          <div className="text-slate-400 text-sm">
             מציג {((currentPage - 1) * pageSize) + 1}-{Math.min(currentPage * pageSize, filteredAndSortedData.length)} מתוך {filteredAndSortedData.length}
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 bg-[#8e7845] hover:bg-opacity-80 disabled:opacity-30 disabled:cursor-not-allowed text-[#D9d8d6] rounded-lg transition-all border border-[#8e7845]"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-30 disabled:cursor-not-allowed text-white rounded-lg transition-all shadow-lg"
             >
-              קודם
+              ← קודם
             </button>
-            <span className="px-4 py-2 text-[#D9d8d6] bg-[#1a1f2e] rounded-lg">
+            <span className="px-4 py-2 text-slate-200 bg-slate-700 rounded-lg font-medium">
               עמוד {currentPage} מתוך {totalPages}
             </span>
             <button
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-[#8e7845] hover:bg-opacity-80 disabled:opacity-30 disabled:cursor-not-allowed text-[#D9d8d6] rounded-lg transition-all border border-[#8e7845]"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-30 disabled:cursor-not-allowed text-white rounded-lg transition-all shadow-lg"
             >
-              הבא
+              הבא →
             </button>
           </div>
         </div>
@@ -217,6 +219,8 @@ function DataTable({ title, data, columns, defaultSortKey }) {
 }
 
 export default function DataTables({ rawData }) {
+  const [selectedArtwork, setSelectedArtwork] = useState(null)
+  
   if (!rawData) return null
 
   const leadsColumns = [
@@ -256,13 +260,13 @@ export default function DataTables({ rawData }) {
 
   return (
     <div>
-      <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-[#D9d8d6] border-b-2 border-[#8e7845] pb-3">
+      <h2 className="text-3xl font-bold mb-6 text-slate-100 border-b-2 border-blue-500 pb-4">
         📊 טבלאות נתונים מפורטות
       </h2>
       
       {rawData.leads && rawData.leads.length > 0 && (
         <DataTable
-          title="לידים"
+          title="👥 לידים"
           data={rawData.leads}
           columns={leadsColumns}
           defaultSortKey="created_at"
@@ -271,16 +275,17 @@ export default function DataTables({ rawData }) {
 
       {rawData.artworks && rawData.artworks.length > 0 && (
         <DataTable
-          title="יצירות"
+          title="🎨 יצירות (לחץ לפרטים)"
           data={rawData.artworks}
           columns={artworksColumns}
           defaultSortKey="created_at"
+          onRowClick={(artwork) => setSelectedArtwork(artwork)}
         />
       )}
 
       {rawData.queue && rawData.queue.length > 0 && (
         <DataTable
-          title="תור עיבוד"
+          title="⏳ תור עיבוד"
           data={rawData.queue}
           columns={queueColumns}
           defaultSortKey="created_at"
@@ -289,10 +294,18 @@ export default function DataTables({ rawData }) {
 
       {rawData.pageViews && rawData.pageViews.length > 0 && (
         <DataTable
-          title="צפיות בדפים"
+          title="📊 צפיות בדפים"
           data={rawData.pageViews}
           columns={pageViewsColumns}
           defaultSortKey="created_at"
+        />
+      )}
+
+      {/* Modal ליצירות */}
+      {selectedArtwork && (
+        <ArtworkModal
+          artwork={selectedArtwork}
+          onClose={() => setSelectedArtwork(null)}
         />
       )}
     </div>

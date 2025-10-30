@@ -51,18 +51,18 @@ export default function KPICards({ kpi }) {
       {cards.map((card, index) => (
         <div
           key={index}
-          className="bg-[#4a6372] bg-opacity-20 rounded-lg p-4 md:p-6 border border-[#8e7845] border-opacity-30 hover:border-opacity-50 transition-all"
+          className="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-blue-500 transition-all shadow-lg hover:shadow-xl"
         >
-          <div className="flex items-start justify-between mb-3 md:mb-4">
+          <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
-              <div className="text-[#Bbbbbb] text-xs md:text-sm mb-1">{card.title}</div>
-              <div className="text-2xl md:text-3xl font-bold" style={{ color: '#D9d8d6' }}>
+              <div className="text-slate-400 text-sm mb-2">{card.title}</div>
+              <div className="text-3xl font-bold text-slate-100">
                 {card.value.toLocaleString('he-IL')}
               </div>
             </div>
-            <div className="text-3xl md:text-4xl mr-2">{card.icon}</div>
+            <div className="text-4xl opacity-80">{card.icon}</div>
           </div>
-          <div className="text-[#Bbbbbb] text-xs md:text-sm">{card.subtitle}</div>
+          <div className="text-slate-400 text-sm border-t border-slate-700 pt-3">{card.subtitle}</div>
         </div>
       ))}
     </div>

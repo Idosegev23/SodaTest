@@ -67,17 +67,17 @@ export default function FiltersBar({ dateRange, setDateRange }) {
   }
 
   return (
-    <div className="mb-4 md:mb-6 p-3 md:p-4 bg-[#4a6372] bg-opacity-10 rounded-lg border border-[#8e7845] border-opacity-20">
-      <div className="flex flex-wrap gap-2 items-center mb-3 md:mb-0">
-        <span className="text-[#Bbbbbb] text-xs md:text-sm mr-2">פילטרים מהירים:</span>
+    <div className="mb-6 p-4 md:p-6 bg-slate-800 rounded-xl border border-slate-700 shadow-lg">
+      <div className="flex flex-wrap gap-2 items-center mb-4">
+        <span className="text-slate-300 text-sm font-semibold mr-3">🎯 פילטרים מהירים:</span>
         {Object.entries(presets).map(([key, label]) => (
           <button
             key={key}
             onClick={() => applyPreset(key)}
-            className={`px-2 md:px-4 py-1 md:py-2 rounded-lg text-xs md:text-sm transition-all ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               selectedPreset === key
-                ? 'bg-[#8e7845] text-[#D9d8d6] border border-[#8e7845]'
-                : 'bg-[#4a6372] bg-opacity-20 text-[#Bbbbbb] border border-[#4a6372] border-opacity-30 hover:bg-opacity-30'
+                ? 'bg-blue-600 text-white shadow-lg scale-105'
+                : 'bg-slate-700 text-slate-300 hover:bg-slate-600 border border-slate-600'
             }`}
           >
             {label}
@@ -85,23 +85,23 @@ export default function FiltersBar({ dateRange, setDateRange }) {
         ))}
       </div>
       
-      <div className="mt-3 md:mt-4 flex flex-col sm:flex-row gap-3 md:gap-4 items-start sm:items-center">
-        <div>
-          <label className="text-[#Bbbbbb] text-xs md:text-sm mr-2 block mb-1">תאריך התחלה:</label>
+      <div className="mt-4 pt-4 border-t border-slate-700 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+        <div className="flex-1">
+          <label className="text-slate-300 text-sm font-medium mr-2 block mb-2">📅 תאריך התחלה:</label>
           <input
             type="date"
             value={dateRange.startDate || ''}
             onChange={(e) => setDateRange({ ...dateRange, startDate: e.target.value || null })}
-            className="px-2 md:px-3 py-1 md:py-2 bg-[#00050e] border border-[#8e7845] border-opacity-30 rounded-lg text-[#D9d8d6] text-xs md:text-sm"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
           />
         </div>
-        <div>
-          <label className="text-[#Bbbbbb] text-xs md:text-sm mr-2 block mb-1">תאריך סיום:</label>
+        <div className="flex-1">
+          <label className="text-slate-300 text-sm font-medium mr-2 block mb-2">📅 תאריך סיום:</label>
           <input
             type="date"
             value={dateRange.endDate || ''}
             onChange={(e) => setDateRange({ ...dateRange, endDate: e.target.value || null })}
-            className="px-2 md:px-3 py-1 md:py-2 bg-[#00050e] border border-[#8e7845] border-opacity-30 rounded-lg text-[#D9d8d6] text-xs md:text-sm"
+            className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
           />
         </div>
       </div>
