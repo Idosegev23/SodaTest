@@ -7,41 +7,48 @@ export async function GET(request) {
     const startDate = searchParams.get('startDate')
     const endDate = searchParams.get('endDate')
 
-    // בניית תנאי תאריך
-    let dateFilter = {}
-    if (startDate && endDate) {
-      dateFilter.gte = startDate
-      dateFilter.lte = endDate
+    // ===== בניית תנאי תאריך =====
+    let leadsQuery = supabase.from('leads').select('*', { count: 'exact', head: false })
+    let artworksQuery = supabase.from('artworks').select('*', { count: 'exact', head: false })
+    let viewsQuery = supabase.from('page_views').select('*', { count: 'exact', head: false })
+    let sessionsQuery = supabase.from('sessions').select('*', { count: 'exact', head: false })
+
+    if (startDate) {
+      const startDateISO = new Date(startDate).toISOString()
+      leadsQuery = leadsQuery.gte('created_at', startDateISO)
+      artworksQuery = artworksQuery.gte('created_at', startDateISO)
+      viewsQuery = viewsQuery.gte('created_at', startDateISO)
+      sessionsQuery = sessionsQuery.gte('created_at', startDateISO)
+    }
+
+    if (endDate) {
+      const endDateObj = new Date(endDate)
+      endDateObj.setHours(23, 59, 59, 999)
+      const endDateISO = endDateObj.toISOString()
+      leadsQuery = leadsQuery.lte('created_at', endDateISO)
+      artworksQuery = artworksQuery.lte('created_at', endDateISO)
+      viewsQuery = viewsQuery.lte('created_at', endDateISO)
+      sessionsQuery = sessionsQuery.lte('created_at', endDateISO)
     }
 
     // ===== נתונים כלליים (KPI) =====
     
     // סך הכל לידים
-    const { data: allLeads, count: totalLeads } = await supabase
-      .from('leads')
-      .select('*', { count: 'exact', head: false })
-      .order('created_at', { ascending: false })
+    const { data: allLeads, count: totalLeads } = await leadsQuery.order('created_at', { ascending: false })
 
     const leadsWithConsent = allLeads?.filter(l => l.consent).length || 0
 
     // סך הכל יצירות
-    const { data: allArtworks, count: totalArtworks } = await supabase
-      .from('artworks')
-      .select('*', { count: 'exact', head: false })
-      .order('created_at', { ascending: false })
+    const { data: allArtworks, count: totalArtworks } = await artworksQuery.order('created_at', { ascending: false })
 
     // סך הכל לייקים
     const totalLikes = allArtworks?.reduce((sum, a) => sum + (a.likes || 0), 0) || 0
 
     // סך הכל צפיות
-    const { data: allPageViews, count: totalPageViews } = await supabase
-      .from('page_views')
-      .select('*', { count: 'exact', head: false })
+    const { data: allPageViews, count: totalPageViews } = await viewsQuery
 
     // Sessions ייחודיים
-    const { data: allSessions, count: totalSessions } = await supabase
-      .from('sessions')
-      .select('*', { count: 'exact', head: false })
+    const { data: allSessions, count: totalSessions } = await sessionsQuery
 
     // סטטוס תור
     const { data: queueData } = await supabase
@@ -62,12 +69,26 @@ export async function GET(request) {
       .select('*')
       .order('created_at', { ascending: false })
 
-    // ===== התפלגות לפי תאריכים (14 ימים אחרונים) =====
+    // ===== התפלגות לפי תאריכים (14 ימים אחרונים או לפי טווח שנבחר) =====
     const last14Days = []
-    const now = new Date()
     
-    for (let i = 13; i >= 0; i--) {
-      const date = new Date(now)
+    // קביעת טווח התאריכים
+    let rangeStart, rangeEnd
+    if (startDate && endDate) {
+      rangeStart = new Date(startDate)
+      rangeEnd = new Date(endDate)
+    } else {
+      rangeEnd = new Date()
+      rangeStart = new Date()
+      rangeStart.setDate(rangeStart.getDate() - 13)
+    }
+    
+    // יצירת רשימת תאריכים
+    const daysDiff = Math.ceil((rangeEnd - rangeStart) / (1000 * 60 * 60 * 24))
+    const daysToShow = Math.min(daysDiff + 1, 30) // מקסימום 30 ימים
+    
+    for (let i = daysToShow - 1; i >= 0; i--) {
+      const date = new Date(rangeEnd)
       date.setDate(date.getDate() - i)
       const dateStr = date.toISOString().split('T')[0]
       
@@ -82,9 +103,10 @@ export async function GET(request) {
       })
     }
 
-    // מילוי הנתונים לכל תאריך
+    // מילוי הנתונים לכל תאריך (המרה ל-UTC date)
     allLeads?.forEach(lead => {
-      const dateStr = new Date(lead.created_at).toISOString().split('T')[0]
+      const leadDate = new Date(lead.created_at)
+      const dateStr = leadDate.toISOString().split('T')[0]
       const dayData = last14Days.find(d => d.date === dateStr)
       if (dayData) {
         dayData.leads++
@@ -92,7 +114,8 @@ export async function GET(request) {
     })
 
     allArtworks?.forEach(artwork => {
-      const dateStr = new Date(artwork.created_at).toISOString().split('T')[0]
+      const artworkDate = new Date(artwork.created_at)
+      const dateStr = artworkDate.toISOString().split('T')[0]
       const dayData = last14Days.find(d => d.date === dateStr)
       if (dayData) {
         dayData.artworks++
@@ -101,7 +124,8 @@ export async function GET(request) {
     })
 
     allPageViews?.forEach(view => {
-      const dateStr = new Date(view.created_at).toISOString().split('T')[0]
+      const viewDate = new Date(view.created_at)
+      const dateStr = viewDate.toISOString().split('T')[0]
       const dayData = last14Days.find(d => d.date === dateStr)
       if (dayData) {
         dayData.views++

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import KPICards from './KPICards'
 import ChartsSection from './ChartsSection'
 import DataTables from './DataTables'
@@ -16,7 +16,7 @@ export default function StatsDashboard() {
     endDate: null
   })
 
-  const fetchStats = async () => {
+  const fetchStats = React.useCallback(async () => {
     try {
       setError(null)
       const params = new URLSearchParams()
@@ -35,11 +35,11 @@ export default function StatsDashboard() {
       setError(err.message)
       setLoading(false)
     }
-  }
+  }, [dateRange.startDate, dateRange.endDate])
 
   useEffect(() => {
     fetchStats()
-  }, [dateRange])
+  }, [fetchStats])
 
   // עדכון אוטומטי כל 30 שניות
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function StatsDashboard() {
     }, 30000)
 
     return () => clearInterval(interval)
-  }, [dateRange])
+  }, [fetchStats])
 
   // עדכון יומי ב-7:00
   useEffect(() => {
