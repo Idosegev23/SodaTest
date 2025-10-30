@@ -116,12 +116,12 @@ function DataTable({ title, data, columns, defaultSortKey }) {
   }
 
   return (
-    <div className="bg-[#4a6372] bg-opacity-20 rounded-lg p-6 border border-[#8e7845] border-opacity-30 mb-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold" style={{ color: '#D9d8d6' }}>
+    <div className="bg-[#1a1f2e] rounded-lg p-4 md:p-6 border-2 border-[#8e7845] border-opacity-30 mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-[#D9d8d6]">
           {title}
         </h2>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <input
             type="text"
             placeholder="חיפוש..."
@@ -130,13 +130,13 @@ function DataTable({ title, data, columns, defaultSortKey }) {
               setSearchTerm(e.target.value)
               setCurrentPage(1)
             }}
-            className="px-3 py-2 bg-[#00050e] border border-[#8e7845] border-opacity-30 rounded-lg text-[#D9d8d6] placeholder-[#Bbbbbb]"
+            className="px-3 py-2 bg-[#00050e] border-2 border-[#8e7845] border-opacity-50 rounded-lg text-[#D9d8d6] placeholder-[#Bbbbbb] focus:border-[#8e7845] focus:outline-none"
           />
           <button
             onClick={handleExport}
-            className="px-4 py-2 bg-[#8e7845] hover:bg-opacity-80 text-[#D9d8d6] rounded-lg transition-all"
+            className="px-4 py-2 bg-[#8e7845] hover:bg-opacity-80 text-[#D9d8d6] font-semibold rounded-lg transition-all border border-[#8e7845]"
           >
-            ייצוא CSV
+            📥 ייצוא CSV
           </button>
         </div>
       </div>
@@ -144,17 +144,17 @@ function DataTable({ title, data, columns, defaultSortKey }) {
       <div className="overflow-x-auto">
         <table className="w-full text-right">
           <thead>
-            <tr className="border-b border-[#8e7845] border-opacity-30">
+            <tr className="border-b-2 border-[#8e7845] bg-[#1a1f2e]">
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className="px-4 py-3 text-[#D9d8d6] font-semibold cursor-pointer hover:bg-[#4a6372] hover:bg-opacity-20"
+                  className="px-4 py-3 text-[#D9d8d6] font-semibold cursor-pointer hover:bg-[#8e7845] hover:bg-opacity-20 transition-all"
                   onClick={() => handleSort(col.key)}
                 >
                   <div className="flex items-center gap-2">
                     {col.label}
                     {sortKey === col.key && (
-                      <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                      <span className="text-[#8e7845]">{sortDirection === 'asc' ? '↑' : '↓'}</span>
                     )}
                   </div>
                 </th>
@@ -164,7 +164,7 @@ function DataTable({ title, data, columns, defaultSortKey }) {
           <tbody>
             {paginatedData.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-8 text-center text-[#Bbbbbb]">
+                <td colSpan={columns.length} className="px-4 py-8 text-center text-[#D9d8d6]">
                   אין נתונים
                 </td>
               </tr>
@@ -172,10 +172,10 @@ function DataTable({ title, data, columns, defaultSortKey }) {
               paginatedData.map((row, index) => (
                 <tr
                   key={index}
-                  className="border-b border-[#4a6372] border-opacity-20 hover:bg-[#4a6372] hover:bg-opacity-10"
+                  className="border-b border-[#4a6372] border-opacity-30 hover:bg-[#8e7845] hover:bg-opacity-10 transition-all"
                 >
                   {columns.map((col) => (
-                    <td key={col.key} className="px-4 py-3 text-[#Bbbbbb]">
+                    <td key={col.key} className="px-4 py-3 text-[#D9d8d6]">
                       {col.format ? col.format(row[col.key], row) : (row[col.key] || '-')}
                     </td>
                   ))}
@@ -187,25 +187,25 @@ function DataTable({ title, data, columns, defaultSortKey }) {
       </div>
 
       {totalPages > 1 && (
-        <div className="flex justify-between items-center mt-4">
-          <div className="text-[#Bbbbbb] text-sm">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-3 mt-4">
+          <div className="text-[#D9d8d6] text-sm">
             מציג {((currentPage - 1) * pageSize) + 1}-{Math.min(currentPage * pageSize, filteredAndSortedData.length)} מתוך {filteredAndSortedData.length}
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 bg-[#4a6372] hover:bg-opacity-80 disabled:opacity-50 disabled:cursor-not-allowed text-[#D9d8d6] rounded-lg transition-all"
+              className="px-4 py-2 bg-[#8e7845] hover:bg-opacity-80 disabled:opacity-30 disabled:cursor-not-allowed text-[#D9d8d6] rounded-lg transition-all border border-[#8e7845]"
             >
               קודם
             </button>
-            <span className="px-4 py-2 text-[#Bbbbbb]">
+            <span className="px-4 py-2 text-[#D9d8d6] bg-[#1a1f2e] rounded-lg">
               עמוד {currentPage} מתוך {totalPages}
             </span>
             <button
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-[#4a6372] hover:bg-opacity-80 disabled:opacity-50 disabled:cursor-not-allowed text-[#D9d8d6] rounded-lg transition-all"
+              className="px-4 py-2 bg-[#8e7845] hover:bg-opacity-80 disabled:opacity-30 disabled:cursor-not-allowed text-[#D9d8d6] rounded-lg transition-all border border-[#8e7845]"
             >
               הבא
             </button>
@@ -223,7 +223,7 @@ export default function DataTables({ rawData }) {
     { key: 'name', label: 'שם' },
     { key: 'email', label: 'אימייל' },
     { key: 'phone', label: 'טלפון' },
-    { key: 'consent', label: 'הסכמה', format: (val) => val ? '✓' : '✗' },
+    { key: 'consent', label: 'הסכמה', format: (val) => val ? '✅' : '❌' },
     { key: 'created_at', label: 'תאריך', format: formatDateTime },
     { key: 'day_of_week', label: 'יום בשבוע', format: (_, row) => getDayOfWeek(row.created_at) }
   ]
@@ -256,8 +256,8 @@ export default function DataTables({ rawData }) {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold mb-6" style={{ color: '#D9d8d6' }}>
-        טבלאות נתונים
+      <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-[#D9d8d6] border-b-2 border-[#8e7845] pb-3">
+        📊 טבלאות נתונים מפורטות
       </h2>
       
       {rawData.leads && rawData.leads.length > 0 && (

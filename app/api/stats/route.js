@@ -62,70 +62,53 @@ export async function GET(request) {
       .select('*')
       .order('created_at', { ascending: false })
 
-    // ===== התפלגות לפי ימים בשבוע =====
-    const dayOfWeekMap = {
-      0: 'ראשון',
-      1: 'שני',
-      2: 'שלישי',
-      3: 'רביעי',
-      4: 'חמישי',
-      5: 'שישי',
-      6: 'שבת'
+    // ===== התפלגות לפי תאריכים (14 ימים אחרונים) =====
+    const last14Days = []
+    const now = new Date()
+    
+    for (let i = 13; i >= 0; i--) {
+      const date = new Date(now)
+      date.setDate(date.getDate() - i)
+      const dateStr = date.toISOString().split('T')[0]
+      
+      last14Days.push({
+        date: dateStr,
+        displayDate: date.toLocaleDateString('he-IL', { day: 'numeric', month: 'short' }),
+        dayName: ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'][date.getDay()],
+        leads: 0,
+        artworks: 0,
+        likes: 0,
+        views: 0
+      })
     }
 
-    // התפלגות לידים לפי ימים
-    const leadsByDay = {}
+    // מילוי הנתונים לכל תאריך
     allLeads?.forEach(lead => {
-      const day = new Date(lead.created_at).getDay()
-      const dayName = dayOfWeekMap[day]
-      if (!leadsByDay[dayName]) {
-        leadsByDay[dayName] = 0
+      const dateStr = new Date(lead.created_at).toISOString().split('T')[0]
+      const dayData = last14Days.find(d => d.date === dateStr)
+      if (dayData) {
+        dayData.leads++
       }
-      leadsByDay[dayName]++
     })
 
-    // התפלגות יצירות לפי ימים
-    const artworksByDay = {}
     allArtworks?.forEach(artwork => {
-      const day = new Date(artwork.created_at).getDay()
-      const dayName = dayOfWeekMap[day]
-      if (!artworksByDay[dayName]) {
-        artworksByDay[dayName] = 0
+      const dateStr = new Date(artwork.created_at).toISOString().split('T')[0]
+      const dayData = last14Days.find(d => d.date === dateStr)
+      if (dayData) {
+        dayData.artworks++
+        dayData.likes += (artwork.likes || 0)
       }
-      artworksByDay[dayName]++
     })
 
-    // התפלגות לייקים לפי ימים
-    const likesByDay = {}
-    allArtworks?.forEach(artwork => {
-      const day = new Date(artwork.created_at).getDay()
-      const dayName = dayOfWeekMap[day]
-      if (!likesByDay[dayName]) {
-        likesByDay[dayName] = 0
-      }
-      likesByDay[dayName] += (artwork.likes || 0)
-    })
-
-    // התפלגות צפיות לפי ימים
-    const viewsByDay = {}
     allPageViews?.forEach(view => {
-      const day = new Date(view.created_at).getDay()
-      const dayName = dayOfWeekMap[day]
-      if (!viewsByDay[dayName]) {
-        viewsByDay[dayName] = 0
+      const dateStr = new Date(view.created_at).toISOString().split('T')[0]
+      const dayData = last14Days.find(d => d.date === dateStr)
+      if (dayData) {
+        dayData.views++
       }
-      viewsByDay[dayName]++
     })
 
-    // המרה לפורמט array עבור גרפים
-    const dayOrder = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת']
-    const dayOfWeekStats = dayOrder.map(day => ({
-      day,
-      leads: leadsByDay[day] || 0,
-      artworks: artworksByDay[day] || 0,
-      likes: likesByDay[day] || 0,
-      views: viewsByDay[day] || 0
-    }))
+    const dailyActivityStats = last14Days
 
     // ===== התפלגות לפי שעות =====
     const hourlyStats = {}
@@ -299,7 +282,7 @@ export async function GET(request) {
         avgLikesPerArtwork: parseFloat(avgLikesPerArtwork),
         conversionRate: parseFloat(conversionRate)
       },
-      dayOfWeek: dayOfWeekStats,
+      dailyActivity: dailyActivityStats,
       hourly: hourlyData,
       dailyTrends,
       topArtworks,
