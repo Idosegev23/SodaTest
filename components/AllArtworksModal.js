@@ -23,7 +23,7 @@ export default function AllArtworksModal({ isOpen, onClose }) {
         .from('artworks')
         .select('*')
         .order('created_at', { ascending: false })
-        .limit(100) // הגבלה של 100 יצירות אחרונות
+        // טוען את כל היצירות ללא הגבלה
 
       if (error) throw error
       setArtworks(data || [])
@@ -127,7 +127,7 @@ export default function AllArtworksModal({ isOpen, onClose }) {
             </button>
           </div>
           <p className="text-[var(--color-muted)] font-heebo font-light mt-2">
-            {artworks.length} יצירות אחרונות
+            {artworks.length} יצירות
           </p>
         </div>
 

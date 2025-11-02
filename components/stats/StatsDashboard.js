@@ -5,6 +5,7 @@ import KPICards from './KPICards'
 import ChartsSection from './ChartsSection'
 import DataTables from './DataTables'
 import FiltersBar from './FiltersBar'
+import AllArtworksModal from '../AllArtworksModal'
 
 export default function StatsDashboard() {
   const [stats, setStats] = useState(null)
@@ -15,6 +16,7 @@ export default function StatsDashboard() {
     startDate: null,
     endDate: null
   })
+  const [showAllArtworks, setShowAllArtworks] = useState(false)
 
   const fetchStats = React.useCallback(async () => {
     try {
@@ -116,13 +118,21 @@ export default function StatsDashboard() {
                 עדכון אחרון: {lastUpdate ? lastUpdate.toLocaleTimeString('he-IL') : 'טרם עודכן'}
               </span>
             </div>
-            <button
-              onClick={fetchStats}
-              className="px-6 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-all shadow-lg"
-              disabled={loading}
-            >
-              {loading ? '⏳ מעדכן...' : '🔄 רענון'}
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={fetchStats}
+                className="px-6 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-all shadow-lg"
+                disabled={loading}
+              >
+                {loading ? '⏳ מעדכן...' : '🔄 רענון'}
+              </button>
+              <button
+                onClick={() => setShowAllArtworks(true)}
+                className="px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600 transition-all shadow-lg"
+              >
+                🎨 הצג את כל היצירות
+              </button>
+            </div>
           </div>
         </div>
 
@@ -138,6 +148,12 @@ export default function StatsDashboard() {
         {/* Data Tables */}
         {stats?.rawData && <DataTables rawData={stats.rawData} />}
       </div>
+
+      {/* All Artworks Modal */}
+      <AllArtworksModal 
+        isOpen={showAllArtworks} 
+        onClose={() => setShowAllArtworks(false)} 
+      />
     </div>
   )
 }
