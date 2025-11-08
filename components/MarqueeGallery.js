@@ -102,9 +102,9 @@ export default function MarqueeGallery() {
         // Store ALL artworks for navigation in modal
         setAllArtworks(sortedByLikes)
         
-        // For marquee, show only first 150 artworks for performance
-        // (mix of top liked + newer artworks)
-        const marqueeArtworks = sortedByLikes.slice(0, 150)
+        // For marquee, show only first 50 artworks for performance
+        // (top liked artworks)
+        const marqueeArtworks = sortedByLikes.slice(0, 50)
         setArtworks(marqueeArtworks)
       } else {
         setArtworks([])
