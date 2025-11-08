@@ -1,8 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useSpring, animated } from 'react-spring'
-import { useDrag } from '@use-gesture/react'
+import { motion, useMotionValue, useTransform, useAnimation } from 'framer-motion'
 import { getAllArtworksForJudging } from '../../lib/supabaseClient'
 
 // רשימת השופטים
@@ -84,34 +83,13 @@ export default function SwipeJudgingInterface() {
     }
   }, [judgeName])
   
-  // Animation state
-  const [{ x, rotate, opacity }, api] = useSpring(() => ({
-    x: 0,
-    rotate: 0,
-    opacity: 1
-  }))
-  
-  // Drag gesture
-  const bind = useDrag(({ down, movement: [mx], velocity: [vx], direction: [dx] }) => {
-    const trigger = vx > 0.2 || Math.abs(mx) > 100
-    const dir = dx < 0 ? -1 : 1
-    
-    if (!down && trigger) {
-      // Swipe completed
-      if (dir > 0) {
-        handleLike()
-      } else {
-        handlePass()
-      }
-    }
-    
-    api.start({
-      x: down ? mx : 0,
-      rotate: down ? mx / 20 : 0,
-      opacity: down && Math.abs(mx) > 50 ? 0.8 : 1,
-      immediate: down
-    })
-  })
+  // Animation state with framer-motion
+  const x = useMotionValue(0)
+  const rotate = useTransform(x, [-200, 200], [-20, 20])
+  const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0.5, 0.8, 1, 0.8, 0.5])
+  const likeOpacity = useTransform(x, [0, 100], [0, 1])
+  const passOpacity = useTransform(x, [-100, 0], [1, 0])
+  const controls = useAnimation()
   
   // Handle like (swipe right)
   const handleLike = async () => {
@@ -148,13 +126,13 @@ export default function SwipeJudgingInterface() {
     }
     
     // Animate out
-    api.start({ 
+    controls.start({ 
       x: 500, 
       rotate: 20, 
       opacity: 0,
-      onRest: () => {
-        moveToNext()
-      }
+      transition: { duration: 0.3 }
+    }).then(() => {
+      moveToNext()
     })
   }
   
@@ -166,13 +144,13 @@ export default function SwipeJudgingInterface() {
     setHistory([...history, { index: currentIndex, action: 'pass' }])
     
     // Animate out
-    api.start({ 
+    controls.start({ 
       x: -500, 
       rotate: -20, 
       opacity: 0,
-      onRest: () => {
-        moveToNext()
-      }
+      transition: { duration: 0.3 }
+    }).then(() => {
+      moveToNext()
     })
   }
   
@@ -184,7 +162,8 @@ export default function SwipeJudgingInterface() {
       setShowCompletion(true)
     } else {
       setCurrentIndex(nextIndex)
-      api.start({ x: 0, rotate: 0, opacity: 1 })
+      x.set(0)
+      controls.start({ x: 0, rotate: 0, opacity: 1 })
     }
   }
   
@@ -219,7 +198,8 @@ export default function SwipeJudgingInterface() {
     // Go back
     setCurrentIndex(lastAction.index)
     setHistory(history.slice(0, -1))
-    api.start({ x: 0, rotate: 0, opacity: 1 })
+    x.set(0)
+    controls.start({ x: 0, rotate: 0, opacity: 1 })
     setShowCompletion(false)
   }
   
@@ -359,34 +339,51 @@ export default function SwipeJudgingInterface() {
       {/* Main swipe area */}
       <div className="flex-1 flex items-center justify-center p-4 relative overflow-hidden">
         {currentArtwork && (
-          <animated.div
-            {...bind()}
+          <motion.div
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = Math.abs(offset.x) * velocity.x
+              
+              if (swipe > 10000) {
+                // Strong swipe right
+                handleLike()
+              } else if (swipe < -10000) {
+                // Strong swipe left
+                handlePass()
+              } else {
+                // Return to center
+                controls.start({ x: 0, rotate: 0, opacity: 1 })
+              }
+            }}
             style={{
               x,
-              rotate: rotate.to(r => `${r}deg`),
+              rotate,
               opacity,
               touchAction: 'none'
             }}
+            animate={controls}
             className="relative w-full max-w-md cursor-grab active:cursor-grabbing"
           >
             {/* Overlay indicators */}
-            <animated.div
+            <motion.div
               style={{
-                opacity: x.to([0, 100], [0, 1])
+                opacity: likeOpacity
               }}
               className="absolute inset-0 bg-green-500 bg-opacity-30 rounded-lg flex items-center justify-center z-10 pointer-events-none"
             >
               <div className="text-white text-6xl">❤️</div>
-            </animated.div>
+            </motion.div>
             
-            <animated.div
+            <motion.div
               style={{
-                opacity: x.to([0, -100], [0, 1])
+                opacity: passOpacity
               }}
               className="absolute inset-0 bg-red-500 bg-opacity-30 rounded-lg flex items-center justify-center z-10 pointer-events-none"
             >
               <div className="text-white text-6xl">✕</div>
-            </animated.div>
+            </motion.div>
             
             {/* Artwork card */}
             <div className="bg-[#4a6372] bg-opacity-20 rounded-lg border border-[#8e7845] border-opacity-30 overflow-hidden shadow-2xl">
@@ -410,7 +407,7 @@ export default function SwipeJudgingInterface() {
                 </div>
               </div>
             </div>
-          </animated.div>
+          </motion.div>
         )}
       </div>
       
