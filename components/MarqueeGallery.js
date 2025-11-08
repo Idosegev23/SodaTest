@@ -99,12 +99,13 @@ export default function MarqueeGallery() {
           return (b.id || '').toString().localeCompare((a.id || '').toString())
         })
         
-        // Store ALL artworks for navigation
+        // Store ALL artworks for navigation in modal
         setAllArtworks(sortedByLikes)
         
-        // Show ALL artworks in marquee gallery (including top ones from Bento)
-        // This allows users to continue liking popular artworks
-        setArtworks(sortedByLikes)
+        // For marquee, show only first 150 artworks for performance
+        // (mix of top liked + newer artworks)
+        const marqueeArtworks = sortedByLikes.slice(0, 150)
+        setArtworks(marqueeArtworks)
       } else {
         setArtworks([])
         setAllArtworks([])
