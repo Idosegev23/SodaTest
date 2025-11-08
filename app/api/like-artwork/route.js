@@ -22,6 +22,40 @@ export async function POST(request) {
     
     // Get user identifier
     const userIdentifier = getUserIdentifier(request)
+    const headersList = headers()
+    const ip = headersList.get('x-forwarded-for') || headersList.get('x-real-ip') || 'unknown'
+    
+    // בדיקה אם ה-IP חסום
+    const { data: blockedData } = await supabase
+      .from('blocked_users')
+      .select('reason')
+      .eq('ip_address', ip)
+      .limit(1)
+    
+    if (blockedData && blockedData.length > 0) {
+      console.log('Blocked IP attempted to like:', ip)
+      return Response.json({ 
+        error: 'Access denied',
+        blocked: true 
+      }, { status: 403 })
+    }
+    
+    // Rate Limiting: בדיקה כמה לייקים ה-IP הזה נתן ל-artwork הזה ב-24 השעות האחרונות
+    const { data: recentLikes } = await supabase
+      .from('like_rate_limit')
+      .select('id')
+      .eq('ip_address', ip)
+      .eq('artwork_id', artworkId)
+      .gte('liked_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
+    
+    // אם יש יותר מ-3 נסיונות - חשוד
+    if (recentLikes && recentLikes.length >= 3) {
+      console.log('Rate limit exceeded for IP:', ip, 'on artwork:', artworkId)
+      return Response.json({ 
+        error: 'Too many attempts. Please try again later.',
+        rateLimited: true 
+      }, { status: 429 })
+    }
     
     // Check if this user already liked this artwork
     const { data: existingLike } = await supabase
@@ -57,6 +91,14 @@ export async function POST(request) {
       .insert([{
         artwork_id: artworkId,
         user_identifier: userIdentifier
+      }])
+    
+    // גם שמירה ב-rate limit table למעקב
+    await supabase
+      .from('like_rate_limit')
+      .insert([{
+        ip_address: ip,
+        artwork_id: artworkId
       }])
     
     if (likeError) {

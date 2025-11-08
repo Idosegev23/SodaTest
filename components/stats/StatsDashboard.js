@@ -132,6 +132,14 @@ export default function StatsDashboard() {
               >
                 🎨 הצג את כל היצירות
               </button>
+              <a
+                href="/judging-summary"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-2 bg-amber-500 text-white font-semibold rounded-lg hover:bg-amber-600 transition-all shadow-lg inline-block"
+              >
+                🏆 סיכום בחירות שופטים
+              </a>
             </div>
           </div>
         </div>
