@@ -19,14 +19,38 @@ export default function AllArtworksModal({ isOpen, onClose }) {
   const loadAllArtworks = async () => {
     try {
       setLoading(true)
-      const { data, error } = await supabase
-        .from('artworks')
-        .select('*')
-        .order('created_at', { ascending: false })
-        // טוען את כל היצירות ללא הגבלה
-
-      if (error) throw error
-      setArtworks(data || [])
+      
+      // Supabase limits to 1000 rows per request
+      // Fetch in batches to get all artworks
+      const batchSize = 1000
+      let allArtworks = []
+      let hasMore = true
+      let offset = 0
+      
+      while (hasMore) {
+        const { data, error, count } = await supabase
+          .from('artworks')
+          .select('*', { count: 'exact' })
+          .order('created_at', { ascending: false })
+          .range(offset, offset + batchSize - 1)
+        
+        if (error) throw error
+        
+        if (data && data.length > 0) {
+          allArtworks = [...allArtworks, ...data]
+          offset += batchSize
+          
+          // Check if we got all artworks
+          if (data.length < batchSize || (count && allArtworks.length >= count)) {
+            hasMore = false
+          }
+        } else {
+          hasMore = false
+        }
+      }
+      
+      console.log(`Loaded ${allArtworks.length} artworks in modal`)
+      setArtworks(allArtworks)
     } catch (error) {
       console.error('Error loading all artworks:', error)
     } finally {
