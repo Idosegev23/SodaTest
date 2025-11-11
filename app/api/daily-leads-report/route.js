@@ -1,12 +1,30 @@
 import { supabase } from '../../../lib/supabaseClient'
 import { sendDailyLeadsReport } from '../../../lib/emailService'
 
+// CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+}
+
+// Handle preflight OPTIONS request
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: corsHeaders,
+  })
+}
+
 export async function GET(request) {
   try {
     // בדיקת authorization - רק cron jobs או admin יכולים לקרוא לזה
     const authHeader = request.headers.get('authorization')
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 })
+      return Response.json({ error: 'Unauthorized' }, { 
+        status: 401,
+        headers: corsHeaders
+      })
     }
 
     // Starting daily leads report generation
@@ -65,7 +83,10 @@ export async function GET(request) {
 
     if (leadsError) {
       console.error('Error fetching leads:', leadsError)
-      return Response.json({ error: 'Failed to fetch leads' }, { status: 500 })
+      return Response.json({ error: 'Failed to fetch leads' }, { 
+        status: 500,
+        headers: corsHeaders
+      })
     }
 
     // Leads fetched from yesterday
@@ -322,14 +343,20 @@ export async function GET(request) {
     return Response.json({
       success: true,
       report: report
-    }, { status: 200 })
+    }, { 
+      status: 200,
+      headers: corsHeaders
+    })
 
   } catch (error) {
     console.error('Error generating daily leads report:', error)
     return Response.json({ 
       error: 'Internal server error',
       details: error.message 
-    }, { status: 500 })
+    }, { 
+      status: 500,
+      headers: corsHeaders
+    })
   }
 }
 

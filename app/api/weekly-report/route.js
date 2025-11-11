@@ -1,12 +1,30 @@
 import { supabase } from '../../../lib/supabaseClient'
 import { sendWeeklyReport } from '../../../lib/emailService'
 
+// CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+}
+
+// Handle preflight OPTIONS request
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: corsHeaders,
+  })
+}
+
 export async function GET(request) {
   try {
     // בדיקת authorization - רק cron jobs או admin יכולים לקרוא לזה
     const authHeader = request.headers.get('authorization')
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 })
+      return Response.json({ error: 'Unauthorized' }, { 
+        status: 401,
+        headers: corsHeaders
+      })
     }
 
     // Starting weekly report generation
@@ -49,7 +67,10 @@ export async function GET(request) {
 
     if (artworksError) {
       console.error('Error fetching artworks:', artworksError)
-      return Response.json({ error: 'Failed to fetch artworks' }, { status: 500 })
+      return Response.json({ error: 'Failed to fetch artworks' }, { 
+        status: 500,
+        headers: corsHeaders
+      })
     }
 
     // סינון שופטים
@@ -206,11 +227,17 @@ export async function GET(request) {
     return Response.json({ 
       message: 'Weekly report sent successfully to admins only',
       report
-    }, { status: 200 })
+    }, { 
+      status: 200,
+      headers: corsHeaders
+    })
 
   } catch (error) {
     console.error('Error generating weekly report:', error)
-    return Response.json({ error: error.message }, { status: 500 })
+    return Response.json({ error: error.message }, { 
+      status: 500,
+      headers: corsHeaders
+    })
   }
 }
 

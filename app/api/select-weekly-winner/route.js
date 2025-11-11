@@ -1,12 +1,30 @@
 import { supabase } from '../../../lib/supabaseClient'
 import { sendWeeklyWinnerEmail } from '../../../lib/emailService'
 
+// CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+}
+
+// Handle preflight OPTIONS request
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: corsHeaders,
+  })
+}
+
 export async function GET(request) {
   try {
     // בדיקת authorization - רק cron jobs או admin יכולים לקרוא לזה
     const authHeader = request.headers.get('authorization')
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 })
+      return Response.json({ error: 'Unauthorized' }, { 
+        status: 401,
+        headers: corsHeaders
+      })
     }
 
     // Starting weekly winner selection
@@ -43,11 +61,17 @@ export async function GET(request) {
 
     if (artworksError) {
       console.error('Error fetching artworks:', artworksError)
-      return Response.json({ error: 'Failed to fetch artworks' }, { status: 500 })
+      return Response.json({ error: 'Failed to fetch artworks' }, { 
+        status: 500,
+        headers: corsHeaders
+      })
     }
 
     if (!weekArtworks || weekArtworks.length === 0) {
-      return Response.json({ message: 'No artworks this week', weekStart, weekEnd }, { status: 200 })
+      return Response.json({ message: 'No artworks this week', weekStart, weekEnd }, { 
+        status: 200,
+        headers: corsHeaders
+      })
     }
 
     // Artworks found for this week
@@ -71,7 +95,10 @@ export async function GET(request) {
         totalArtworks: weekArtworks.length,
         weekStart,
         weekEnd
-      }, { status: 200 })
+      }, { 
+        status: 200,
+        headers: corsHeaders
+      })
     }
 
     // מציאת מספר הלייקים הגבוה ביותר
@@ -102,7 +129,10 @@ export async function GET(request) {
 
     if (insertError) {
       console.error('Error saving winner:', insertError)
-      return Response.json({ error: 'Failed to save winner' }, { status: 500 })
+      return Response.json({ error: 'Failed to save winner' }, { 
+        status: 500,
+        headers: corsHeaders
+      })
     }
 
     // Winner saved
@@ -167,14 +197,20 @@ export async function GET(request) {
         start: weekStart.toISOString(),
         end: weekEnd.toISOString()
       }
-    }, { status: 200 })
+    }, { 
+      status: 200,
+      headers: corsHeaders
+    })
 
   } catch (error) {
     console.error('Error selecting weekly winner:', error)
     return Response.json({ 
       error: 'Internal server error',
       details: error.message 
-    }, { status: 500 })
+    }, { 
+      status: 500,
+      headers: corsHeaders
+    })
   }
 }
 

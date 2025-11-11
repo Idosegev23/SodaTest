@@ -1,12 +1,30 @@
 import { supabase } from '../../../lib/supabaseClient'
 import { sendWeeklyWinnerEmail } from '../../../lib/emailService'
 
+// CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+}
+
+// Handle preflight OPTIONS request
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: corsHeaders,
+  })
+}
+
 export async function POST(request) {
   try {
     // בדיקת authorization פשוטה - רק admin יכול לקרוא לזה
     const authHeader = request.headers.get('authorization')
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 })
+      return Response.json({ error: 'Unauthorized' }, { 
+        status: 401,
+        headers: corsHeaders
+      })
     }
 
     // שליפת הזוכה האחרון
@@ -21,7 +39,10 @@ export async function POST(request) {
       return Response.json({ 
         error: 'No winner found',
         message: 'אין זוכה שבועי במסד הנתונים'
-      }, { status: 404 })
+      }, { 
+        status: 404,
+        headers: corsHeaders
+      })
     }
 
     // שליפת פרטי היצירה הזוכה
@@ -35,7 +56,10 @@ export async function POST(request) {
       return Response.json({ 
         error: 'Winner artwork not found',
         message: 'היצירה הזוכה לא נמצאה במסד הנתונים'
-      }, { status: 404 })
+      }, { 
+        status: 404,
+        headers: corsHeaders
+      })
     }
 
     // הכנת נתוני הזוכה למייל (שליחה למנהלים בלבד!)
@@ -75,14 +99,20 @@ export async function POST(request) {
         admin_recipients: 3,
         user_recipients: 0
       }
-    }, { status: 200 })
+    }, { 
+      status: 200,
+      headers: corsHeaders
+    })
 
   } catch (error) {
     console.error('Error sending winner email manually:', error)
     return Response.json({ 
       error: 'Failed to send winner email',
       details: error.message
-    }, { status: 500 })
+    }, { 
+      status: 500,
+      headers: corsHeaders
+    })
   }
 }
 
